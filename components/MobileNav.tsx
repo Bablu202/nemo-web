@@ -39,16 +39,16 @@ const MobileNav: React.FC = () => {
     >
       <div
         className="flex justify-around items-center w-full h-full  px-6 bg-white/95 
-    backdrop-blur-lg shadow-lg rounded-full "
+    backdrop-blur-lg shadow-2xl rounded-full "
       >
         {navigationData.map((item: NavigationItem) => (
           <Link
             key={item.id}
             href={item.url}
-            className="flex flex-col items-center justify-center space-y-1 group"
+            className="flex flex-col items-center justify-center group"
           >
-            <item.icon className="text-2xl group-hover:text-custom-pri transition-colors duration-200" />
-            <span className="text-sm group-hover:text-custom-pri transition-colors duration-200">
+            <item.icon className="text-xl md:text-3xl  group-hover:text-custom-pri transition-colors duration-200" />
+            <span className="text-xs md:text-sm group-hover:text-custom-pri transition-colors duration-200">
               {item.title}
             </span>
           </Link>

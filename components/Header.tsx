@@ -60,8 +60,8 @@ const Header: React.FC = () => {
         zIndex: "1000",
       }}
     >
-      <div className="sticky top-0 z-10 ">
-        <div className="bg-white/45 backdrop-blur-lg border-b border-b-custom-sec border-opacity-20">
+      <div className="sticky top-0 z-10 shadow-xl mb-2">
+        <div className="bg-white/45 backdrop-blur-3xl  border-b border-b-custom-sec border-opacity-20">
           <div className="max-w-6xl py-1.5 m-auto flex items-center justify-between">
             <div className="px-5 py-1 lg:px-4 ">
               <a href="/home" className="text-xl font-normal xl:text-2xl">
