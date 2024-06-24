@@ -1,13 +1,13 @@
 "use client";
 
-import { LoginUserInput, loginUserSchema } from "lib/user-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "../_actions";
-import useSupabaseClient from "lib/supabase/client";
 import toast from "react-hot-toast";
+import useSupabaseClient from "@/lib/supabase/client";
+import { LoginUserInput, loginUserSchema } from "@/lib/user-schema";
 
 export const LoginForm = () => {
   const router = useRouter();
