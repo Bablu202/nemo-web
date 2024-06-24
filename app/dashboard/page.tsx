@@ -79,7 +79,7 @@ const Dashboard: React.FC = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mt-12 mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Trips Dashboard</h1>
       <div
         onClick={() => setIsModalOpen(true)}
