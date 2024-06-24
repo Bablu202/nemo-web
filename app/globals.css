@@ -2,32 +2,109 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.li/* Hide scrollbar for Firefox */
+/* Source: https://stackoverflow.com/a/59202685/11603696 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent; /* thumb and track color */
 }
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: #27272a;
 }
 
+/* Hide scrollbar for Webkit browsers */
+/* Source: https://stackoverflow.com/a/67515004/11603696 */
+::-webkit-scrollbar {
+  width: 6px; /* width of the entire scrollbar */
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* color of the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.685); /* color of the scroll thumb */
+  border-radius: 10px; /* roundness of the scroll thumb */
+  border: 2px solid transparent; /* border around the scroll thumb */
+}
+
+/* For Webkit-based browsers */
+/* Source: https://stackoverflow.com/a/47399736/11603696 */
+/* Custom scrollbar track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Custom scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #dadde0;
+  border-radius: 10px;
+}
+
+/* Hide scrollbar buttons (arrows) */
+::-webkit-scrollbar-button {
+  display: none;
+  z-index: -10;
+}
+
+.head {
+  @apply text-4xl md:text-6xl lg:text-7xl text-center font-bold text-white;
+}
+
+.h1 {
+  @apply p-3 text-left font-bold text-[2.5rem] leading-[3.25rem] 
+  md:text-[3.25rem] md:leading-[3.75rem] 
+  lg:text-[4rem] lg:leading-[4.15rem] 
+  xl:text-[4.75rem] xl:leading-[5.5rem];
+}
+
+.h2 {
+  @apply text-[1.75rem] leading-[2.5rem] md:text-[2rem] md:leading-[2.5rem] lg:text-[2.5rem] lg:leading-[3.5rem] xl:text-[3rem] xl:leading-tight;
+}
+.h3 {
+  @apply text-[2rem] leading-normal md:text-[2.5rem];
+}
+
+.b-one {
+  @apply text-[1.2rem] leading-[1.32rem] md:text-[1rem] md:leading-[1.2rem] lg:text-[1.32rem] lg:leading-8;
+}
+
+.account-btn {
+  @apply mt-2 w-full p-3 rounded-md bg-gray-700 text-white hover:bg-gray-600 focus:outline-none;
+}
+
+.form-input {
+  @apply min-w-60 md:min-w-96 text-base font-light border rounded-md 
+  bg-custom-pri bg-opacity-30 
+  border-custom-pri  py-1.5 px-2 leading-tight focus:outline-none
+  focus:bg-white focus:border-custom-pri;
+}
+.form-btn {
+  @apply px-2 py-1 bg-custom-pri text-base font-bold text-white rounded-md 
+  hover:bg-custom-sec;
+}
+/* nedded */
+
+.video-carousel_container {
+  @apply relative sm:w-[50vw] w-[68vw] md:h-[50vh] sm:h-[30vh] h-[15vh];
+}
+
+.control-btn {
+  @apply ml-4 p-2 rounded-full bg-custom-pri backdrop-blur flex-center;
+}
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  .common-padding {
+    @apply sm:py-8 py-8 sm:px-4 px-2;
   }
 }

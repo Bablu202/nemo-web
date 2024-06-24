@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import RatingReview from "@/components/RateReview";
 import TravelForm from "@/components/TravelForm";
 
-function page() {
+const Home = () => {
   return (
     <div>
       <AllTrips />
@@ -14,6 +14,6 @@ function page() {
       <Footer />
     </div>
   );
-}
+};
 
-export default page;
+export default Home;
