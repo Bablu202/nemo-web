@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, useEffect } from "react";
 import TripCard from "@/components/TripCard";
 import TripForm from "@/components/TripForm";
@@ -58,13 +57,14 @@ const Dashboard: React.FC = () => {
     if (result.error) {
       console.error(result.error);
     } else {
+      const newTrips = result.data || []; // Default to an empty array if result.data is null
       setTrips((prevTrips) => {
         if (currentTrip) {
           return prevTrips.map((t) =>
             t.id === currentTrip.id ? { ...t, ...trip } : t
           );
         } else {
-          return [...prevTrips, ...result.data];
+          return [...prevTrips, ...newTrips];
         }
       });
       setIsModalOpen(false);
