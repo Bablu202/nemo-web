@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import TripCard from "@/components/TripCard";
 import TripForm from "@/components/TripForm";
