@@ -9,3 +9,16 @@ interface Trip {
   price: number;
   seats: number;
 }
+
+interface Post {
+  id: number;
+  url: string;
+  imageURL: string;
+  title: string;
+  startDate: string;
+  returnDate: string;
+  duration: string;
+  status: string;
+  price: number;
+  seats: number;
+}

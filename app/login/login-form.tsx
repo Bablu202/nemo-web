@@ -40,31 +40,27 @@ export const LoginForm = () => {
       }
 
       setError("");
-      toast.success("successfully logged in");
+      toast.success("Successfully logged in");
       router.push("/");
     });
   };
 
-  const loginWithGitHub = () => {
-    supabase.auth.signInWithOAuth({
-      provider: "github",
+  const loginWithProvider = async (provider: "google" | "github") => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
       options: {
         redirectTo: `${location.origin}/auth/callback`,
       },
     });
+
+    if (error) {
+      console.error(`Error logging in with ${provider}:`, error);
+      toast.error(`Error logging in with ${provider}: ${error.message}`);
+    }
   };
 
-  const loginWithGoogle = () => {
-    supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${location.origin}/auth/callback`,
-      },
-    });
-  };
-
-  const input_style =
-    "form-control  w-full px-4 py-5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
+  const inputStyle =
+    "form-control w-full px-4 py-5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
@@ -76,11 +72,11 @@ export const LoginForm = () => {
           type="email"
           {...register("email")}
           placeholder="Email address"
-          className={`${input_style}`}
+          className={inputStyle}
         />
-        {errors["email"] && (
+        {errors.email && (
           <span className="text-red-500 text-xs pt-1 block">
-            {errors["email"]?.message as string}
+            {errors.email.message}
           </span>
         )}
       </div>
@@ -89,43 +85,41 @@ export const LoginForm = () => {
           type="password"
           {...register("password")}
           placeholder="Password"
-          className={`${input_style}`}
+          className={inputStyle}
         />
-        {errors["password"] && (
+        {errors.password && (
           <span className="text-red-500 text-xs pt-1 block">
-            {errors["password"]?.message as string}
+            {errors.password.message}
           </span>
         )}
       </div>
       <button
         type="submit"
-        style={{ backgroundColor: `${isPending ? "#ccc" : "#3446eb"}` }}
+        style={{ backgroundColor: isPending ? "#ccc" : "#3446eb" }}
         className="inline-block px-7 py-4 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full"
         disabled={isPending}
       >
-        {isPending ? "loading..." : "Sign In"}
+        {isPending ? "Loading..." : "Sign In"}
       </button>
 
       <div className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
         <p className="text-center font-semibold mx-4 mb-0">OR</p>
       </div>
 
-      <a
+      <button
         className="px-7 py-2 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center mb-3"
-        style={{ backgroundColor: "#3b5998" }}
-        onClick={loginWithGoogle}
-        role="button"
+        style={{ backgroundColor: "#db4437" }}
+        onClick={() => loginWithProvider("google")}
       >
         Continue with Google
-      </a>
-      <a
+      </button>
+      <button
         className="px-7 py-2 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center"
-        style={{ backgroundColor: "#55acee" }}
-        onClick={loginWithGitHub}
-        role="button"
+        style={{ backgroundColor: "#333" }}
+        onClick={() => loginWithProvider("github")}
       >
         Continue with GitHub
-      </a>
+      </button>
     </form>
   );
 };

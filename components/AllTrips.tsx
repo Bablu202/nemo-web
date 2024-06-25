@@ -27,7 +27,7 @@ function PostCard(post: Post) {
       <Link href={post.url} legacyBehavior>
         <div className="cursor-pointer p-1 sm:p-1.5 md:p-2">
           <div className="z-[-1] relative border  border-custom-pri border-opacity-30 mr-4 rounded-lg shadow-sm snap-always snap-center overflow-hidden">
-            <div className="w-72 sm:w-80 md:w-96 xl:w-[30rem] h-60 md:h-64 container ">
+            <div className="w-72 sm:w-80 md:w-96 xl:w-[30rem] h-60 md:h-64 container">
               <Image
                 className="rounded-t-lg object-fill"
                 src={post.imageURL}

@@ -60,7 +60,7 @@ const Header: React.FC = () => {
         zIndex: "1000",
       }}
     >
-      <div className="sticky top-0 z-10 shadow-xl mb-2">
+      <div className="sticky top-0 z-10 shadow-xl mb-4">
         <div className="bg-white/95 backdrop-blur-sm  border-b border-b-custom-sec border-opacity-20">
           <div className="max-w-6xl py-1.5 m-auto flex items-center justify-between">
             <div className="px-5 py-1 lg:px-4 ">
@@ -125,22 +125,22 @@ const SmallDevicesMenu: React.FC<SmallDevicesMenuProps> = ({
   return (
     <div
       onClick={onClick}
-      className="z-10 fixed top-4 right-3 w-10 h-8 cursor-pointer "
+      className="z-10 fixed top-8 right-3 w-10 h-8 cursor-pointer "
     >
       <div
-        className={`z-10 fixed top-1.5 right-2 w-10 h-2 lg:hidden ${
+        className={`z-10 fixed top-2 right-2 w-10 h-2 lg:hidden ${
           openNavigation ? "-mt-6 " : ""
         }`}
       >
         <div
           className={`fixed border border-custom-pri w-8 transition-all mt-3 ${
-            openNavigation ? " rotate-45 mt-10 border-white" : ""
+            openNavigation ? "  rotate-45 mt-9 border-white" : ""
           }`}
         />
 
         <div
           className={`fixed border border-custom-pri w-8 mt-6 transition-all ${
-            openNavigation ? "-rotate-45 mt-10 border-white" : ""
+            openNavigation ? " -rotate-45 mt-9 border-white" : ""
           }`}
         />
       </div>

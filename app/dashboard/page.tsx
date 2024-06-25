@@ -4,13 +4,14 @@ import TripCard from "@/components/TripCard";
 import TripForm from "@/components/TripForm";
 import supabase from "@/lib/supabase/supabase";
 import { GrChapterAdd } from "react-icons/gr";
-//import { disablePageScroll, enablePageScroll } from "scroll-lock";
 
 const Dashboard: React.FC = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTrip, setCurrentTrip] = useState<Trip | null>(null);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [tripToDelete, setTripToDelete] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchTrips = async () => {
@@ -34,15 +35,30 @@ const Dashboard: React.FC = () => {
   };
 
   const handleDelete = async (id: number) => {
+    setShowDeleteConfirmation(true);
+    setTripToDelete(id);
+  };
+
+  const confirmDelete = async () => {
+    if (tripToDelete === null) return;
+
     const { error } = await supabase
       .from("nemo_upcoming_trip_details")
       .delete()
-      .eq("id", id);
+      .eq("id", tripToDelete);
     if (error) {
       console.error(error);
     } else {
-      setTrips(trips.filter((trip) => trip.id !== id));
+      setTrips(trips.filter((trip) => trip.id !== tripToDelete));
     }
+
+    setShowDeleteConfirmation(false);
+    setTripToDelete(null);
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteConfirmation(false);
+    setTripToDelete(null);
   };
 
   const handleFormSubmit = async (trip: Partial<Trip>) => {
@@ -77,7 +93,9 @@ const Dashboard: React.FC = () => {
   };
 
   if (loading) return <div>Loading...</div>;
-
+  const handleModelCloseOnBG = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div className="container mt-12 mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Trips Dashboard</h1>
@@ -112,6 +130,29 @@ const Dashboard: React.FC = () => {
             setCurrentTrip(null);
           }}
         />
+      )}
+      {showDeleteConfirmation && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-4 lg:px-8 lg:py-6  rounded-lg shadow-lg">
+            <h2 className="text-lg font-semibold mb-4 lg:mb-8">
+              Are you sure to delete this trip?
+            </h2>
+            <div className="flex justify-end">
+              <button
+                className="bg-red-700 text-white px-4 py-2 rounded mr-6"
+                onClick={confirmDelete}
+              >
+                Yes
+              </button>
+              <button
+                className="bg-custom-pri text-white px-4 py-2 rounded"
+                onClick={cancelDelete}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
