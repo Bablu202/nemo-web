@@ -1,6 +1,6 @@
 interface Trip {
   id: number;
-  image: string;
+  image: string[];
   title: string;
   start_date: string;
   return_date: string;
@@ -13,7 +13,7 @@ interface Trip {
 interface Post {
   id: number;
   url: string;
-  imageURL: string;
+  imageURL: string[];
   title: string;
   startDate: string;
   returnDate: string;

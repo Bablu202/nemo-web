@@ -4,17 +4,17 @@ interface TripFormProps {
   initialData?: Trip | null;
   onSubmit: (trip: Partial<Trip>) => void;
   onCancel: () => void;
-  onBackgroundClick: () => void; // New prop for handling background click
+  onBackgroundClick: () => void;
 }
 
 const TripForm: React.FC<TripFormProps> = ({
   initialData,
   onSubmit,
   onCancel,
-  onBackgroundClick, // Destructure the new prop
+  onBackgroundClick,
 }) => {
   const [formData, setFormData] = useState<Partial<Trip>>({
-    image: initialData?.image || "",
+    image: initialData?.image || [],
     title: initialData?.title || "",
     start_date: initialData?.start_date || "",
     return_date: initialData?.return_date || "",
@@ -40,14 +40,33 @@ const TripForm: React.FC<TripFormProps> = ({
     }));
   };
 
+  const handleImageChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const newImages = [...(formData.image || [])];
+    newImages[index] = e.target.value;
+    setFormData((prevData) => ({
+      ...prevData,
+      image: newImages,
+    }));
+  };
+
+  const addImageField = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      image: [...(prevData.image || []), ""],
+    }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
   };
+
   const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
-      // Check if click occurred on the background
-      onBackgroundClick(); // Call parent handler to close the modal
+      onBackgroundClick();
     }
   };
 
@@ -72,17 +91,25 @@ const TripForm: React.FC<TripFormProps> = ({
               required
             />
           </label>
-          <label className="block mb-2 text-lg font-semibold ">
-            Image URL:
-            <input
-              type="url"
-              name="image"
-              value={formData.image}
-              onChange={handleChange}
-              className="w-full border p-1 rounded lg:p-2"
-              required
-            />
-          </label>
+          {formData.image?.map((imageUrl, index) => (
+            <label key={index} className="block mb-2 text-lg font-semibold ">
+              Image URL {index + 1}:
+              <input
+                type="url"
+                value={imageUrl}
+                onChange={(e) => handleImageChange(e, index)}
+                className="w-full border p-1 rounded lg:p-2"
+                required
+              />
+            </label>
+          ))}
+          <button
+            type="button"
+            onClick={addImageField}
+            className="bg-custom-pri text-white px-4 py-2 rounded mb-4"
+          >
+            Add More Images
+          </button>
           <label className="block mb-2 text-lg font-semibold ">
             Start Date:
             <input

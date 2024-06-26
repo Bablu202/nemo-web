@@ -12,6 +12,7 @@ const Dashboard: React.FC = () => {
   const [currentTrip, setCurrentTrip] = useState<Trip | null>(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [tripToDelete, setTripToDelete] = useState<number | null>(null);
+
   useEffect(() => {
     const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -25,7 +26,7 @@ const Dashboard: React.FC = () => {
     return () => {
       window.removeEventListener("keydown", handleEscKey);
     };
-  }, []); // Empty dependency array ensures this effect runs only once
+  }, []);
 
   useEffect(() => {
     const fetchTrips = async () => {
@@ -39,7 +40,7 @@ const Dashboard: React.FC = () => {
     };
 
     fetchTrips();
-  }, [trips]);
+  }, []);
 
   const handleEdit = (trip: Trip) => {
     setCurrentTrip(trip);
@@ -69,6 +70,7 @@ const Dashboard: React.FC = () => {
     setShowDeleteConfirmation(false);
     setTripToDelete(null);
   };
+
   const handleFormSubmit = async (trip: Partial<Trip>) => {
     setLoading(true);
 
@@ -78,7 +80,7 @@ const Dashboard: React.FC = () => {
         response = await axios.put(`/api/trips/${currentTrip.id}`, trip);
       } else {
         response = await axios.post("/api/trips", trip);
-        const newTrip = response.data; // Assuming response.data is the newly created trip
+        const newTrip = response.data;
         setTrips((prevTrips) => [...prevTrips, newTrip]);
       }
 
@@ -92,12 +94,15 @@ const Dashboard: React.FC = () => {
   };
 
   if (loading) return <div>Loading...</div>;
+
   const handleDeleteBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) setShowDeleteConfirmation(false);
   };
+
   const handleBackgroundClick = () => {
     setIsModalOpen(false);
   };
+
   return (
     <div className="container mt-12 mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Trips Dashboard</h1>
@@ -133,12 +138,12 @@ const Dashboard: React.FC = () => {
             setIsModalOpen(false);
             setCurrentTrip(null);
           }}
-          onBackgroundClick={handleBackgroundClick} // Pass the background click handler
+          onBackgroundClick={handleBackgroundClick}
         />
       )}
       {showDeleteConfirmation && (
         <div
-          onClick={handleDeleteBackgroundClick} // Close delete confirmation on background click
+          onClick={handleDeleteBackgroundClick}
           className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
         >
           <div className="bg-white p-4 lg:px-8 lg:py-6 rounded-lg shadow-lg">
