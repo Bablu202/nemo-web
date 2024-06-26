@@ -12,6 +12,20 @@ const Dashboard: React.FC = () => {
   const [currentTrip, setCurrentTrip] = useState<Trip | null>(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [tripToDelete, setTripToDelete] = useState<number | null>(null);
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setShowDeleteConfirmation(false);
+        setIsModalOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscKey);
+
+    return () => {
+      window.removeEventListener("keydown", handleEscKey);
+    };
+  }, []); // Empty dependency array ensures this effect runs only once
 
   useEffect(() => {
     const fetchTrips = async () => {

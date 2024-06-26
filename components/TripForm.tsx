@@ -12,14 +12,14 @@ const TripForm: React.FC<TripFormProps> = ({
   onCancel,
 }) => {
   const [formData, setFormData] = useState<Partial<Trip>>({
-    image: "",
-    title: "",
-    start_date: "",
-    return_date: "",
-    duration: "",
-    status: "",
-    price: 0,
-    seats: 0,
+    image: initialData?.image || "",
+    title: initialData?.title || "",
+    start_date: initialData?.start_date || "",
+    return_date: initialData?.return_date || "",
+    duration: initialData?.duration || "",
+    status: initialData?.status || "",
+    price: initialData?.price || 0,
+    seats: initialData?.seats || 0,
   });
 
   useEffect(() => {
@@ -32,7 +32,10 @@ const TripForm: React.FC<TripFormProps> = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
