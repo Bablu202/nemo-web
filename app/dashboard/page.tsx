@@ -92,7 +92,12 @@ const Dashboard: React.FC = () => {
   };
 
   if (loading) return <div>Loading...</div>;
-
+  const handleDeleteBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) setShowDeleteConfirmation(false);
+  };
+  const handleBackgroundClick = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div className="container mt-12 mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Trips Dashboard</h1>
@@ -128,10 +133,14 @@ const Dashboard: React.FC = () => {
             setIsModalOpen(false);
             setCurrentTrip(null);
           }}
+          onBackgroundClick={handleBackgroundClick} // Pass the background click handler
         />
       )}
       {showDeleteConfirmation && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+        <div
+          onClick={handleDeleteBackgroundClick} // Close delete confirmation on background click
+          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
+        >
           <div className="bg-white p-4 lg:px-8 lg:py-6 rounded-lg shadow-lg">
             <h2 className="text-lg font-semibold mb-4 lg:mb-8">
               Are you sure to delete this trip?

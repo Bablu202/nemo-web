@@ -4,12 +4,14 @@ interface TripFormProps {
   initialData?: Trip | null;
   onSubmit: (trip: Partial<Trip>) => void;
   onCancel: () => void;
+  onBackgroundClick: () => void; // New prop for handling background click
 }
 
 const TripForm: React.FC<TripFormProps> = ({
   initialData,
   onSubmit,
   onCancel,
+  onBackgroundClick, // Destructure the new prop
 }) => {
   const [formData, setFormData] = useState<Partial<Trip>>({
     image: initialData?.image || "",
@@ -42,9 +44,18 @@ const TripForm: React.FC<TripFormProps> = ({
     e.preventDefault();
     onSubmit(formData);
   };
+  const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      // Check if click occurred on the background
+      onBackgroundClick(); // Call parent handler to close the modal
+    }
+  };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-1.5 lg:p-0">
+    <div
+      onClick={handleBackgroundClick}
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-1.5 lg:p-0"
+    >
       <div className="bg-white p-4 lg:p-6 rounded shadow-md w-full max-w-md">
         <h2 className="text-xl text-custom-pri font-bold mb-2 lg:mb-4">
           {initialData ? "Edit Trip" : "Add New Trip"}
