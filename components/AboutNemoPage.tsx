@@ -2,7 +2,7 @@ import { IconType } from "react-icons/lib";
 
 const AboutNemoPage = () => {
   return (
-    <section className="max-w-6xl flex m-auto">
+    <section className="max-w-6xl mt-20 flex m-auto">
       <div className="py-8 " id="magazine">
         <div className="mx-auto px-4 ">
           <h2 className="text-3xl font-bold text-left mb-8 flex items-center">

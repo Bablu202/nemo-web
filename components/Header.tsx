@@ -51,6 +51,7 @@ const Header: React.FC = () => {
 
   return (
     <header
+      className="mb-24"
       style={{
         transform: `translateY(${showHeader ? "0" : "-100%"})`,
         transition: "transform 0.3s ease-in-out",

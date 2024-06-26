@@ -1,12 +1,17 @@
 "use client";
+import { useEffect, useRef, useState } from "react";
+import supabase from "@/lib/supabase/supabase";
+import Image from "next/image";
 import Link from "next/link";
 import { compareDesc, format, parseISO } from "date-fns";
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { MdTravelExplore } from "react-icons/md";
 import { GiAirplaneDeparture, GiAirplaneArrival } from "react-icons/gi";
 import { HiCurrencyRupee } from "react-icons/hi";
 import { FaCalendarDays } from "react-icons/fa6";
+import { HiChevronRight, HiChevronLeft } from "react-icons/hi2";
+import { FcLikePlaceholder, FcLike, FcSms, FcShare } from "react-icons/fc";
+import { CiShare2 } from "react-icons/ci";
+import { PiChatCircleThin } from "react-icons/pi";
 
 interface Post {
   id: number;
@@ -25,7 +30,7 @@ function PostCard(post: Post) {
   return (
     <section className="py-4" id="trips">
       <Link href={post.url} legacyBehavior>
-        <div className="cursor-pointer p-1 sm:p-1.5 md:p-2">
+        <div className="cursor-pointer p-1 sm:p-1.5 md:p-2 border">
           <div className="z-[-1] relative border  border-custom-pri border-opacity-30 mr-4 rounded-lg shadow-sm snap-always snap-center overflow-hidden">
             <div className="w-72 sm:w-80 md:w-96 xl:w-[30rem] h-60 md:h-64 container">
               <Image
@@ -77,14 +82,24 @@ function PostCard(post: Post) {
               </div>
             </div>
           </div>
+          <div className="flex justify-between mt-2">
+            <div className="flex text-2xl space-x-2 py-1">
+              <FcLikePlaceholder />
+              <PiChatCircleThin className="text-custom-pri" />
+              <CiShare2 className="text-custom-pri" />
+            </div>
+            <div
+              className="border font-semibold text-lg px-4 py-1 bg-white text-custom-pri mr-4 rounded-lg
+             hover:bg-custom-pri hover:text-white hover:shadow-xl transition duration-300"
+            >
+              More about Trip
+            </div>
+          </div>
         </div>
       </Link>
     </section>
   );
 }
-
-import { HiChevronRight, HiChevronLeft } from "react-icons/hi2";
-import supabase from "@/lib/supabase/supabase";
 
 export default function AllTrips() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -134,7 +149,7 @@ export default function AllTrips() {
   };
 
   return (
-    <section className="max-w-6xl flex m-auto mt-6">
+    <section className="max-w-6xl flex m-auto">
       <div className="w-full pt-2">
         <h1
           className="h1 
