@@ -38,7 +38,7 @@ const TripCard: React.FC<TripCardProps> = ({ trip, onEdit, onDelete }) => {
           objectFit="cover"
           className="rounded"
         />
-        <div className="absolute inset-0 flex justify-between items-center p-2 ">
+        <div className="absolute inset-0 hidden lg:flex justify-between items-center p-2">
           <button
             className="text-2xl text-white bg-black bg-opacity-50 rounded-full p-1"
             onClick={handlePrevImage}
