@@ -203,12 +203,12 @@ function AllTrips() {
           Discover experiences, not just destinations.
         </h1>
 
-        <div className="flex items-center justify-center p-4">
-          <div className="ml-auto flex items-center justify-center w-full max-w-xs relative text-custom-pri">
+        <div className="flex items-center justify-center p-2">
+          <div className="ml-auto mr-2 flex items-center justify-center w-full max-w-xs relative text-custom-pri">
             <CiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 " />
             <input
               type="text"
-              className="w-full pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:border-custom-pri"
+              className="w-full pl-10 pr-4 py-2 border rounded-xl focus:outline-none focus:border-custom-pri"
               placeholder="Search trips..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
