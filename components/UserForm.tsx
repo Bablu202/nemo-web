@@ -10,13 +10,13 @@ const UserForm: React.FC = () => {
     <section className="mt-12 flex items-center justify-center bg-custom-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <div className="mb-5 bg-gray-200 p-1 rounded-lg">
+          <div className="mb-5 bg-white p-1 rounded-lg">
             <button
               onClick={() => setIsForm(true)}
               className={`w-1/2 py-2 px-4 border border-transparent rounded-md text-sm font-medium ${
                 isForm
                   ? "bg-custom-pri text-custom-white"
-                  : "text-custom-sec hover:bg-custom-white hover:text-custom-sec"
+                  : "text-custom-pri hover:bg-white hover:text-custom-pri"
               }`}
             >
               Register
@@ -25,7 +25,7 @@ const UserForm: React.FC = () => {
               onClick={() => setIsForm(false)}
               className={`w-1/2 py-2 px-4 border border-transparent rounded-md text-sm font-medium ${
                 isForm
-                  ? "text-custom-sec hover:bg-custom-white hover:text-custom-sec"
+                  ? "text-custom-pri hover:bg-white hover:text-custom-pri"
                   : "bg-custom-pri text-custom-white"
               }`}
             >
