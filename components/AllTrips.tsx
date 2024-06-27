@@ -202,15 +202,13 @@ function AllTrips() {
         >
           Discover experiences, not just destinations.
         </h1>
-        <a href="#travel-form" className="p-6 hover:cursor-pointer underline">
-          Book with us -
-        </a>
+
         <div className="flex items-center justify-center p-4">
           <div className="ml-auto flex items-center justify-center w-full max-w-xs relative text-custom-pri">
             <CiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 " />
             <input
               type="text"
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-custom-pri"
+              className="w-full pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:border-custom-pri"
               placeholder="Search trips..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -225,6 +223,9 @@ function AllTrips() {
             <HiOutlineAdjustmentsHorizontal className="text-xl" />
           </button>
         </div>
+        <a href="#travel-form" className="p-6 hover:cursor-pointer underline">
+          Book with us -
+        </a>
         <div className="flex flex-wrap justify-between items-center">
           {filteredPosts.slice(0, visiblePostsCount).map((post, idx) => (
             <PostCard key={idx} {...post} />
