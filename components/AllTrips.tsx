@@ -15,7 +15,7 @@ import { MdTravelExplore } from "react-icons/md";
 import { GiAirplaneDeparture, GiAirplaneArrival } from "react-icons/gi";
 import { HiCurrencyRupee } from "react-icons/hi";
 import { FaCalendarDays } from "react-icons/fa6";
-import { FcLikePlaceholder, FcLike, FcSms, FcShare } from "react-icons/fc";
+import { FcLikePlaceholder, FcLike } from "react-icons/fc";
 import { CiShare2 } from "react-icons/ci";
 import { PiChatCircleThin } from "react-icons/pi";
 import { CiSearch } from "react-icons/ci";
@@ -23,6 +23,7 @@ import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 
 function PostCard(post: Post) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [liked, setLiked] = useState(false);
 
   const handleNextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % post.imageURL.length);
@@ -143,10 +144,18 @@ function PostCard(post: Post) {
           </div>
         </div>
         <div className="flex justify-between mt-4 lg:mt-6">
-          <div className="flex text-2xl space-x-2 py-1">
-            <FcLikePlaceholder />
-            <PiChatCircleThin className="text-custom-pri" />
-            <CiShare2 onClick={handleShare} className="text-custom-pri" />
+          <div className="flex text-2xl space-x-6 py-1">
+            <div
+              onClick={() => setLiked((prev) => !prev)}
+              className="cursor-pointer"
+            >
+              {liked ? <FcLike /> : <FcLikePlaceholder />}
+            </div>
+            {/* <PiChatCircleThin className="hover:text-custom-pri" /> */}
+            <CiShare2
+              onClick={handleShare}
+              className="hover:text-custom-pri cursor-pointer"
+            />
           </div>
           <Link href={post.url} legacyBehavior>
             <div
