@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import supabase from "@/lib/supabase/supabase";
 import Image from "next/image";
 import Link from "next/link";
@@ -39,7 +39,28 @@ function PostCard(post: Post) {
     onSwipedRight: handlePrevImage,
     trackMouse: true,
   });
-
+  const handleShare = useCallback(() => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: post.title,
+          url: post.url,
+        })
+        .then(() => {
+          console.log("Thanks for sharing!");
+        })
+        .catch(console.error);
+    } else {
+      // Fallback for browsers that do not support the Web Share API
+      const textarea = document.createElement("textarea");
+      textarea.value = post.url;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      alert("Link copied to clipboard");
+    }
+  }, [post]);
   return (
     <div className="flex-none w-full sm:w-1/2 lg:w-1/2 p-2">
       <div className="cursor-pointer p-3 sm:p-4 md:p-6 bg-custom-pri/5 rounded-lg">
@@ -92,13 +113,16 @@ function PostCard(post: Post) {
                   </div>
                 </div>
                 <div
-                  className="bg-custom-pri/45 backdrop-blur-lg drop-shadow-lg rounded-lg 
-                flex justify-between mr-auto px-4 py-2"
+                  className="bg-custom-pri/45  backdrop-blur-lg drop-shadow-lg rounded-lg 
+                flex items-center mr-auto px-4 py-2"
                 >
-                  <h3 className="text-xl lg:text-2xl font-semibold mb-2 px-4 flex items-center gap-4">
+                  <div
+                    className="text-xl lg:text-2xl font-semibold px-4 
+                  flex items-center gap-4"
+                  >
                     <MdTravelExplore />
                     {post.title}
-                  </h3>
+                  </div>
                 </div>
                 <div className="mt-auto text-base lg:text-lg">
                   <p className="flex items-center gap-4">
@@ -122,7 +146,7 @@ function PostCard(post: Post) {
           <div className="flex text-2xl space-x-2 py-1">
             <FcLikePlaceholder />
             <PiChatCircleThin className="text-custom-pri" />
-            <CiShare2 className="text-custom-pri" />
+            <CiShare2 onClick={handleShare} className="text-custom-pri" />
           </div>
           <Link href={post.url} legacyBehavior>
             <div
