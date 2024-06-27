@@ -4,12 +4,11 @@ import supabase from "@/lib/supabase/supabase";
 import Image from "next/image";
 import Link from "next/link";
 import { useSwipeable } from "react-swipeable";
-import { compareDesc, format, parseISO } from "date-fns";
+import { compareDesc, differenceInDays, format, parseISO } from "date-fns";
 import { MdTravelExplore } from "react-icons/md";
 import { GiAirplaneDeparture, GiAirplaneArrival } from "react-icons/gi";
 import { HiCurrencyRupee } from "react-icons/hi";
 import { FaCalendarDays } from "react-icons/fa6";
-import { HiChevronRight, HiChevronLeft } from "react-icons/hi2";
 import { FcLikePlaceholder, FcLike, FcSms, FcShare } from "react-icons/fc";
 import { CiShare2 } from "react-icons/ci";
 import { PiChatCircleThin } from "react-icons/pi";
@@ -34,7 +33,7 @@ function PostCard(post: Post) {
   });
 
   return (
-    <div className="flex-none w-full sm:w-1/2 lg:w-1/2 xl:w-1/2  p-2">
+    <div className="flex-none w-full sm:w-1/2 lg:w-1/2 p-2">
       <div className="cursor-pointer p-2 sm:p-1.5 md:p-2 bg-custom-pri/5 rounded-lg">
         <div
           className="relative border border-custom-pri border-opacity-30
@@ -66,31 +65,41 @@ function PostCard(post: Post) {
               <div className="absolute bg-gradient-to-b from-black/70 to-transparent w-full h-16" />
               <div className="absolute bottom-0 bg-gradient-to-t from-black/90 to-transparent w-full h-16" />
               <div className="p-1 lg:p-2 absolute flex flex-col w-full h-full">
-                <div className="flex justify-between">
-                  <h3 className="text-xl font-semibold mb-2 px-4 flex items-center gap-4">
-                    <MdTravelExplore />
-                    {post.title}
-                  </h3>
+                <div className="flex justify-between ml-auto">
                   <div className="flex flex-col">
                     <time
                       dateTime={post.startDate}
-                      className="mb-1 text-xs lg:text-sm flex items-center gap-2"
+                      className="mb-1 text-lg lg:text-xl flex items-center gap-2"
                     >
                       <GiAirplaneDeparture />
                       {format(parseISO(post.startDate), "LLLL d, yyyy")}
                     </time>
                     <time
                       dateTime={post.returnDate}
-                      className="mb-1 text-xs lg:text-sm flex items-center gap-2"
+                      className="mb-1 text-lg lg:text-xl flex items-center gap-2"
                     >
                       <GiAirplaneArrival />
                       {format(parseISO(post.returnDate), "LLLL d, yyyy")}
                     </time>
                   </div>
                 </div>
-                <div className="mt-auto text-base">
+                <div
+                  className="bg-custom-pri/45 backdrop-blur-lg drop-shadow-lg rounded-lg 
+                flex justify-between mr-auto px-4 py-2"
+                >
+                  <h3 className="text-2xl lg:text-3xl font-semibold mb-2 px-4 flex items-center gap-4">
+                    <MdTravelExplore />
+                    {post.title}
+                  </h3>
+                </div>
+                <div className="mt-auto text-lg lg:text-xl">
                   <p className="flex items-center gap-4">
-                    <FaCalendarDays /> {post.duration} Days
+                    <FaCalendarDays />
+                    {differenceInDays(
+                      parseISO(post.returnDate),
+                      parseISO(post.startDate)
+                    ) + 1}
+                    &nbsp; Days
                   </p>
                   <p className="flex items-center gap-4">
                     <HiCurrencyRupee />
@@ -109,7 +118,7 @@ function PostCard(post: Post) {
           </div>
           <Link href={post.url} legacyBehavior>
             <div
-              className="border font-semibold text-lg px-4 py-1 bg-white text-custom-pri mr-4 rounded-lg
+              className="border font-normal text-lg px-1 py-0.5 lg:px-4 lg:py-1 bg-white text-custom-pri mr-4 rounded-lg
             hover:bg-custom-pri hover:text-white hover:shadow-xl transition duration-300"
             >
               More about Trip
@@ -153,9 +162,12 @@ function AllTrips() {
   }, []);
 
   const showMorePosts = () => {
-    setVisiblePostsCount((prevCount) => prevCount + 6);
+    setVisiblePostsCount((prevCount) => prevCount + 3);
   };
 
+  const showLessPosts = () => {
+    setVisiblePostsCount((prevCount) => Math.max(prevCount - 3, 3));
+  };
   return (
     <section className="max-w-6xl flex m-auto justify-between items-center mt-10">
       <div className="w-full pt-2">
@@ -163,27 +175,36 @@ function AllTrips() {
           className="h1 px-4
         bg-gradient-to-r from-zinc-600 via-zinc-500  to-zinc-700 text-transparent bg-clip-text"
         >
-          Discover experiences, not just destinations. Book with us.
+          Discover experiences, not just destinations.
         </h1>
         <a href="#travel-form" className="p-6 hover:cursor-pointer underline">
-          fill me, our people will contact you
+          Book with us -
         </a>
         <div className="flex flex-wrap justify-between items-center">
           {posts.slice(0, visiblePostsCount).map((post, idx) => (
             <PostCard key={idx} {...post} />
           ))}
         </div>
-        {visiblePostsCount < posts.length && (
-          <div className="flex justify-center mt-4">
+        <div className="flex ml-4 mt-4 space-x-4">
+          {visiblePostsCount < posts.length && (
             <button
-              className="border font-semibold text-lg px-4 py-1 bg-white text-custom-pri rounded-lg
-              hover:bg-custom-pri hover:text-white hover:shadow-xl transition duration-300"
+              className="border font-semibold text-lg px-4 py-1 text-white bg-custom-pri rounded-lg
+              hover:text-custom-pri hover:bg-white hover:shadow-xl transition duration-300"
               onClick={showMorePosts}
             >
               Show More
             </button>
-          </div>
-        )}
+          )}
+          {visiblePostsCount > 6 && (
+            <button
+              className="border font-semibold text-lg px-4 py-1 text-white bg-custom-pri rounded-lg
+              hover:text-custom-pri hover:bg-white hover:shadow-xl transition duration-300"
+              onClick={showLessPosts}
+            >
+              Show Less
+            </button>
+          )}
+        </div>
       </div>
     </section>
   );
