@@ -5,12 +5,15 @@ const AboutNemoPage = () => {
     <section className="max-w-6xl mt-20 flex m-auto">
       <div className="py-8 " id="magazine">
         <div className="mx-auto px-4 ">
-          <h2 className="text-3xl font-bold text-left mb-8 flex items-center">
+          <h2 className="text-3xl font-bold mb-8  text-center lg:text-left items-center">
             Travel Quality
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 ">
             {travelQuality.map((item: TravelQuality) => (
-              <div key={item.id} className="flex flex-col items-center">
+              <div
+                key={item.id}
+                className="flex flex-col items-center p-8 rounded-xl bg-custom-pri/5 "
+              >
                 <item.icon className="w-16 h-16 text-custom-pri mb-4" />
                 <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
                 <p className="text-left">{item.text}</p>
