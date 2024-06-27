@@ -1,4 +1,5 @@
 import UserForm from "@/components/UserForm";
+import WhatsAppButtonContact from "@/components/actionComponents/WhatsAppContact";
 import getUserSession from "@/lib/getUserSession";
 import { redirect } from "next/navigation";
 
@@ -13,6 +14,7 @@ async function page() {
   return (
     <div className=" bg-gray-100">
       <UserForm />
+      <WhatsAppButtonContact />
     </div>
   );
 }

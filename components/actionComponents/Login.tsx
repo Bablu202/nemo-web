@@ -66,7 +66,7 @@ export const LoginForm = () => {
   };
 
   const input_style =
-    "form-control  w-full px-4 py-5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
+    "form-control  w-full px-4 py-2 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
@@ -112,8 +112,8 @@ export const LoginForm = () => {
         <p className="text-center font-semibold mx-4 mb-0">OR</p>
       </div>
       <a
-        className="px-7 py-2 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center mb-3"
-        style={{ backgroundColor: "#033E8C" }}
+        className="px-7 py-2 font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center mb-3"
+        style={{ backgroundColor: "#ffff" }}
         onClick={loginWithGoogle}
         role="button"
       >
@@ -121,8 +121,8 @@ export const LoginForm = () => {
         Continue with Google
       </a>
       <a
-        className="px-7 py-2 mb-6 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center"
-        style={{ backgroundColor: "#033E8C" }}
+        className="px-7 py-2 mb-6 font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center"
+        style={{ backgroundColor: "#ffff" }}
         onClick={loginWithGitHub}
         role="button"
       >
