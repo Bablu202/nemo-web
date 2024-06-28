@@ -45,8 +45,8 @@ function PostCard(post: Post) {
     }
   }, [post]);
   return (
-    <div className="flex-none w-full sm:w-1/2 lg:w-1/3 p-2 ">
-      <div className="cursor-pointer p-4 lg:p-5 bg-custom-pri/5 rounded-lg">
+    <div className="flex-none w-full sm:w-1/2 lg:w-1/3 p-4 sm:p-2 ">
+      <div className="cursor-pointer p-4 lg:p-5 bg-custom-pri/5 shadow-lg rounded-lg">
         <div
           className="relative border border-custom-pri border-opacity-30
          rounded-lg shadow-sm snap-always snap-center overflow-hidden"
@@ -74,10 +74,10 @@ function PostCard(post: Post) {
           </div>
         </div>
         <div className="flex flex-col">
-          <h3 className="font-semibold text-xl p-1 text-custom-pri">
+          <h3 className="font-semibold text-lg p-1 text-custom-pri">
             {post.title}
           </h3>
-          <p className="flex items-center mb-1">
+          <p className="flex items-center mb-1 text-sm">
             <GiAirplaneDeparture />
             &nbsp;
             {format(new Date(post.startDate), "dd MMM yyyy")}&nbsp;
@@ -86,7 +86,7 @@ function PostCard(post: Post) {
             {format(new Date(post.returnDate), "dd MMM yyyy")}
           </p>
           <div className="flex justify-between">
-            <p className="flex justify-between items-center">
+            <p className="flex justify-between items-center text-sm">
               <FaCalendarDays />
               &nbsp;
               {differenceInDays(
@@ -95,7 +95,7 @@ function PostCard(post: Post) {
               ) + 1}
               &nbsp; Days
             </p>
-            <p className="flex items-center gap-4">
+            <p className="flex items-center gap-4 text-sm">
               <HiCurrencyRupee />
               {post.price}
             </p>
@@ -117,11 +117,11 @@ function PostCard(post: Post) {
           </div>
           <Link href={post.url} legacyBehavior>
             <div
-              className="border font-semibold px-1 py-0.5 
-               bg-white text-custom-pri mr-4 rounded-lg
-            hover:bg-custom-pri hover:text-white hover:shadow-xl transition duration-300"
+              className="border font-semibold px-2 py-1 shadow-sm
+               bg-white text-custom-pri  rounded-lg
+            hover:bg-custom-pri hover:text-white hover:shadow-2xl transition duration-300"
             >
-              More about Trip
+              trip details..
             </div>
           </Link>
         </div>
@@ -190,7 +190,7 @@ function AllTrips() {
       <div className="w-full pt-2">
         <h1
           className="h1 px-4
-        bg-gradient-to-r from-zinc-600 via-zinc-500  to-zinc-700 text-transparent bg-clip-text"
+        bg-gradient-to-r from-[#24386E]/80 via-[#24386E]/65  to-[#24386E]/95 text-transparent bg-clip-text"
         >
           Discover experiences, not just destinations.
         </h1>
@@ -218,7 +218,7 @@ function AllTrips() {
         <a href="#travel-form" className="p-6 hover:cursor-pointer underline">
           Book with us -
         </a>
-        <div className="flex flex-wrap justify-between items-center">
+        <div className="flex flex-wrap justify-between items-center ">
           {filteredPosts.slice(0, visiblePostsCount).map((post, idx) => (
             <PostCard key={idx} {...post} />
           ))}

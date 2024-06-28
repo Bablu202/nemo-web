@@ -12,7 +12,7 @@ const AboutNemoPage = () => {
             {travelQuality.map((item: TravelQuality) => (
               <div
                 key={item.id}
-                className="flex flex-col items-center p-8 rounded-xl bg-custom-pri/5 "
+                className="flex flex-col items-center p-8 rounded-xl bg-custom-pri/5 shadow-md"
               >
                 <item.icon className="w-16 h-16 text-custom-pri mb-4" />
                 <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
