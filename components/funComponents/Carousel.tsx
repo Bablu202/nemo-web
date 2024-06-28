@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import React, { useState, useEffect, useRef } from "react";
 import { useSwipeable } from "react-swipeable";
 
 interface CarouselProps {
@@ -14,20 +13,22 @@ const Carousel: React.FC<CarouselProps> = ({
   autoSlideInterval = 3000,
 }) => {
   const slides = React.Children.toArray(children);
-  const [curr, setCurr] = useState(0);
+  const totalSlides = slides.length;
+  const [curr, setCurr] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const prev = () => {
     if (!isTransitioning) {
       setIsTransitioning(true);
-      setCurr((curr) => (curr === 0 ? slides.length - 1 : curr - 1));
+      setCurr((curr) => curr - 1);
     }
   };
 
   const next = () => {
     if (!isTransitioning) {
       setIsTransitioning(true);
-      setCurr((curr) => (curr === slides.length - 1 ? 0 : curr + 1));
+      setCurr((curr) => curr + 1);
     }
   };
 
@@ -45,52 +46,59 @@ const Carousel: React.FC<CarouselProps> = ({
 
   useEffect(() => {
     if (isTransitioning) {
-      const timeout = setTimeout(() => {
+      const transitionEndTimeout = setTimeout(() => {
         setIsTransitioning(false);
+        if (curr > totalSlides) {
+          setCurr(1);
+          containerRef.current!.style.transition = "none";
+          containerRef.current!.style.transform = `translateX(-${100}%)`;
+          setTimeout(() => {
+            containerRef.current!.style.transition = "transform 0.5s ease-out";
+          }, 0);
+        } else if (curr < 1) {
+          setCurr(totalSlides);
+          containerRef.current!.style.transition = "none";
+          containerRef.current!.style.transform = `translateX(-${
+            totalSlides * 100
+          }%)`;
+          setTimeout(() => {
+            containerRef.current!.style.transition = "transform 0.5s ease-out";
+          }, 0);
+        }
       }, 500); // duration matches the CSS transition duration
-      return () => clearTimeout(timeout);
+
+      return () => clearTimeout(transitionEndTimeout);
     }
-  }, [isTransitioning]);
+  }, [curr, isTransitioning, totalSlides]);
 
   return (
     <div className="overflow-hidden relative" {...handlers}>
       <div
-        className={`flex transition-transform ease-out duration-500 ${
+        ref={containerRef}
+        className={`flex transition-transform duration-500 ${
           isTransitioning ? "" : "transition-none"
         }`}
         style={{ transform: `translateX(-${curr * 100}%)` }}
       >
+        <div className="w-full flex-shrink-0 h-64 relative">
+          {slides[totalSlides - 1]}
+        </div>
         {slides.map((slide, index) => (
           <div key={index} className="w-full flex-shrink-0 h-64 relative">
             {slide}
           </div>
         ))}
+        <div className="w-full flex-shrink-0 h-64 relative">{slides[0]}</div>
       </div>
-      <div className="absolute inset-0 flex items-center justify-between p-4">
-        <button
-          onClick={prev}
-          className="p-1 rounded-full shadow bg-white/80 text-gray-800 hover:bg-white"
-        >
-          <BiChevronLeft size={40} />
-        </button>
-        <button
-          onClick={next}
-          className="p-1 rounded-full shadow bg-white/80 text-gray-800 hover:bg-white"
-        >
-          <BiChevronRight size={40} />
-        </button>
-      </div>
-
       <div className="absolute bottom-4 right-0 left-0">
         <div className="flex items-center justify-center gap-2">
           {slides.map((_, i) => (
             <div
               key={i}
-              className={`
-                transition-all w-3 h-3 bg-white rounded-full cursor-pointer
-                ${curr === i ? "p-2" : "bg-opacity-50"}
-              `}
-              onClick={() => setCurr(i)}
+              className={`transition-all w-2 h-2 bg-white rounded-full cursor-pointer ${
+                curr === i + 1 ? "p-1.5" : "bg-opacity-50"
+              }`}
+              onClick={() => setCurr(i + 1)}
             />
           ))}
         </div>

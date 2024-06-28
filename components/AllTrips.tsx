@@ -20,26 +20,11 @@ import { CiShare2 } from "react-icons/ci";
 import { PiChatCircleThin } from "react-icons/pi";
 import { CiSearch } from "react-icons/ci";
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
+import Carousel from "./funComponents/Carousel";
 
 function PostCard(post: Post) {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [liked, setLiked] = useState(false);
 
-  const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % post.imageURL.length);
-  };
-
-  const handlePrevImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? post.imageURL.length - 1 : prevIndex - 1
-    );
-  };
-
-  const handlers = useSwipeable({
-    onSwipedLeft: handleNextImage,
-    onSwipedRight: handlePrevImage,
-    trackMouse: true,
-  });
   const handleShare = useCallback(() => {
     if (navigator.share) {
       navigator
@@ -69,28 +54,27 @@ function PostCard(post: Post) {
           className="relative border border-custom-pri border-opacity-30
          rounded-lg shadow-sm snap-always snap-center overflow-hidden"
         >
-          <div className="w-full h-64 container relative" {...handlers}>
-            <Image
-              className="rounded-t-lg object-fill transition-transform duration-500 ease-in-out"
-              src={post.imageURL[currentImageIndex]}
-              alt="Trip Image"
-              layout="fill"
-              objectFit="cover"
-              objectPosition="center"
-              priority
-              loading="eager"
-            />
-
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
-              {post.imageURL.map((_, index) => (
+          <div className="w-full h-64 container relative">
+            <Carousel>
+              {post.imageURL.map((url, index) => (
                 <div
                   key={index}
-                  className={`w-2 h-2 rounded-full  duration-300 ease-in-out ${
-                    index === currentImageIndex ? "bg-white" : "bg-gray-400"
-                  }`}
-                ></div>
+                  className="w-full flex-shrink-0 h-full relative"
+                >
+                  <Image
+                    className="rounded-t-lg object-fill"
+                    src={url}
+                    alt={`Trip Image ${index + 1}`}
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="center"
+                    priority
+                    loading="eager"
+                  />
+                </div>
               ))}
-            </div>
+            </Carousel>
+
             <div className="text-white absolute bg-black/1 w-full h-full">
               <div className="absolute bg-gradient-to-b from-black/70 to-transparent w-full h-16" />
               <div className="absolute bottom-0 bg-gradient-to-t from-black/90 to-transparent w-full h-16" />
