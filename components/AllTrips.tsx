@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import supabase from "@/lib/supabase/supabase";
 import Image from "next/image";
 import Link from "next/link";
-import { useSwipeable } from "react-swipeable";
 import {
   compareAsc,
   compareDesc,
@@ -11,13 +10,11 @@ import {
   format,
   parseISO,
 } from "date-fns";
-import { MdTravelExplore } from "react-icons/md";
 import { GiAirplaneDeparture, GiAirplaneArrival } from "react-icons/gi";
 import { HiCurrencyRupee } from "react-icons/hi";
 import { FaCalendarDays } from "react-icons/fa6";
 import { FcLikePlaceholder, FcLike } from "react-icons/fc";
 import { CiShare2 } from "react-icons/ci";
-import { PiChatCircleThin } from "react-icons/pi";
 import { CiSearch } from "react-icons/ci";
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 import Carousel from "./funComponents/Carousel";
@@ -74,60 +71,37 @@ function PostCard(post: Post) {
                 </div>
               ))}
             </Carousel>
-
-            <div className="text-white absolute bg-black/1 w-full h-full">
-              <div className="absolute bg-gradient-to-b from-black/70 to-transparent w-full h-16" />
-              <div className="absolute bottom-0 bg-gradient-to-t from-black/90 to-transparent w-full h-16" />
-              <div className="p-1 lg:p-2 absolute flex flex-col w-full h-full">
-                <div className="flex justify-between ml-auto">
-                  <div className="flex flex-col">
-                    <time
-                      dateTime={post.startDate}
-                      className="mb-1 text-sm  flex items-center gap-2"
-                    >
-                      <GiAirplaneDeparture />
-                      {format(parseISO(post.startDate), "LLLL d, yyyy")}
-                    </time>
-                    <time
-                      dateTime={post.returnDate}
-                      className="mb-1 text-sm  flex items-center gap-2"
-                    >
-                      <GiAirplaneArrival />
-                      {format(parseISO(post.returnDate), "LLLL d, yyyy")}
-                    </time>
-                  </div>
-                </div>
-                <div
-                  className="bg-custom-pri/45  backdrop-blur-lg drop-shadow-lg rounded-lg 
-                flex items-center mr-auto px-4 py-2"
-                >
-                  <div
-                    className="text-xl lg:text-xl xl:text-2xl font-semibold px-4 
-                  flex items-center gap-4"
-                  >
-                    <MdTravelExplore />
-                    {post.title}
-                  </div>
-                </div>
-                <div className="mt-auto text-sm ">
-                  <p className="flex items-center gap-4">
-                    <FaCalendarDays />
-                    {differenceInDays(
-                      parseISO(post.returnDate),
-                      parseISO(post.startDate)
-                    ) + 1}
-                    &nbsp; Days
-                  </p>
-                  <p className="flex items-center gap-4">
-                    <HiCurrencyRupee />
-                    {post.price}
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
-        <div className="flex justify-between mt-4  ">
+        <div className="flex flex-col">
+          <h3 className="font-semibold text-xl p-1 text-custom-pri">
+            {post.title}
+          </h3>
+          <p className="flex items-center mb-1">
+            <GiAirplaneDeparture />
+            &nbsp;
+            {format(new Date(post.startDate), "dd MMM yyyy")}&nbsp;
+            <GiAirplaneArrival />
+            &nbsp;
+            {format(new Date(post.returnDate), "dd MMM yyyy")}
+          </p>
+          <div className="flex justify-between">
+            <p className="flex justify-between items-center">
+              <FaCalendarDays />
+              &nbsp;
+              {differenceInDays(
+                parseISO(post.returnDate),
+                parseISO(post.startDate)
+              ) + 1}
+              &nbsp; Days
+            </p>
+            <p className="flex items-center gap-4">
+              <HiCurrencyRupee />
+              {post.price}
+            </p>
+          </div>
+        </div>
+        <div className="flex justify-between mt-4">
           <div className="flex text-2xl space-x-6 py-1">
             <div
               onClick={() => setLiked((prev) => !prev)}
