@@ -60,10 +60,10 @@ body {
 }
 
 .h1 {
-  @apply p-3 text-left font-bold text-[2.5rem] leading-[3.25rem] 
-  md:text-[3.25rem] md:leading-[3.75rem] 
-  lg:text-[4rem] lg:leading-[4.15rem] 
-  xl:text-[4.75rem] xl:leading-[5.5rem];
+  @apply p-3 text-left font-bold text-[1.5rem] leading-[2rem] 
+  md:text-[1.5rem] md:leading-[2.5rem] 
+  lg:text-[2.2rem] lg:leading-[3rem] 
+  xl:text-[2.8rem] xl:leading-[5.8rem];
 }
 
 .h2 {

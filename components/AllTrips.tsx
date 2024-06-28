@@ -63,13 +63,13 @@ function PostCard(post: Post) {
     }
   }, [post]);
   return (
-    <div className="flex-none w-full sm:w-1/2 lg:w-1/2 p-2">
-      <div className="cursor-pointer p-3 sm:p-4 md:p-6 bg-custom-pri/5 rounded-lg">
+    <div className="flex-none w-full sm:w-1/2 lg:w-1/3 p-2 ">
+      <div className="cursor-pointer p-4 lg:p-5 bg-custom-pri/5 rounded-lg">
         <div
           className="relative border border-custom-pri border-opacity-30
          rounded-lg shadow-sm snap-always snap-center overflow-hidden"
         >
-          <div className="w-full h-80 md:h-96 container relative" {...handlers}>
+          <div className="w-full h-64 container relative" {...handlers}>
             <Image
               className="rounded-t-lg object-fill transition-transform duration-500 ease-in-out"
               src={post.imageURL[currentImageIndex]}
@@ -85,7 +85,7 @@ function PostCard(post: Post) {
               {post.imageURL.map((_, index) => (
                 <div
                   key={index}
-                  className={`w-2 h-2 rounded-full transition-colors duration-300 ease-in-out ${
+                  className={`w-2 h-2 rounded-full  duration-300 ease-in-out ${
                     index === currentImageIndex ? "bg-white" : "bg-gray-400"
                   }`}
                 ></div>
@@ -99,14 +99,14 @@ function PostCard(post: Post) {
                   <div className="flex flex-col">
                     <time
                       dateTime={post.startDate}
-                      className="mb-1 text-base lg:text-lg flex items-center gap-2"
+                      className="mb-1 text-sm  flex items-center gap-2"
                     >
                       <GiAirplaneDeparture />
                       {format(parseISO(post.startDate), "LLLL d, yyyy")}
                     </time>
                     <time
                       dateTime={post.returnDate}
-                      className="mb-1 text-base lg:text-lg flex items-center gap-2"
+                      className="mb-1 text-sm  flex items-center gap-2"
                     >
                       <GiAirplaneArrival />
                       {format(parseISO(post.returnDate), "LLLL d, yyyy")}
@@ -118,14 +118,14 @@ function PostCard(post: Post) {
                 flex items-center mr-auto px-4 py-2"
                 >
                   <div
-                    className="text-xl lg:text-2xl font-semibold px-4 
+                    className="text-xl lg:text-xl xl:text-2xl font-semibold px-4 
                   flex items-center gap-4"
                   >
                     <MdTravelExplore />
                     {post.title}
                   </div>
                 </div>
-                <div className="mt-auto text-base lg:text-lg">
+                <div className="mt-auto text-sm ">
                   <p className="flex items-center gap-4">
                     <FaCalendarDays />
                     {differenceInDays(
@@ -143,7 +143,7 @@ function PostCard(post: Post) {
             </div>
           </div>
         </div>
-        <div className="flex justify-between mt-4 lg:mt-6">
+        <div className="flex justify-between mt-4  ">
           <div className="flex text-2xl space-x-6 py-1">
             <div
               onClick={() => setLiked((prev) => !prev)}
@@ -159,7 +159,8 @@ function PostCard(post: Post) {
           </div>
           <Link href={post.url} legacyBehavior>
             <div
-              className="border font-normal text-lg px-1 py-0.5 lg:px-4 lg:py-1 bg-white text-custom-pri mr-4 rounded-lg
+              className="border font-semibold px-1 py-0.5 
+               bg-white text-custom-pri mr-4 rounded-lg
             hover:bg-custom-pri hover:text-white hover:shadow-xl transition duration-300"
             >
               More about Trip
