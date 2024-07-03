@@ -42,8 +42,8 @@ const TripPage = () => {
   };
 
   return (
-    <div className="container mt-20 mx-auto max-w-6xl ">
-      <div className="flex flex-col-reverse lg:flex-row p-6  ">
+    <div className="container mt-20 mx-auto max-w-6xl">
+      <div className="flex flex-col-reverse lg:flex-row p-2 lg:p-8  ">
         {/* Image Section */}
         <div className="w-full lg:w-1/2 relative h-96 lg:h-auto p-4 bg-custom-pri/5 rounded-lg shadow-lg">
           <Image
@@ -55,7 +55,7 @@ const TripPage = () => {
           />
         </div>
         {/* Details Section */}
-        <div className="w-full lg:w-1/2 p-8">
+        <div className="w-full lg:w-1/2 p-2 lg:p-8">
           <h1 className="text-4xl font-bold text-custom-pri mb-6">
             {trip.title}
           </h1>
@@ -64,27 +64,28 @@ const TripPage = () => {
             through various destinations. Join us for an unforgettable adventure
             filled with excitement, culture, and breathtaking views.
           </p>
-          <div className="rounded-sm p-2 w-[65%]">
-            <span className="flex  ">
-              <p>we start on</p>&nbsp;
+          <div className="rounded-sm p-1 lg:p-2 w-[65%]">
+            <span className="flex-none lg:flex flex-col  lg:flex-row">
+              <p>we start on</p>
               <p className="ml-auto font-semibold">{trip.start_date}</p>
             </span>
-            <span className="flex ">
-              <p>come back to Home on</p>&nbsp;
+
+            <span className="flex-none lg:flex flex-col lg:flex-row">
+              <p>come back to Home on</p>
               <p className="ml-auto font-semibold">{trip.return_date}</p>
             </span>
           </div>
-          <div className="flex w-full  ">
-            <div className="flex flex-col items-center mb-4 mx-auto bg-custom-pri/5 shadow-lg px-4 py-2 rounded-xl">
-              <MdOutlineEmojiEvents className=" mr-2 text-custom-pri text-2xl" />
+          <div className="flex w-full  text-gray-200">
+            <div className="flex flex-col items-center mb-4 mx-auto  px-0.5 lg:px-4 py-0.5 lg:py-2 ">
+              <MdOutlineEmojiEvents className=" mr-2 text-2xl" />
               <span className="">Fun Events</span>
             </div>
-            <div className="flex flex-col items-center mb-4 mx-auto bg-custom-pri/5 shadow-lg px-4 py-2 rounded-xl">
-              <LiaStreetViewSolid className=" mr-2 text-custom-pri text-2xl" />
+            <div className="flex flex-col items-center mb-4 mx-auto  px-0.5 lg:px-4 py-0.5 lg:py-2 ">
+              <LiaStreetViewSolid className=" mr-2 text-2xl" />
               <span className="">More Memories</span>
             </div>
-            <div className="flex flex-col items-center mb-4 mx-auto bg-custom-pri/5 shadow-lg px-4 py-2 rounded-xl">
-              <IoRestaurantOutline className=" mr-2 text-custom-pri text-2xl" />
+            <div className="flex flex-col items-center mb-4 mx-auto  px-0.5 lg:px-4 py-0.5 lg:py-2 ">
+              <IoRestaurantOutline className=" mr-2 text-2xl" />
               <span className="">Good Food</span>
             </div>
           </div>
@@ -94,8 +95,8 @@ const TripPage = () => {
           </button>
         </div>
       </div>
-      <div className="relative px-12 lg:px-28">
-        <div className="absolute w-[1px] ml-8 bg-gradient-to-b from-blue-400 to-green-400 h-full left-4 transform -translate-x-1/2"></div>
+      <div className="relative px-4 md:px-16 lg:px-28 mt-10">
+        <div className="absolute w-[5px] ml-8 bg-gradient-to-b from-blue-400 to-green-400 h-full left-0 lg:left-4 transform -translate-x-1/2"></div>
         <div className="pl-8 space-y-6">
           {trip.plan.map((planItem, index) => (
             <div key={index} className="relative">
