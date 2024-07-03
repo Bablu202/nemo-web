@@ -2,6 +2,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi2";
+import { differenceInDays, parseISO } from "date-fns";
 
 interface TripCardProps {
   trip: Trip;
@@ -64,7 +65,14 @@ const TripCard: React.FC<TripCardProps> = ({ trip, onEdit, onDelete }) => {
         </div>
       </div>
       <h2 className="text-xl font-bold mt-2">{trip.title}</h2>
-      <p>Duration: {trip.duration} days</p>
+      <p>
+        Duration:&nbsp;
+        {differenceInDays(
+          parseISO(trip.return_date),
+          parseISO(trip.start_date)
+        ) + 1}
+        &nbsp; Days
+      </p>
       <p>Start Date: {trip.start_date}</p>
       <p>Return Date: {trip.return_date}</p>
       <p>Price: {trip.price}</p>

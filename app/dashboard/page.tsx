@@ -4,6 +4,7 @@ import TripCard from "@/components/TripCard";
 import TripForm from "@/components/TripForm";
 import { GrChapterAdd } from "react-icons/gr";
 import axios from "axios";
+import { disablePageScroll, enablePageScroll } from "scroll-lock";
 
 const Dashboard: React.FC = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
@@ -12,12 +13,13 @@ const Dashboard: React.FC = () => {
   const [currentTrip, setCurrentTrip] = useState<Trip | null>(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [tripToDelete, setTripToDelete] = useState<number | null>(null);
-
   useEffect(() => {
     const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setShowDeleteConfirmation(false);
+        setCurrentTrip(null);
         setIsModalOpen(false);
+        enablePageScroll();
       }
     };
 
@@ -45,6 +47,7 @@ const Dashboard: React.FC = () => {
   const handleEdit = (trip: Trip) => {
     setCurrentTrip(trip);
     setIsModalOpen(true);
+    disablePageScroll();
   };
 
   const handleDelete = (id: number) => {
@@ -107,13 +110,19 @@ const Dashboard: React.FC = () => {
     <div className="container mt-12 mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Trips Dashboard</h1>
       <div
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => {
+          setIsModalOpen(true);
+          disablePageScroll();
+        }}
         className="fixed bottom-16 right-5 w-14 h-14 flex justify-around items-center rounded-full bg-white/95 backdrop-blur-lg shadow-xl"
       >
         <GrChapterAdd className="text-custom-pri text-2xl" />
       </div>
       <button
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => {
+          setIsModalOpen(true);
+          disablePageScroll();
+        }}
         className="bg-custom-pri text-white px-4 py-2 rounded mb-4"
       >
         Add New Trip

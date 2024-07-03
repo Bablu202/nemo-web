@@ -1,8 +1,9 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
-import supabase from "@/lib/supabase/supabase";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Carousel from "./funComponents/Carousel";
+
 import {
   compareAsc,
   compareDesc,
@@ -11,15 +12,15 @@ import {
   parseISO,
 } from "date-fns";
 import { GiAirplaneDeparture, GiAirplaneArrival } from "react-icons/gi";
-import { HiCurrencyRupee } from "react-icons/hi";
 import { FaCalendarDays } from "react-icons/fa6";
 import { FcLikePlaceholder, FcLike } from "react-icons/fc";
 import { CiShare2 } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
-import Carousel from "./funComponents/Carousel";
+import { LiaRupeeSignSolid } from "react-icons/lia";
+import axios from "axios";
 
-function PostCard(post: Post) {
+function PostCard(post: Trip) {
   const [liked, setLiked] = useState(false);
 
   const handleShare = useCallback(() => {
@@ -53,7 +54,7 @@ function PostCard(post: Post) {
         >
           <div className="w-full h-64 container relative">
             <Carousel>
-              {post.imageURL.map((url, index) => (
+              {post.image.map((url, index) => (
                 <div
                   key={index}
                   className="w-full flex-shrink-0 h-full relative"
@@ -80,23 +81,23 @@ function PostCard(post: Post) {
           <p className="flex items-center mb-1 text-sm">
             <GiAirplaneDeparture />
             &nbsp;
-            {format(new Date(post.startDate), "dd MMM yyyy")}&nbsp;
+            {format(new Date(post.start_date), "dd MMM yyyy")}&nbsp;
             <GiAirplaneArrival />
             &nbsp;
-            {format(new Date(post.returnDate), "dd MMM yyyy")}
+            {format(new Date(post.return_date), "dd MMM yyyy")}
           </p>
           <div className="flex justify-between">
             <p className="flex justify-between items-center text-sm">
               <FaCalendarDays />
               &nbsp;
               {differenceInDays(
-                parseISO(post.returnDate),
-                parseISO(post.startDate)
+                parseISO(post.return_date),
+                parseISO(post.start_date)
               ) + 1}
               &nbsp; Days
             </p>
             <p className="flex items-center gap-4 text-sm">
-              <HiCurrencyRupee />
+              <LiaRupeeSignSolid />
               {post.price}
             </p>
           </div>
@@ -131,48 +132,40 @@ function PostCard(post: Post) {
 }
 
 function AllTrips() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<Trip[]>([]);
   const [visiblePostsCount, setVisiblePostsCount] = useState(6);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [loading, setLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   useEffect(() => {
     const fetchTrips = async () => {
-      const { data, error } = await supabase
-        .from("nemo_upcoming_trip_details")
-        .select("*");
-      if (error) {
-        console.error(error);
-      } else {
-        const tripsWithDuration = data.map((trip) => ({
-          ...trip,
-          url: `/trips/${trip.id}`,
-          imageURL: trip.image, // Assuming this is an array of image URLs
-          startDate: trip.start_date,
-          returnDate: trip.return_date,
-          duration:
-            differenceInDays(
-              parseISO(trip.return_date),
-              parseISO(trip.start_date)
-            ) + 1,
-          status: trip.status,
-          price: trip.price,
-          seats: trip.seats,
-        }));
+      try {
+        const response = await axios.get("/api/trips");
+        const data = response.data;
 
-        const sortedTrips = tripsWithDuration.sort((a, b) =>
+        const tripsWithDuration = data.map((trip: Trip) => ({
+          ...trip,
+          url: `/trips/${trip.id}`, // Ensure URL is correctly set
+          start_date: trip.start_date,
+          return_date: trip.return_date,
+        }));
+        const sortedTrips = tripsWithDuration.sort((a: Trip, b: Trip) =>
           sortOrder === "asc"
-            ? compareAsc(parseISO(a.startDate), parseISO(b.startDate))
-            : compareDesc(parseISO(a.startDate), parseISO(b.startDate))
+            ? compareAsc(parseISO(a.start_date!), parseISO(b.start_date!))
+            : compareDesc(parseISO(a.start_date!), parseISO(b.start_date!))
         );
 
         setPosts(sortedTrips);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
-
     fetchTrips();
   }, [sortOrder]);
+
   const filteredPosts = posts.filter((post) =>
     Object.values(post).some((value) =>
       value.toString().toLowerCase().includes(searchQuery.toLowerCase())
