@@ -15,7 +15,7 @@ const AboutNemoPage = () => {
                 className="flex flex-col items-center p-8 rounded-xl bg-custom-pri/5 shadow-md"
               >
                 <item.icon className="w-16 h-16 text-custom-pri mb-4" />
-                <h3 className="text-2xl uppercase font-light py-2">
+                <h3 className="text-xl md:text-2xl uppercase font-light py-2 text-center">
                   {item.title}
                 </h3>
                 <p className="text-left">{item.text}</p>

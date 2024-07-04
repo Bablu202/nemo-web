@@ -56,7 +56,7 @@ const TripPage = () => {
         {/* Details Section */}
         <div className="w-full px-4 md:px-8 lg:w-1/2 p-2 lg:p-8 ">
           <div className="">
-            <h1 className="text-5xl font-light  text-custom-pri mb-6 text-center uppercase ">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light  text-custom-pri mb-6 text-center uppercase ">
               {trip.title}
             </h1>
             <p className="mb-4 text-lg font-normal">
