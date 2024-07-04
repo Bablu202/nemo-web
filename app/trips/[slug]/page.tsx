@@ -103,7 +103,7 @@ const TripPage = () => {
           </div>
           <div className="flex mr-auto">
             <button
-              className="border border-custom-pri bg-white text-custom-pri px-3 py-2 rounded-lg text-lg 
+              className="border border-custom-pri bg-white text-custom-pri p-0.5 md:p-1 lg:px-3 lg:py-2 rounded-lg text-lg 
             hover:bg-custom-pri hover:text-white hover:shadow-xl transition duration-300 shadow-md mt-8"
             >
               Discover more..
@@ -130,7 +130,7 @@ const TripPage = () => {
       </div>
       <div className="text-center mt-8">
         <a
-          className="inline-block border border-custom-pri bg-white text-custom-pri px-3 py-2 rounded-lg text-lg 
+          className="inline-block border border-custom-pri bg-white text-custom-pri px-0.5 md:p-1 lg:px-3 lg:py-2 rounded-lg text-lg 
          hover:bg-custom-pri hover:text-white hover:shadow-xl transition duration-300 shadow-md"
         >
           Book This Trip
