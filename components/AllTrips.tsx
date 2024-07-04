@@ -75,7 +75,7 @@ function PostCard(post: Trip) {
           </div>
         </div>
         <div className="flex flex-col">
-          <h3 className="font-semibold text-lg p-1 text-custom-pri">
+          <h3 className="font-light text-2xl  my-1 p-1 text-custom-pri">
             {post.title}
           </h3>
           <p className="flex items-center mb-1 text-sm">
@@ -98,7 +98,9 @@ function PostCard(post: Trip) {
             </p>
             <p className="flex items-center gap-4 text-sm">
               <LiaRupeeSignSolid />
-              {post.price}
+              {new Intl.NumberFormat("en-IN", {
+                maximumSignificantDigits: 3,
+              }).format(post.price)}
             </p>
           </div>
         </div>
