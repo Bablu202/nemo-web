@@ -161,13 +161,13 @@ const Dashboard: React.FC = () => {
             </h2>
             <div className="flex justify-end">
               <button
-                className="bg-red-700 text-white px-4 py-2 rounded mr-6"
+                className="bg-color-red text-white px-4 py-2 rounded mr-6"
                 onClick={confirmDelete}
               >
                 Yes
               </button>
               <button
-                className="bg-custom-pri text-white px-4 py-2 rounded"
+                className="bg-color-blue text-white px-4 py-2 rounded"
                 onClick={cancelDelete}
               >
                 Cancel

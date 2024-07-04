@@ -44,7 +44,7 @@ const TripPage = () => {
     <div className="container mt-20 mx-auto max-w-6xl">
       <div className="flex flex-col-reverse lg:flex-row m-4 md:m-8 p-2 lg:p-8  bg-color-green/5 shadow-lg">
         {/* Image Section */}
-        <div className="w-[80%] mx-auto lg:w-1/2 relative h-96 lg:h-auto p-4 bg-custom-pri/5 rounded-lg shadow-lg">
+        <div className="w-[80%] mx-auto lg:w-1/2 relative h-96 lg:h-auto p-4 rounded-lg shadow-lg ">
           <Image
             src={getRandomImage()}
             alt="Trip Image"
@@ -109,7 +109,7 @@ const TripPage = () => {
           </div>
           <div className="flex mr-auto">
             <button
-              className="border border-custom-pri bg-white text-custom-pri p-0.5 md:p-1 lg:px-3 lg:py-2 rounded-lg text-lg 
+              className="border mb-6 border-custom-pri bg-white text-custom-pri px-2 py-0.5  md:py-1 lg:px-3 lg:py-2 rounded-lg text-lg 
             hover:bg-custom-pri hover:text-white hover:shadow-xl transition duration-300 shadow-md mt-8"
             >
               Discover more..
@@ -136,13 +136,13 @@ const TripPage = () => {
       </div>
       <div className="text-center mt-8">
         <a
-          className="inline-block border border-custom-pri bg-white text-custom-pri px-0.5 md:p-1 lg:px-3 lg:py-2 rounded-lg text-lg 
+          className="inline-block border border-custom-pri bg-white text-custom-pri px-2 py-0.5 md:py-1 lg:px-3 lg:py-2 rounded-lg text-lg 
          hover:bg-custom-pri hover:text-white hover:shadow-xl transition duration-300 shadow-md"
         >
           Book This Trip
         </a>
       </div>
-      <div className="container  px-4 my-12 flex flex-col mx-auto sm:flex-row items-center justify-between bg-gray-50 p-6 rounded-lg shadow-lg">
+      <div className="container  px-4 my-12 flex flex-col mx-auto sm:flex-row items-center justify-between bg-color-red/5 p-6 rounded-lg shadow-lg">
         <div className="w-full sm:w-1/2 sm:pl-6 mt-4 sm:mt-0 ">
           <h2 className="text-2xl font-semibold mb-10">About This Trip</h2>
           <p>

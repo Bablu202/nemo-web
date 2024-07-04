@@ -47,7 +47,7 @@ function PostCard(post: Trip) {
   }, [post]);
   return (
     <div className="flex-none w-full sm:w-1/2 lg:w-1/3 p-4 sm:p-2 ">
-      <div className="cursor-pointer p-4 lg:p-5 bg-custom-pri/5 shadow-lg rounded-lg">
+      <div className="p-4 lg:p-5 bg-custom-pri/5 shadow-lg rounded-lg">
         <div
           className="relative border border-custom-pri border-opacity-30
          rounded-lg shadow-sm snap-always snap-center overflow-hidden"
@@ -120,7 +120,7 @@ function PostCard(post: Trip) {
           </div>
           <Link href={post.url} legacyBehavior>
             <div
-              className="border font-semibold px-2 py-1 shadow-sm
+              className="cursor-pointer border font-semibold px-2 py-1 shadow-sm
                bg-white text-custom-pri  rounded-lg
             hover:bg-custom-pri hover:text-white hover:shadow-2xl transition duration-300"
             >

@@ -206,13 +206,13 @@ const TripForm: React.FC<TripFormProps> = ({
           <button
             type="button"
             onClick={onCancel}
-            className="bg-custom-sec text-white px-4 py-2 rounded-md"
+            className="bg-custom-pri text-white px-4 py-2 rounded-md"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="bg-custom-pri text-white px-4 py-2 rounded-md"
+            className="bg-color-green text-white px-4 py-2 rounded-md"
           >
             {initialData ? "Update" : "Create"}
           </button>

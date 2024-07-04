@@ -86,7 +86,7 @@ const TripCard: React.FC<TripCardProps> = ({ trip, onEdit, onDelete }) => {
         </button>
         <button
           onClick={onDelete}
-          className="mt-2 bg-red-700 text-white px-4 py-2 rounded"
+          className="mt-2 bg-color-red text-white px-4 py-2 rounded"
         >
           Delete
         </button>
