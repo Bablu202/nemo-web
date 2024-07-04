@@ -78,19 +78,25 @@ const TripPage = () => {
             <div className="flex w-full">
               <div className="flex flex-col items-center my-4 mx-auto lg:py-2  text-color-purple">
                 <MdOutlineEmojiEvents className=" mr-2 text-2xl" />
-                <span className="">Fun Events</span>
+                <span className="text-xl md:text-2xl font-light md:font-light uppercase text-center">
+                  Fun Events
+                </span>
               </div>
               <div className="flex flex-col items-center my-4 mx-auto lg:py-2  text-color-yellow">
                 <LiaStreetViewSolid className=" mr-2 text-2xl" />
-                <span className="">More Memories</span>
+                <span className="text-xl md:text-2xl font-light md:font-light uppercase text-center">
+                  More Memories
+                </span>
               </div>
               <div className="flex flex-col items-center my-4 mx-auto lg:py-2  text-color-green">
                 <IoRestaurantOutline className=" mr-2 text-2xl" />
-                <span className="">Good Food</span>
+                <span className="text-xl md:text-2xl font-light md:font-light uppercase text-center">
+                  Good Food
+                </span>
               </div>
             </div>
             <div className="text-xl mb-4 flex items-center">
-              For just&nbsp;
+              Just for&nbsp;
               <LiaRupeeSignSolid />
               &nbsp;
               {new Intl.NumberFormat("en-IN", {
