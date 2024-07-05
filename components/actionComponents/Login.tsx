@@ -43,7 +43,7 @@ export const LoginForm = () => {
 
       setError("");
       toast.success("successfully logged in");
-      router.push("/");
+      router.push("/home");
     });
   };
 
