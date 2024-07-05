@@ -1,16 +1,10 @@
-// pages/api/auth/callback/route.ts
+// pages/api/auth/v1/callback.ts
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
-export const config = {
-  runtime: "nodejs", // Mark this route as a dynamic route
-};
-
 export async function GET(request: Request) {
   try {
-    const url = new URL(request.url);
-    const { searchParams } = url;
-    const origin = url.origin;
+    const { searchParams, origin } = new URL(request.url);
     const code = searchParams.get("code");
     const next = searchParams.get("next") ?? "/";
 
