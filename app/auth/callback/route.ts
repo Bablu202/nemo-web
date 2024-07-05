@@ -2,6 +2,10 @@
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
+export const config = {
+  runtime: "nodejs", // Mark this route as a dynamic route
+};
+
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);

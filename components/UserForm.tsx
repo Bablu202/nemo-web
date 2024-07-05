@@ -4,7 +4,7 @@ import { RegisterForm } from "./actionComponents/Register";
 import { LoginForm } from "./actionComponents/Login";
 
 const UserForm: React.FC = () => {
-  const [isForm, setIsForm] = useState<boolean>(true);
+  const [isForm, setIsForm] = useState<boolean>(false);
 
   return (
     <section className="mt-12 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
