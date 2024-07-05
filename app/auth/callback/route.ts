@@ -12,6 +12,10 @@ export async function GET(request: Request) {
     const code = searchParams.get("code");
     const next = searchParams.get("next") ?? "/";
 
+    console.log("Received code:", code);
+    console.log("Origin:", origin);
+    console.log("Next:", next);
+
     if (code) {
       // Create Supabase server client
       const supabase = await createSupabaseServerClient();
