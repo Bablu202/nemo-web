@@ -12,7 +12,7 @@ async function page() {
     return redirect("/profile");
   }
   return (
-    <div className=" bg-gray-100">
+    <div className="mt-24 mx-2 md:mx-6 lg:mx-36 bg-custom-pri/5 rounded-md shadow-md">
       <UserForm />
       <WhatsAppButtonContact />
     </div>

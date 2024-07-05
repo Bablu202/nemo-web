@@ -1,5 +1,6 @@
 import getUserSession from "@/lib/getUserSession";
 import createSupabaseServerClient from "@/lib/supabase/server";
+import Link from "next/link";
 
 const SignOutButton = async () => {
   const { data } = await getUserSession();
@@ -18,7 +19,12 @@ const SignOutButton = async () => {
         {data.session && (
           <>
             <form action={logoutAction} className="flex">
-              <button className="ml-4 bg-white border p-2 mb-6">Logout</button>
+              <button
+                className="ml-4 bg-white border rounded-sm shadow-sm px-4 py-1 mb-6 text-lg lg:text-xl font-normal uppercase 
+              hover:bg-custom-pri hover:text-white"
+              >
+                Logout
+              </button>
             </form>
           </>
         )}

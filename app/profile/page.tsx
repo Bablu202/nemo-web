@@ -14,7 +14,7 @@ export default async function ProfilePage() {
   const user = session.user;
 
   return (
-    <section className="flex justify-center">
+    <section className="flex justify-center mt-12">
       <div className="max-w-md w-full mt-8 bg-white shadow-md rounded-lg overflow-hidden">
         <div className="px-6 py-4 flex items-center">
           <div>

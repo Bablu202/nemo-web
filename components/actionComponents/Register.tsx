@@ -101,7 +101,8 @@ export const RegisterForm = () => {
       <button
         type="submit"
         style={{ backgroundColor: `${isPending ? "#0D0D0D" : "#24386E"}` }}
-        className="inline-block px-7 py-2 bg-custom-pri text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full"
+        className="  px-7 py-2 bg-custom-pri text-white  text leading-snug text-xl  lg:text-2xl font-normal   
+        uppercase rounded shadow-md  hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out w-full"
         disabled={isPending}
       >
         {isPending ? "loading..." : "Sign Up"}
