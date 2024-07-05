@@ -5,6 +5,7 @@ export const dynamic = "force-dynamic"; // Ensure this route is treated as dynam
 
 export async function GET(request: Request) {
   try {
+    // Parse the request URL to extract origin and searchParams
     const url = new URL(request.url);
     const { searchParams } = url;
     const origin = url.origin;
@@ -12,10 +13,11 @@ export async function GET(request: Request) {
     const next = searchParams.get("next") ?? "/";
 
     if (code) {
+      // Create Supabase server client
       const supabase = await createSupabaseServerClient();
 
       // Exchange the code for a session
-      const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+      const { error } = await supabase.auth.exchangeCodeForSession(code);
 
       if (error) {
         console.error("Error exchanging code for session:", error);
@@ -26,25 +28,17 @@ export async function GET(request: Request) {
         );
       }
 
-      // Set session cookies
-      const response = NextResponse.redirect(`${origin}${next}`);
-      response.cookies.set("sb-access-token", data.session.access_token, {
-        httpOnly: true,
-        // Add other cookie options as needed, such as 'secure' and 'sameSite'
-      });
-      response.cookies.set("sb-refresh-token", data.session.refresh_token, {
-        httpOnly: true,
-        // Add other cookie options as needed, such as 'secure' and 'sameSite'
-      });
-
-      return response;
+      // Redirect to the next page
+      return NextResponse.redirect(`${origin}${next}`);
     }
 
+    // Log and redirect if the code is missing
     console.error("Authorization code is missing in the callback URL");
     return NextResponse.redirect(
       `${origin}/auth/auth-code-error?error=Authorization code is missing`
     );
   } catch (error: any) {
+    // Catch any unexpected errors
     console.error("Unexpected error during OAuth callback:", error);
     return NextResponse.redirect(
       `${origin}/auth/auth-code-error?error=${encodeURIComponent(
