@@ -2,14 +2,22 @@
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
+export const runtime = "nodejs"; // Mark this route as a dynamic route
+
 export async function GET(request: Request) {
   try {
-    const { searchParams, origin } = new URL(request.url);
+    // Use URL to parse the request URL and extract origin and searchParams
+    const url = new URL(request.url);
+    const { searchParams } = url;
+    const origin = url.origin;
     const code = searchParams.get("code");
     const next = searchParams.get("next") ?? "/";
 
     if (code) {
+      // Create Supabase server client
       const supabase = await createSupabaseServerClient();
+
+      // Exchange the code for a session
       const { error } = await supabase.auth.exchangeCodeForSession(code);
 
       if (error) {
@@ -21,6 +29,7 @@ export async function GET(request: Request) {
         );
       }
 
+      // Redirect to the next page
       return NextResponse.redirect(`${origin}${next}`);
     }
 
