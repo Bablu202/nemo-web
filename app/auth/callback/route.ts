@@ -1,12 +1,11 @@
-// pages/api/auth/v1/callback.ts
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
-export const runtime = "nodejs"; // Mark this route as a dynamic route
+export const dynamic = "force-dynamic"; // Ensure this route is treated as dynamic
 
 export async function GET(request: Request) {
   try {
-    // Use URL to parse the request URL and extract origin and searchParams
+    // Parse the request URL to extract origin and searchParams
     const url = new URL(request.url);
     const { searchParams } = url;
     const origin = url.origin;
