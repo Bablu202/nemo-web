@@ -82,7 +82,7 @@ const Header: React.FC = () => {
                 onClick={handleClick}
                 style={{
                   background:
-                    "linear-gradient(to left, #ffff 50%,#FFFFFF00 40%)",
+                    "linear-gradient(to left, #ffff 50%,#0C0A0A50 40%)",
                 }}
                 className={`z-2 flex flex-col justify-center gap-5 m-auto lg:flex-row  ${
                   openNavigation
@@ -93,7 +93,7 @@ const Header: React.FC = () => {
                 {navigationData.map((item: NavigationItem) => (
                   <Link
                     key={item.id}
-                    className={`relative text-right font-bold text-4xl lg:text-base 
+                    className={`relative text-right font-bold text-2xl lg:text-base 
                       lg:font-semibold tracking-wide px-20 py-2 transition-colors
                        hover:text-custom-pri lg:pt-0 lg:mx-4 lg:p-0 
                        ${
