@@ -75,24 +75,32 @@ const Header: React.FC = () => {
             </div>
             <nav
               className={`${
-                openNavigation ? "flex w-full" : "hidden"
+                openNavigation ? "flex w-full my-10" : "hidden"
               } fixed top-0 left-0 bottom-0 lg:ml-auto lg:static lg:flex`}
             >
               <div
                 onClick={handleClick}
-                className={`z-2 flex flex-col justify-center gap-5 m-auto  lg:flex-row ${
+                style={{
+                  background:
+                    "linear-gradient(to left, #ffff 50%,#FFFFFF00 40%)",
+                }}
+                className={`z-2 flex flex-col justify-center gap-5 m-auto lg:flex-row  ${
                   openNavigation
-                    ? " w-screen h-screen bg-black/90  backdrop-blur-lg text-right text-white "
+                    ? "w-screen h-screen shadow-lg backdrop-blur-lg "
                     : "w-max"
                 }`}
               >
                 {navigationData.map((item: NavigationItem) => (
                   <Link
                     key={item.id}
-                    className={`relative font-bold text-center text-4xl  lg:text-base lg:font-semibold
-               tracking-wide px-20 py-2 transition-colors hover:text-custom-pri lg:pt-0 lg:mx-4 lg:p-0 ${
-                 false ? "text-custom-pri underline underline-offset-4" : ""
-               } ${item?.onlyMobile && "lg:hidden"}`}
+                    className={`relative text-right font-bold text-4xl lg:text-base 
+                      lg:font-semibold tracking-wide px-20 py-2 transition-colors
+                       hover:text-custom-pri lg:pt-0 lg:mx-4 lg:p-0 
+                       ${
+                         false
+                           ? "text-custom-pri underline underline-offset-4"
+                           : ""
+                       } ${item?.onlyMobile && "lg:hidden"}`}
                     href={item.url}
                   >
                     {item.title}
@@ -169,7 +177,7 @@ export const navigationData: NavigationItem[] = [
   },
   {
     id: "3",
-    title: "About us",
+    title: "About",
     url: "/about",
   },
   {
