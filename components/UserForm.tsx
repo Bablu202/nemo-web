@@ -10,7 +10,7 @@ const UserForm: React.FC = () => {
     <section className="mt-12 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <div className="mb-5 bg-white p-1 rounded-lg">
+          {/* <div className="mb-5 bg-white p-1 rounded-lg">
             <button
               onClick={() => setIsForm(true)}
               className={`w-1/2 py-2 px-4 border border-transparent rounded-md text-lg lg:text-xl font-normal  uppercase  ${
@@ -31,8 +31,9 @@ const UserForm: React.FC = () => {
             >
               Login
             </button>
-          </div>
-          {isForm ? <RegisterForm /> : <LoginForm />}
+          </div> */}
+          {/* {isForm ? <RegisterForm /> : <LoginForm />} */}
+          <LoginForm />
         </div>
         <div className="flex items-center justify-between"></div>
       </div>
