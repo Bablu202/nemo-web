@@ -1,35 +1,31 @@
-import getUserSession from "@/lib/getUserSession";
-import createSupabaseServerClient from "@/lib/supabase/server";
-import Link from "next/link";
+// components/actionComponents/SignOutButton.tsx
+import { useUserSession } from "@/context/SessionContext";
+import { redirect } from "next/navigation";
+import { useState } from "react";
 
-const SignOutButton = async () => {
-  const { data } = await getUserSession();
+const SignOutButton = () => {
+  const { logout } = useUserSession();
+  const [loading, setLoading] = useState(false);
 
   const logoutAction = async () => {
-    "use server";
-    const supabase = await createSupabaseServerClient();
-    await supabase.auth.signOut();
+    setLoading(true);
+    try {
+      await logout();
+      return redirect("/user"); // Redirect after successful logout
+    } catch (error) {
+      console.error("Failed to log out", error);
+      setLoading(false);
+    }
   };
-  const info = () => {
-    console.log(data);
-  };
+
   return (
-    <nav className=" flex justify-between container items-center">
-      <ul className="flex items-center space-x-4">
-        {data.session && (
-          <>
-            <form action={logoutAction} className="flex">
-              <button
-                className="ml-4 bg-white border rounded-sm shadow-sm px-4 py-1 mb-6 text-lg lg:text-xl font-normal uppercase 
-              hover:bg-custom-pri hover:text-white"
-              >
-                Logout
-              </button>
-            </form>
-          </>
-        )}
-      </ul>
-    </nav>
+    <button
+      onClick={logoutAction}
+      disabled={loading}
+      className="ml-4 bg-white border rounded-sm shadow-sm px-4 py-1 mb-6 text-lg lg:text-xl font-normal uppercase hover:bg-custom-pri hover:text-white"
+    >
+      {loading ? "Logging out..." : "Logout"}
+    </button>
   );
 };
 

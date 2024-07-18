@@ -1,3 +1,5 @@
+// lib/supabase/server.ts
+
 "use server";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
@@ -17,9 +19,7 @@ export default async function createSupabaseServerClient() {
           try {
             cookieStore.set({ name, value, ...options });
           } catch (error) {
-            // The `set` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
+            // Handle setting cookies on the server side
             console.error(`Failed to set cookie: ${error}`);
           }
         },
@@ -27,9 +27,7 @@ export default async function createSupabaseServerClient() {
           try {
             cookieStore.set({ name, value: "", ...options });
           } catch (error) {
-            // The `delete` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
+            // Handle removing cookies on the server side
             console.error(`Failed to remove cookie: ${error}`);
           }
         },

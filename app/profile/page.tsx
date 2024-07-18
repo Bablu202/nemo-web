@@ -1,17 +1,24 @@
+// app/profile/page.tsx
+"use client";
+
 import SignOutButton from "@/components/actionComponents/SignOut";
-import getUserSession from "@/lib/getUserSession";
-import { redirect } from "next/navigation";
+import { useUserSession } from "@/context/SessionContext";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-export default async function ProfilePage() {
-  const {
-    data: { session },
-  } = await getUserSession();
+const ProfilePage = () => {
+  const { user, loading } = useUserSession();
+  const router = useRouter();
 
-  if (!session) {
-    return redirect("/user");
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/user");
+    }
+  }, [user, loading, router]);
+
+  if (loading || !user) {
+    return <p>Loading...</p>;
   }
-
-  const user = session.user;
 
   return (
     <section className="flex justify-center mt-12">
@@ -29,8 +36,7 @@ export default async function ProfilePage() {
               <span className="font-bold">Email:</span> {user.email}
             </p>
             <p className="mb-3">
-              <span className="font-bold">Provider:</span>{" "}
-              {user.app_metadata["provider"]}
+              <span className="font-bold">Provider:</span> {user.provider}
             </p>
             <p className="mb-3">
               <span className="font-bold">Created At:</span> {user.created_at}
@@ -43,4 +49,6 @@ export default async function ProfilePage() {
       </div>
     </section>
   );
-}
+};
+
+export default ProfilePage;

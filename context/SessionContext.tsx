@@ -1,76 +1,68 @@
-import supabase from "@/lib/supabase/supabase";
-import {
+// context/UserSessionContext.tsx
+"use client";
+import React, {
   createContext,
   useContext,
   useEffect,
   useState,
   ReactNode,
 } from "react";
+import getUserSession from "@/lib/getUserSession";
+import axios from "axios";
 
-interface User {
+type UserType = {
   id: string;
-  email: string;
-  role: string;
-  app_metadata: Record<string, any>;
+  role: string | undefined;
+  email: string | undefined;
+  provider: string | undefined;
   created_at: string;
-}
+};
 
-interface SessionContextType {
-  session: User | null;
-}
+type UserSessionContextType = {
+  user: UserType | null;
+  loading: boolean;
+  logout: () => Promise<void>;
+};
 
-const SessionContext = createContext<SessionContextType | undefined>(undefined);
+const UserSessionContext = createContext<UserSessionContextType | undefined>(
+  undefined
+);
 
-export const SessionProvider = ({ children }: { children: ReactNode }) => {
-  const [session, setSession] = useState<User | null>(null);
+export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<UserType | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getUserSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      if (data.session) {
-        const user = data.session.user;
-        setSession(user);
-
-        // Check if user exists in nemo_user_profiles
-        const { data: existingUser } = await supabase
-          .from("nemo_user_profiles")
-          .select("*")
-          .eq("email", user.email)
-          .single();
-
-        // If user doesn't exist, insert the user
-        if (!existingUser) {
-          const { error } = await supabase.from("nemo_user_profiles").insert([
-            {
-              full_name: user.user_metadata.full_name,
-              email: user.email,
-              profile_picture_url: user.user_metadata.avatar_url,
-              provider: user.app_metadata.provider,
-              created_at: user.created_at,
-            },
-          ]);
-
-          if (error) {
-            console.error("Error inserting user:", error.message);
-          }
-        }
-      }
+    const fetchUserSession = async () => {
+      const sessionData = await getUserSession();
+      setUser(sessionData.user);
+      setLoading(false);
     };
 
-    getUserSession();
+    fetchUserSession();
   }, []);
 
+  const logout = async () => {
+    try {
+      await axios.post("/api/logout");
+      setUser(null); // Clear user session in context
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to log out", error);
+    }
+  };
+
   return (
-    <SessionContext.Provider value={{ session }}>
+    <UserSessionContext.Provider value={{ user, loading, logout }}>
       {children}
-    </SessionContext.Provider>
+    </UserSessionContext.Provider>
   );
 };
 
-export const useSession = () => {
-  const context = useContext(SessionContext);
+export const useUserSession = () => {
+  const context = useContext(UserSessionContext);
   if (context === undefined) {
-    throw new Error("useSession must be used within a SessionProvider");
+    throw new Error("useUserSession must be used within a UserSessionProvider");
   }
   return context;
 };

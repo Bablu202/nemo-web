@@ -24,3 +24,10 @@ interface Trip {
 //   price: number;
 //   seats: number;
 // }
+type UserType = {
+  id: string;
+  role: string | undefined;
+  email: string | undefined;
+  provider: string | undefined;
+  created_at: string;
+};
