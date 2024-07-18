@@ -80,32 +80,34 @@ const Header: React.FC = () => {
             >
               <div
                 onClick={handleClick}
-                style={{
-                  background:
-                    "linear-gradient(to left, #ffff 50%,#0C0A0A50 40%)",
-                }}
                 className={`z-2 flex flex-col justify-center gap-5 m-auto lg:flex-row  ${
                   openNavigation
                     ? "w-screen h-screen shadow-lg backdrop-blur-lg "
                     : "w-max"
                 }`}
               >
-                {navigationData.map((item: NavigationItem) => (
-                  <Link
-                    key={item.id}
-                    className={`relative text-right font-bold text-2xl lg:text-base 
+                <div
+                  className={` transition-transform duration-5000 ease-in-out  transform${
+                    openNavigation ? "translate-x-0" : "translate-x-full"
+                  } mt-8 w-1/2 flex flex-col backdrop-blur-3xl bg-white/90 mb-auto ml-auto shadow-xl`}
+                >
+                  {navigationData.map((item: NavigationItem) => (
+                    <Link
+                      key={item.id}
+                      className={`uppercase my-4 text-right mx-6 rounded-md font-bold text-2xl leading-10 lg:text-base 
                       lg:font-semibold tracking-wide px-20 py-2 transition-colors
-                       hover:text-custom-pri lg:pt-0 lg:mx-4 lg:p-0 
+                       hover:text-white hover:bg-custom-pri hover:shadow-lg lg:pt-0 lg:mx-4 lg:p-0  
                        ${
                          false
                            ? "text-custom-pri underline underline-offset-4"
                            : ""
                        } ${item?.onlyMobile && "lg:hidden"}`}
-                    href={item.url}
-                  >
-                    {item.title}
-                  </Link>
-                ))}
+                      href={item.url}
+                    >
+                      {item.title}
+                    </Link>
+                  ))}{" "}
+                </div>
               </div>
             </nav>
             <SmallDevicesMenu
