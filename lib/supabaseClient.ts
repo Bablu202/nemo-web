@@ -1,3 +1,5 @@
+//lib/supabaseClient
+
 import supabase from "./supabase/supabase";
 
 export const logout = async () => {

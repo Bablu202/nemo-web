@@ -1,4 +1,4 @@
-// context/UserSessionContext.tsx
+// context/SessionContext.tsx
 "use client";
 import React, {
   createContext,

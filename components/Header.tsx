@@ -6,7 +6,7 @@ import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { GiClownfish } from "react-icons/gi";
 
 const Header: React.FC = () => {
-  const [openNavigation, setOpenNavigation] = useState(true);
+  const [openNavigation, setOpenNavigation] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -89,7 +89,7 @@ const Header: React.FC = () => {
                 <div
                   className={` transition-transform duration-1000 ease-in-out ${
                     openNavigation
-                      ? "mt-8 w-1/2 flex flex-col backdrop-blur-3xl bg-white/90 ml-auto shadow-xl translate-x-0"
+                      ? "mt-8 w-1/2 flex flex-col backdrop-blur-3xl bg-white/90 mb-auto ml-auto shadow-xl translate-x-0"
                       : "translate-x-full"
                   } `}
                 >
