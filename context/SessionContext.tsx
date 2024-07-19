@@ -1,5 +1,5 @@
-// context/SessionContext.tsx
 "use client";
+
 import React, {
   createContext,
   useContext,
@@ -8,19 +8,26 @@ import React, {
   ReactNode,
 } from "react";
 import getUserSession from "@/lib/getUserSession";
-import { logout } from "@/lib/supabaseClient";
+import { logout, updateUser } from "@/lib/supabaseClient";
+
 type UserType = {
   id: string;
   role: string | undefined;
   email: string | undefined;
   provider: string | undefined;
   created_at: string;
+  name?: string;
+  mobile_number?: string;
+  date_of_birth?: string;
+  profession?: string;
+  gender?: string;
 };
 
 type UserSessionContextType = {
   user: UserType | null;
   loading: boolean;
   logout: () => Promise<void>;
+  updateUser: (user: Partial<UserType>) => Promise<void>;
 };
 
 const UserSessionContext = createContext<UserSessionContextType | undefined>(
@@ -33,13 +40,19 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const fetchUserSession = async () => {
-      const sessionData = await getUserSession();
-      setUser(sessionData?.user ?? null);
-      setLoading(false);
+      try {
+        const sessionData = await getUserSession();
+        setUser(sessionData?.user ?? null);
+      } catch (error) {
+        console.error("Failed to fetch user session:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchUserSession();
   }, []);
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -50,9 +63,26 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const handleUpdateUser = async (updatedUser: Partial<UserType>) => {
+    try {
+      if (user) {
+        const newUser = { ...user, ...updatedUser };
+        await updateUser(newUser);
+        setUser(newUser);
+      }
+    } catch (error) {
+      console.error("Failed to update user", error);
+    }
+  };
+
   return (
     <UserSessionContext.Provider
-      value={{ user, loading, logout: handleLogout }}
+      value={{
+        user,
+        loading,
+        logout: handleLogout,
+        updateUser: handleUpdateUser,
+      }}
     >
       {children}
     </UserSessionContext.Provider>

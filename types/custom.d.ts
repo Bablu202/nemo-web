@@ -26,8 +26,20 @@ interface Trip {
 // }
 type UserType = {
   id: string;
-  role: string | undefined;
-  email: string | undefined;
+  email: string;
   provider: string | undefined;
   created_at: string;
+  name?: string;
+  mobile_number?: string;
+  date_of_birth?: string;
+  profession?: string;
+  gender?: string;
+};
+type UpdateUserType = {
+  id: string;
+  name?: string;
+  mobile_number?: string;
+  date_of_birth?: string;
+  profession?: string;
+  gender?: string;
 };
