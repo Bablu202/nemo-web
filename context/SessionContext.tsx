@@ -8,8 +8,7 @@ import React, {
   ReactNode,
 } from "react";
 import getUserSession from "@/lib/getUserSession";
-import axios from "axios";
-
+import { logout } from "@/lib/supabaseClient";
 type UserType = {
   id: string;
   role: string | undefined;
@@ -35,17 +34,16 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchUserSession = async () => {
       const sessionData = await getUserSession();
-      setUser(sessionData.user);
+      setUser(sessionData?.user ?? null);
       setLoading(false);
     };
 
     fetchUserSession();
   }, []);
-
-  const logout = async () => {
+  const handleLogout = async () => {
     try {
-      await axios.post("/api/logout");
-      setUser(null); // Clear user session in context
+      await logout();
+      setUser(null);
       setLoading(false);
     } catch (error) {
       console.error("Failed to log out", error);
@@ -53,7 +51,9 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <UserSessionContext.Provider value={{ user, loading, logout }}>
+    <UserSessionContext.Provider
+      value={{ user, loading, logout: handleLogout }}
+    >
       {children}
     </UserSessionContext.Provider>
   );
