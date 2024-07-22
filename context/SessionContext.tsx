@@ -8,21 +8,7 @@ import React, {
   ReactNode,
 } from "react";
 import getUserSession from "@/lib/getUserSession";
-import { logout, updateUser } from "@/lib/supabaseClient";
-
-type UserType = {
-  id: string;
-  role: string | undefined;
-  email: string | undefined;
-  provider: string | undefined;
-  created_at: string;
-  name?: string;
-  mobile_number?: string;
-  date_of_birth?: string;
-  profession?: string;
-  gender?: string;
-};
-
+import { logout, updateUser } from "@/lib/supabase/supabase";
 type UserSessionContextType = {
   user: UserType | null;
   loading: boolean;

@@ -1,6 +1,4 @@
-// components/actionComponents/SignOutButton.tsx
 import { useUserSession } from "@/context/SessionContext";
-import { redirect } from "next/navigation";
 import { useState } from "react";
 
 const SignOutButton = () => {
@@ -11,7 +9,7 @@ const SignOutButton = () => {
     setLoading(true);
     try {
       await logout();
-      return redirect("/user"); // Redirect after successful logout
+      window.location.href = "/user"; // Use window.location.href for client-side redirection
     } catch (error) {
       console.error("Failed to log out", error);
       setLoading(false);

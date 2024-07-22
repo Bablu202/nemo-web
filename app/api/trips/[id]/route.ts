@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import supabase from "@/lib/supabase/supabase";
+import supabase from "@/lib/supabaseClient";
 
 // GET trip by ID
 export async function GET(

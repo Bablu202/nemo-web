@@ -1,5 +1,5 @@
 "use client";
-import supabase from "@/lib/supabase/supabase";
+import supabase from "@/lib/supabaseClient";
 import { useState, ChangeEvent, FormEvent } from "react";
 
 interface FormData {

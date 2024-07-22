@@ -1,3 +1,4 @@
+//lib/supabase/client
 import { useMemo } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 
