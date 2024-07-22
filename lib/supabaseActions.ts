@@ -1,4 +1,5 @@
 // lib/supabase/supabase.ts
+import createSupabaseServerClient from "./supabase/server";
 import supabase from "./supabaseClient";
 
 export const logout = async () => {
@@ -11,40 +12,28 @@ export const getUserSession = async () => {
   if (error) throw error;
   return data.session;
 };
+import { UserType } from "@/types/custom"; // Import UserType from types.ts
 
-export const addUser = async (user: UserType) => {
+export async function updateUser(user: UserType) {
   try {
+    const supabase = await createSupabaseServerClient();
+
     const { data, error } = await supabase
       .from("users")
-      .upsert([user], { onConflict: "id" });
-
-    if (error) {
-      console.error("Error adding user:", error.message);
-      throw error;
-    }
-
-    return data;
-  } catch (error) {
-    console.error("Unexpected error:", error);
-    throw error;
-  }
-};
-
-export const updateUser = async (user: UpdateUserType) => {
-  try {
-    const { data, error } = await supabase
-      .from("users")
-      .update(user)
-      .match({ id: user.id });
+      .upsert(user, { onConflict: "id" });
 
     if (error) {
       console.error("Error updating user:", error.message);
       throw error;
     }
 
+    console.log("User updated successfully:", data);
     return data;
   } catch (error) {
-    console.error("Unexpected error:", error);
+    console.error(
+      "Unexpected error during user update:",
+      (error as Error).message
+    );
     throw error;
   }
-};
+}

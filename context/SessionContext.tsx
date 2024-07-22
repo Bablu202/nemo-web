@@ -7,8 +7,8 @@ import React, {
   useState,
   ReactNode,
 } from "react";
-import getUserSession from "@/lib/getUserSession";
-import { logout, updateUser } from "@/lib/supabaseActions";
+import { logout, updateUser, getUserSession } from "@/lib/supabaseActions";
+import { UserType } from "@/types/custom";
 type UserSessionContextType = {
   user: UserType | null;
   loading: boolean;
@@ -52,7 +52,18 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
   const handleUpdateUser = async (updatedUser: Partial<UserType>) => {
     try {
       if (user) {
-        const newUser = { ...user, ...updatedUser };
+        // Ensure that id and email are present when updating
+        const newUser: UserType = {
+          ...user,
+          ...updatedUser,
+          id: user.id, // Ensure id is preserved
+          email: user.email, // Ensure email is preserved
+        };
+
+        if (!newUser.id || !newUser.email) {
+          throw new Error("User ID and email are required to update user.");
+        }
+
         await updateUser(newUser);
         setUser(newUser);
       }

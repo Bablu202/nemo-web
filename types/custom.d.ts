@@ -24,11 +24,11 @@ interface Trip {
 //   price: number;
 //   seats: number;
 // }
-type UserType = {
+export type UserType = {
   id: string;
-  role: string | undefined;
-  email: string | undefined;
-  provider: string | undefined;
+  email?: string;
+  role?: string;
+  provider?: string;
   created_at: string;
   name?: string;
   mobile_number?: string;
