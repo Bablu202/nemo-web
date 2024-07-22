@@ -61,7 +61,7 @@ const Header: React.FC = () => {
         zIndex: "1000",
       }}
     >
-      <div className="sticky top-0 z-10 shadow-xl mb-4 max-w-6xl  m-auto justify-between items-center">
+      <div className="sticky top-0 z-10 shadow-xl mb-4   m-auto justify-between items-center">
         <div className="bg-white/95 backdrop-blur-sm  border-b border-b-custom-sec border-opacity-20">
           <div className="max-w-6xl py-1.5 m-auto flex items-center justify-between">
             <div className="px-5 py-1 lg:px-4 ">

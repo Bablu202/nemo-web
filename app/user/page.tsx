@@ -20,10 +20,12 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="mt-24 mx-2 md:mx-6 lg:mx-36 bg-custom-pri/5 rounded-md shadow-md">
-      <UserForm />
-      <WhatsAppButtonContact />
-    </div>
+    <section className="max-w-6xl flex mx-auto justify-center items-center ">
+      <div className="mt-24  md:mx-6 lg:mx-36 bg-custom-pri/5 rounded-md shadow-md">
+        <UserForm />
+        <WhatsAppButtonContact />
+      </div>
+    </section>
   );
 };
 
