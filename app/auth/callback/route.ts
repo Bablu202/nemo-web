@@ -1,3 +1,4 @@
+//app/auth/callback
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 

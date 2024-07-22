@@ -1,5 +1,5 @@
 // lib/supabase/supabase.ts
-import supabase from "../supabaseClient";
+import supabase from "./supabaseClient";
 
 export const logout = async () => {
   const { error } = await supabase.auth.signOut();

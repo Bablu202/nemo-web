@@ -8,7 +8,7 @@ import React, {
   ReactNode,
 } from "react";
 import getUserSession from "@/lib/getUserSession";
-import { logout, updateUser } from "@/lib/supabase/supabase";
+import { logout, updateUser } from "@/lib/supabaseActions";
 type UserSessionContextType = {
   user: UserType | null;
   loading: boolean;
