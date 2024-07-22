@@ -1,3 +1,4 @@
+// app/profile.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -5,10 +6,10 @@ import SignOutButton from "@/components/actionComponents/SignOut";
 import { useUserSession } from "@/context/SessionContext";
 import { useRouter } from "next/navigation";
 import UserDetailsForm from "@/components/UserDetailsForm";
-
 import { UserType } from "@/types/custom";
+
 const ProfilePage = () => {
-  const { user, loading, updateUser } = useUserSession();
+  const { user, loading, updateUser, editUser } = useUserSession();
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -34,6 +35,17 @@ const ProfilePage = () => {
       }
     } catch (error) {
       console.error("Failed to update user", error);
+    }
+  };
+
+  const handleEditUser = async (updatedDetails: Partial<UserType>) => {
+    try {
+      if (user) {
+        await editUser(user.id, updatedDetails);
+        setIsEditing(false);
+      }
+    } catch (error) {
+      console.error("Failed to edit user details", error);
     }
   };
 
@@ -87,7 +99,7 @@ const ProfilePage = () => {
                 profession: user.profession || "",
                 gender: user.gender || "",
               }}
-              onUpdate={handleUpdateUser}
+              onUpdate={handleEditUser}
               onCancel={handleCancelClick}
             />
           </div>

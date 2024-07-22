@@ -19,7 +19,7 @@ import { CiSearch } from "react-icons/ci";
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import axios from "axios";
-
+import { Trip } from "@/types/custom";
 function PostCard(post: Trip) {
   const [liked, setLiked] = useState(false);
 

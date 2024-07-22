@@ -46,3 +46,14 @@ type UpdateUserType = {
   profession?: string;
   gender?: string;
 };
+
+// types/custom.ts// types/custom.ts
+export interface ReviewType {
+  id: string;
+  rating: number;
+  review_text: string;
+  user_id: string;
+  created_at: string; // Optional if not needed for creation
+}
+
+export type ReviewInputType = Omit<ReviewType, "id" | "created_at">;

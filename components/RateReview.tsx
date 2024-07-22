@@ -1,14 +1,15 @@
+// components/RatingReview.tsx
 "use client";
-import { useEffect, useState } from "react";
-// import { getRegisteredDetails } from "@/services/apiRegistration";
+
+import { useState } from "react";
+import { useReviews } from "@/context/ReviewsContext";
+import { useUserSession } from "@/context/SessionContext";
 
 const RatingReview = () => {
   const [rating, setRating] = useState<number>(0);
   const [review, setReview] = useState<string>("");
-
-  //   useEffect(() => {
-  //     getRegisteredDetails().then((data) => console.log(data));
-  //   }, []);
+  const { addOrUpdateReview } = useReviews();
+  const { user } = useUserSession();
 
   const handleRatingChange = (value: number) => {
     setRating(value);
@@ -20,14 +21,17 @@ const RatingReview = () => {
     setReview(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Here you can implement logic to submit the rating and review data
-    console.log("Rating:", rating);
-    console.log("Review:", review);
-    // Reset state after submitting
-    setRating(0);
-    setReview("");
+    if (user) {
+      try {
+        await addOrUpdateReview({ rating, review_text: review });
+        setRating(0);
+        setReview("");
+      } catch (error) {
+        console.error("Failed to submit review:", error);
+      }
+    }
   };
 
   return (
@@ -44,7 +48,7 @@ const RatingReview = () => {
               type="button"
               onClick={() => handleRatingChange(index + 1)}
               className={`text-4xl focus:outline-none ${
-                index + 1 <= rating ? "text-color-yellow" : "text-gray-300"
+                index + 1 <= rating ? "text-yellow-400" : "text-gray-300"
               }`}
             >
               &#9733;
@@ -67,7 +71,7 @@ const RatingReview = () => {
         </div>
         <button
           type="submit"
-          className="bg-custom-pri text-white py-2 px-4 rounded-md hover:bg-custom-pri"
+          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
         >
           Submit
         </button>
