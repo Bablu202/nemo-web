@@ -61,7 +61,7 @@ const Header: React.FC = () => {
         zIndex: "1000",
       }}
     >
-      <div className="sticky top-0 z-10 shadow-xl mb-4">
+      <div className="sticky top-0 z-10 shadow-xl mb-4 max-w-6xl  m-auto justify-between items-center">
         <div className="bg-white/95 backdrop-blur-sm  border-b border-b-custom-sec border-opacity-20">
           <div className="max-w-6xl py-1.5 m-auto flex items-center justify-between">
             <div className="px-5 py-1 lg:px-4 ">
@@ -83,14 +83,14 @@ const Header: React.FC = () => {
                 className={`z-2 flex flex-col justify-center gap-5 m-auto lg:flex-row  ${
                   openNavigation
                     ? "w-screen h-screen shadow-lg backdrop-blur-lg "
-                    : "w-max"
+                    : "w-max  "
                 }`}
               >
                 <div
-                  className={` transition-transform duration-1000 ease-in-out ${
+                  className={` transition-transform duration-300 ease-in-out ${
                     openNavigation
-                      ? "mt-8 w-1/2 flex flex-col backdrop-blur-3xl bg-white/90 mb-auto ml-auto shadow-xl translate-x-0"
-                      : "translate-x-full"
+                      ? "mt-8 w-1/2 flex flex-col backdrop-blur-3xl bg-white/90 mb-auto ml-auto shadow-xl "
+                      : ""
                   } `}
                 >
                   {navigationData.map((item: NavigationItem) => (
