@@ -6,6 +6,7 @@ import { useUserSession } from "@/context/SessionContext";
 import { useRouter } from "next/navigation";
 import UserDetailsForm from "@/components/UserDetailsForm";
 
+import { UserType } from "@/types/custom";
 const ProfilePage = () => {
   const { user, loading, updateUser } = useUserSession();
   const router = useRouter();

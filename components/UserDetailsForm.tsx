@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { UserType } from "@/types/custom";
 type UserDetailsFormProps = {
   initialValues: {
     name: string;
