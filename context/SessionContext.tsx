@@ -59,7 +59,6 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
           id: user.id, // Ensure id is preserved
           email: user.email, // Ensure email is preserved
         };
-
         if (!newUser.id || !newUser.email) {
           throw new Error("User ID and email are required to update user.");
         }
