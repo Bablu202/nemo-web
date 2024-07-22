@@ -9,6 +9,7 @@ const RatingReview = () => {
   const [rating, setRating] = useState<number>(0);
   const [review, setReview] = useState<string>("");
   const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null); // New state for error message
   const { reviews, addReview, editReview, deleteReview } = useReviews();
   const { user, loading: userLoading } = useUserSession();
   const router = useRouter();
@@ -30,24 +31,29 @@ const RatingReview = () => {
 
   const handleRatingChange = (value: number) => {
     setRating(value);
+    if (error) setError(null); // Clear error when rating is updated
   };
 
   const handleReviewChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setReview(event.target.value);
+    if (error) setError(null); // Clear error when review text is updated
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (rating === 0) {
+      setError("Please select at least one star.");
+      return;
+    }
     try {
       if (user) {
         const reviewData = {
           rating,
           review_text: review,
           user_id: user.id,
-          // Optionally, you can add a timestamp here if your backend doesn't handle it
-          created_at: new Date().toISOString(), // or you can omit this if handled by backend
+          created_at: new Date().toISOString(), // Optional: only if needed
         };
 
         if (editingReviewId) {
@@ -125,6 +131,11 @@ const RatingReview = () => {
             </button>
           ))}
         </div>
+        {error && (
+          <div className="mb-4 p-2 bg-red-100 text-red-600 border border-red-300 rounded-md">
+            {error}
+          </div>
+        )}
         <div className="mb-4">
           <label htmlFor="review" className="block mb-2 text-lg">
             Review:
