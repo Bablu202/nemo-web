@@ -49,13 +49,12 @@ const RatingReview = () => {
     }
     try {
       if (user) {
-        // Ensure user_name and user_email are not undefined
         const reviewData: Omit<ReviewType, "id"> = {
           rating,
           review_text: review,
           user_id: user.id,
-          user_name: user.name || "", // Provide default value if user.name is undefined
-          user_email: user.email || "", // Provide default value if user.email is undefined
+          user_name: user.name || "",
+          user_email: user.email || "", // Adjust if user_email is not used
           created_at: new Date().toISOString(),
         };
 
@@ -159,7 +158,7 @@ const RatingReview = () => {
         >
           {editingReviewId ? "Update" : "Submit"}
         </button>
-        {editingReviewId && (
+        {/* {editingReviewId && (
           <button
             type="button"
             onClick={handleDelete}
@@ -167,45 +166,26 @@ const RatingReview = () => {
           >
             Delete
           </button>
-        )}
+        )} */}
       </form>
 
       <div className="mt-8">
-        <h3 className="text-xl font-semibold mb-4">All Reviews:</h3>
-        {reviews.length > 0 ? (
+        <h3 className="text-xl font-semibold mb-4">Reviews</h3>
+        {reviews.length === 0 ? (
+          <p>No reviews yet.</p>
+        ) : (
           <ul>
             {reviews.map((review) => (
-              <li
-                key={review.id}
-                className="border p-4 mb-4 rounded-lg bg-white shadow-sm"
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <div>
-                    <span className="text-lg font-semibold mr-4">
-                      {review.user_name}
-                    </span>
-                    <span className="text-gray-600 text-sm">
-                      ({review.user_email})
-                    </span>
-                  </div>
-                  <div className="flex items-center">
-                    {[...Array(5)].map((_, index) => (
-                      <span
-                        key={index}
-                        className={`text-sm ${
-                          index + 1 <= review.rating
-                            ? "text-yellow-400"
-                            : "text-gray-300"
-                        }`}
-                      >
-                        &#9733;
-                      </span>
-                    ))}
-                  </div>
+              <li key={review.id} className="border-b py-4">
+                <div className="flex items-center mb-2">
+                  <span className="font-semibold">{review.user_name}</span> -{" "}
+                  <span className="text-yellow-400">
+                    {"★".repeat(review.rating)} {"☆".repeat(5 - review.rating)}
+                  </span>
                 </div>
-                <p className="mb-2">{review.review_text}</p>
-                <p className="text-gray-600 text-sm">
-                  {new Date(review.created_at).toLocaleString()}
+                <p>{review.review_text}</p>
+                <p className="text-gray-500 text-sm mt-1">
+                  {new Date(review.created_at).toLocaleDateString()}
                 </p>
                 {user?.id === review.user_id && (
                   <div className="mt-4 flex space-x-4">
@@ -220,8 +200,6 @@ const RatingReview = () => {
               </li>
             ))}
           </ul>
-        ) : (
-          <p>No reviews yet.</p>
         )}
       </div>
     </section>

@@ -67,34 +67,30 @@ export async function editUser(
 }
 
 ////////////////////////////////////REVIEW
+
 import { ReviewType } from "@/types/custom";
 
 const TABLE_NAME = "reviews";
 
-export const getAllReviews = async (): Promise<ReviewType[]> => {
+export const getAllReviews = async (
+  currentUserId: string | null
+): Promise<ReviewType[]> => {
   const { data, error } = await supabase
     .from(TABLE_NAME)
-    .select(
-      `
-      *,
-      user:users(id, email, name)
-    `
-    )
+    .select("*, users(email, name)") // Fetch user's email and name
     .order("created_at", { ascending: false });
 
   if (error) {
     throw new Error(`Error fetching reviews: ${error.message}`);
   }
 
-  // Map the response to match the expected ReviewType format
-  return data.map((review: any) => ({
-    ...review,
-    user_id: review.user.id,
-    user_email: review.user.email,
-    user_name: review.user.name,
-  }));
+  // Sort the reviews to place the current user's review at the top
+  return (data as ReviewType[]).sort((a, b) => {
+    if (a.user_id === currentUserId) return -1; // Current user's review goes to the top
+    if (b.user_id === currentUserId) return 1; // Ensure it's sorted above the rest
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime(); // Time-based sorting for other reviews
+  });
 };
-
 export const addReview = async (
   review: Omit<ReviewType, "id">
 ): Promise<void> => {

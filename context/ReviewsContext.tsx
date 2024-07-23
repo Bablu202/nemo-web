@@ -1,5 +1,4 @@
 "use client";
-
 import React, {
   createContext,
   useContext,
@@ -37,8 +36,10 @@ export const ReviewsProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const fetchedReviews = await getAllReviews();
-        setReviews(fetchedReviews);
+        if (user) {
+          const fetchedReviews = await getAllReviews(user.id);
+          setReviews(fetchedReviews);
+        }
       } catch (error) {
         console.error("Failed to fetch reviews:", error);
       } finally {
@@ -47,7 +48,7 @@ export const ReviewsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     fetchReviews();
-  }, []);
+  }, [user]);
 
   const handleAddReview = async (review: Omit<ReviewType, "id">) => {
     try {
