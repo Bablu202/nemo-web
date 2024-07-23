@@ -5,7 +5,7 @@ import TripForm from "@/components/TripForm";
 import { GrChapterAdd } from "react-icons/gr";
 import axios from "axios";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
-
+import { Trip } from "@/types/custom";
 const Dashboard: React.FC = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);

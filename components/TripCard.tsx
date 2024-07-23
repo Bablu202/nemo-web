@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi2";
 import { differenceInDays, parseISO } from "date-fns";
+import { Trip } from "@/types/custom";
 
 interface TripCardProps {
   trip: Trip;
