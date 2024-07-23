@@ -30,7 +30,7 @@ export type UserType = {
   email?: string;
   role?: string;
   provider?: string; // Add provider field
-  picture?: string; // Add picture field
+  picture?: string | null; // Add picture field
   created_at: string;
   mobile_number?: string;
   date_of_birth?: string;

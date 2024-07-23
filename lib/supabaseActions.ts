@@ -128,3 +128,27 @@ export const deleteReview = async (id: string): Promise<void> => {
     throw new Error(`Error deleting review: ${error.message}`);
   }
 };
+
+/////////////////////////////////////////////////////Profile PIC
+// Storage-related functions
+export const uploadProfilePicture = async (
+  file: File,
+  userId: string
+): Promise<string> => {
+  const filePath = `public/${userId}/${file.name}`;
+  const { data, error } = await supabase.storage
+    .from("profile-pics")
+    .upload(filePath, file);
+
+  if (error) throw error;
+
+  return filePath;
+};
+
+export const deleteProfilePicture = async (filePath: string): Promise<void> => {
+  const { error } = await supabase.storage
+    .from("profile-pics")
+    .remove([filePath]);
+
+  if (error) throw error;
+};

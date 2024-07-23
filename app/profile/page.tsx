@@ -1,18 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import SignOutButton from "@/components/actionComponents/SignOut";
-import { useUserSession } from "@/context/SessionContext";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import SignOutButton from "@/components/actionComponents/SignOut";
 import UserDetailsForm from "@/components/UserDetailsForm";
+import { useUserSession } from "@/context/SessionContext";
 import { UserType } from "@/types/custom";
 import { format, differenceInYears } from "date-fns";
+import {
+  uploadProfilePicture,
+  deleteProfilePicture,
+  addUserDetails,
+} from "@/lib/supabaseActions";
+import ProfilePic from "@/components/userComponents/ProfilePic";
 
-const ProfilePage = () => {
-  const { user, loading, addUserDetails } = useUserSession();
+const ProfilePage: React.FC = () => {
+  const { user, loading } = useUserSession();
   const router = useRouter();
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState<boolean>(false);
+
+  // Ref for file input
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -31,12 +41,39 @@ const ProfilePage = () => {
   const handleUpdateUserDetails = async (updatedUser: Partial<UserType>) => {
     try {
       if (user) {
-        console.log("Updating user with:", { ...user, ...updatedUser });
         await addUserDetails(user.id, updatedUser);
         setIsEditing(false);
       }
     } catch (error) {
       console.error("Failed to update user", error);
+    }
+  };
+
+  const handleProfilePictureUpload = async () => {
+    if (!selectedFile || !user) return;
+
+    setUploading(true);
+    try {
+      const filePath = await uploadProfilePicture(selectedFile, user.id);
+      const pictureUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile-pics/${filePath}`;
+
+      await addUserDetails(user.id, { picture: pictureUrl });
+    } catch (error) {
+      console.error("Failed to upload profile picture", error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleProfilePictureDelete = async () => {
+    if (!user?.picture) return;
+
+    const filePath = user.picture.split("profile-pics/")[1];
+    try {
+      await deleteProfilePicture(filePath);
+      await addUserDetails(user.id, { picture: null });
+    } catch (error) {
+      console.error("Failed to delete profile picture", error);
     }
   };
 
@@ -54,17 +91,29 @@ const ProfilePage = () => {
       <div className="max-w-md w-full mt-8 bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="px-6 py-4 flex items-center">
           <div className="">
-            <div className="font-bold text-2xl mb-2">Profile Information</div>
-            {user.picture && (
-              <Image
-                src={user.picture}
-                alt="Profile Picture"
-                width={80}
-                height={80}
-                className="rounded-full mb-4"
-                // Make sure you include a placeholder or fallback option
-                loader={({ src }) => src}
-              />
+            <ProfilePic
+              src={user.picture ?? undefined}
+              onUpload={() => fileInputRef.current?.click()}
+              onDelete={handleProfilePictureDelete}
+              uploading={uploading}
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                setSelectedFile(e.target.files ? e.target.files[0] : null)
+              }
+              className="hidden"
+              ref={fileInputRef}
+            />
+            {selectedFile && (
+              <button
+                onClick={handleProfilePictureUpload}
+                disabled={uploading}
+                className="ml-2 bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              >
+                {uploading ? "Uploading..." : "Upload"}
+              </button>
             )}
             {user.name && (
               <p className="mt-4 text-lg font-medium text-gray-700">
