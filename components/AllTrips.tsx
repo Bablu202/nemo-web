@@ -187,7 +187,7 @@ function AllTrips() {
       <div className="w-full pt-2">
         <h1
           className="h1 px-4
-      bg-gradient-to-r from-[#24386E]/80 via-[#24386E]/65  to-[#24386E]/95 text-transparent bg-clip-text"
+      bg-gradient-to-r from-color-purple via-color-yellow to-color-green text-transparent bg-clip-text"
         >
           Discover experiences, not just destinations.
         </h1>
