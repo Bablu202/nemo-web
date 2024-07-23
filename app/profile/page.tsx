@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import SignOutButton from "@/components/actionComponents/SignOut";
 import { useUserSession } from "@/context/SessionContext";
@@ -28,9 +29,9 @@ const ProfilePage = () => {
   const handleUpdateUserDetails = async (updatedUser: Partial<UserType>) => {
     try {
       if (user) {
+        console.log("Updating user with:", { ...user, ...updatedUser });
         await addUserDetails(user.id, updatedUser);
-        console.log("User details updated successfully:", updatedUser);
-        setIsEditing(false); // Close the form after updating
+        setIsEditing(false);
       }
     } catch (error) {
       console.error("Failed to update user", error);
@@ -76,8 +77,14 @@ const ProfilePage = () => {
       </div>
 
       {isEditing && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-md">
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+          onClick={() => setIsEditing(false)}
+        >
+          <div
+            className="bg-white p-6 rounded-lg shadow-md"
+            onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
+          >
             <UserDetailsForm
               initialValues={user}
               onUpdate={handleUpdateUserDetails}
