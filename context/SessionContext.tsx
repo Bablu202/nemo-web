@@ -1,4 +1,3 @@
-// context/SessionContext.tsx
 "use client";
 
 import React, {
@@ -11,7 +10,7 @@ import React, {
 import {
   logout,
   updateUser,
-  editUser,
+  addUserDetails,
   getUserSession,
 } from "@/lib/supabaseActions";
 import { UserType } from "@/types/custom";
@@ -21,7 +20,7 @@ type UserSessionContextType = {
   loading: boolean;
   logout: () => Promise<void>;
   updateUser: (user: Partial<UserType>) => Promise<void>;
-  editUser: (
+  addUserDetails: (
     userId: string,
     updatedDetails: Partial<UserType>
   ) => Promise<void>;
@@ -31,6 +30,20 @@ const UserSessionContext = createContext<UserSessionContextType | undefined>(
   undefined
 );
 
+const sanitizeUser = (user: UserType): UserType => {
+  return {
+    id: user.id,
+    email: user.email,
+    provider: user.provider,
+    created_at: user.created_at,
+    name: user.name || "",
+    mobile_number: user.mobile_number || "",
+    date_of_birth: user.date_of_birth || "",
+    profession: user.profession || "",
+    gender: user.gender || "",
+  };
+};
+
 export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [loading, setLoading] = useState(true);
@@ -39,7 +52,11 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
     const fetchUserSession = async () => {
       try {
         const sessionData = await getUserSession();
-        setUser(sessionData?.user ? { ...sessionData.user } : null);
+        if (sessionData?.user) {
+          setUser(sanitizeUser(sessionData.user));
+        } else {
+          setUser(null);
+        }
       } catch (error) {
         console.error("Failed to fetch user session:", error);
       } finally {
@@ -66,29 +83,23 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
         const newUser: UserType = {
           ...user,
           ...updatedUser,
-          id: user.id,
-          email: user.email,
         };
-        if (!newUser.id || !newUser.email) {
-          throw new Error("User ID and email are required to update user.");
-        }
-
         await updateUser(newUser);
-        setUser(newUser);
+        setUser(sanitizeUser(newUser));
       }
     } catch (error) {
       console.error("Failed to update user", error);
     }
   };
 
-  const handleEditUser = async (
+  const handleAddUserDetails = async (
     userId: string,
     updatedDetails: Partial<UserType>
   ) => {
     try {
-      await editUser(userId, updatedDetails);
+      await addUserDetails(userId, updatedDetails);
       if (user) {
-        setUser({ ...user, ...updatedDetails });
+        setUser(sanitizeUser({ ...user, ...updatedDetails }));
       }
     } catch (error) {
       console.error("Failed to edit user details", error);
@@ -102,7 +113,7 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
         loading,
         logout: handleLogout,
         updateUser: handleUpdateUser,
-        editUser: handleEditUser,
+        addUserDetails: handleAddUserDetails,
       }}
     >
       {children}

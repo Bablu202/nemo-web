@@ -1,13 +1,10 @@
-import { useState } from "react";
+"use client";
+
+import React, { useState } from "react";
 import { UserType } from "@/types/custom";
+
 type UserDetailsFormProps = {
-  initialValues: {
-    name: string;
-    mobile_number: string;
-    date_of_birth: string;
-    profession: string;
-    gender: string;
-  };
+  initialValues: UserType;
   onUpdate: (updatedUser: Partial<UserType>) => void;
   onCancel: () => void;
 };
@@ -25,6 +22,7 @@ const UserDetailsForm = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Send plain object to the onUpdate handler
     onUpdate({
       name,
       mobile_number: mobileNumber,
@@ -42,6 +40,7 @@ const UserDetailsForm = ({
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          placeholder="Enter your name"
         />
       </div>
       <div>
@@ -50,6 +49,7 @@ const UserDetailsForm = ({
           type="text"
           value={mobileNumber}
           onChange={(e) => setMobileNumber(e.target.value)}
+          placeholder="Enter your mobile number"
         />
       </div>
       <div>
@@ -66,6 +66,7 @@ const UserDetailsForm = ({
           type="text"
           value={profession}
           onChange={(e) => setProfession(e.target.value)}
+          placeholder="Enter your profession"
         />
       </div>
       <div>
@@ -73,13 +74,13 @@ const UserDetailsForm = ({
         <select value={gender} onChange={(e) => setGender(e.target.value)}>
           <option value="male">Male</option>
           <option value="female">Female</option>
-          <option value="not_mentioned"> Want to Mention</option>
+          <option value="not_mentioned">Not Mentioned</option>
         </select>
       </div>
       <div className="flex justify-end space-x-4 mt-4">
         <button
           type="submit"
-          className="bg-custom-pri text-white px-4 py-2 rounded shadow-md"
+          className="bg-blue-500 text-white px-4 py-2 rounded shadow-md"
         >
           Update
         </button>

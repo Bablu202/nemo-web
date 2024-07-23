@@ -26,12 +26,12 @@ interface Trip {
 // }
 export type UserType = {
   id: string;
+  name?: string;
   email?: string;
   role?: string;
   provider?: string; // Add provider field
   picture?: string; // Add picture field
   created_at: string;
-  name?: string;
   mobile_number?: string;
   date_of_birth?: string;
   profession?: string;

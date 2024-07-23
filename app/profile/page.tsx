@@ -1,6 +1,4 @@
-// app/profile.tsx
 "use client";
-
 import { useState, useEffect } from "react";
 import SignOutButton from "@/components/actionComponents/SignOut";
 import { useUserSession } from "@/context/SessionContext";
@@ -9,7 +7,7 @@ import UserDetailsForm from "@/components/UserDetailsForm";
 import { UserType } from "@/types/custom";
 
 const ProfilePage = () => {
-  const { user, loading, updateUser, editUser } = useUserSession();
+  const { user, loading, updateUser } = useUserSession();
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -30,22 +28,13 @@ const ProfilePage = () => {
   const handleUpdateUser = async (updatedUser: Partial<UserType>) => {
     try {
       if (user) {
+        console.log("Updating user with:", { ...user, ...updatedUser });
+
         await updateUser({ ...user, ...updatedUser });
         setIsEditing(false);
       }
     } catch (error) {
       console.error("Failed to update user", error);
-    }
-  };
-
-  const handleEditUser = async (updatedDetails: Partial<UserType>) => {
-    try {
-      if (user) {
-        await editUser(user.id, updatedDetails);
-        setIsEditing(false);
-      }
-    } catch (error) {
-      console.error("Failed to edit user details", error);
     }
   };
 
@@ -88,18 +77,11 @@ const ProfilePage = () => {
       </div>
 
       {isEditing && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-white p-8 rounded shadow-lg w-96">
-            <h2 className="text-xl mb-4">Edit User Details</h2>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-md">
             <UserDetailsForm
-              initialValues={{
-                name: user.name || "",
-                mobile_number: user.mobile_number || "",
-                date_of_birth: user.date_of_birth || "",
-                profession: user.profession || "",
-                gender: user.gender || "",
-              }}
-              onUpdate={handleEditUser}
+              initialValues={user}
+              onUpdate={handleUpdateUser}
               onCancel={handleCancelClick}
             />
           </div>

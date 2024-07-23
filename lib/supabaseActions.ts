@@ -1,4 +1,4 @@
-// lib/supabase/supabase.ts
+//lib/supabaseActions
 import createSupabaseServerClient from "./supabase/server";
 import supabase from "./supabaseClient";
 import { UserType } from "@/types/custom";
@@ -11,16 +11,28 @@ export const logout = async () => {
 export const getUserSession = async () => {
   const { data, error } = await supabase.auth.getSession();
   if (error) throw error;
-  return data.session;
+
+  if (data.session) {
+    const { data: userData, error: userError } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", data.session.user.id)
+      .single();
+
+    if (userError) throw userError;
+    return { ...data.session, user: userData };
+  }
+
+  return { user: null };
 };
 
-export async function updateUser(user: UserType) {
+export async function updateUser(user: Partial<UserType>) {
   try {
     const supabase = await createSupabaseServerClient();
 
     const { data, error } = await supabase
       .from("users")
-      .upsert(user, { onConflict: "id" });
+      .upsert({ ...user }, { onConflict: "id" });
 
     if (error) {
       console.error("Error updating user:", error.message);
@@ -38,33 +50,27 @@ export async function updateUser(user: UserType) {
   }
 }
 
-export async function editUser(
-  userId: string,
-  updatedDetails: Partial<UserType>
-) {
-  try {
-    const supabase = await createSupabaseServerClient();
+export const addUserDetails = async (
+  id: string,
+  updatedDetails: Partial<Omit<UserType, "id">>
+): Promise<void> => {
+  const { error } = await supabase
+    .from("users")
+    .update(updatedDetails)
+    .eq("id", id);
 
-    const { data, error } = await supabase
-      .from("users")
-      .update(updatedDetails)
-      .eq("id", userId);
-
-    if (error) {
-      console.error("Error editing user details:", error.message);
-      throw error;
-    }
-
-    console.log("User details edited successfully:", data);
-    return data;
-  } catch (error) {
-    console.error(
-      "Unexpected error during user detail editing:",
-      (error as Error).message
-    );
-    throw error;
+  if (error) {
+    throw new Error(`Error updating user: ${error.message}`);
   }
-}
+};
+
+export const deleteUser = async (id: string): Promise<void> => {
+  const { error } = await supabase.from("users").delete().eq("id", id);
+
+  if (error) {
+    throw new Error(`Error deleting user: ${error.message}`);
+  }
+};
 
 ////////////////////////////////////REVIEW
 
