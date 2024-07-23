@@ -33,7 +33,7 @@ const TripPage = () => {
   }
 
   if (!trip) {
-    return <div className="text-center mt-20">Loading...</div>;
+    return <SkeletonTripPage />;
   }
 
   const getRandomImage = () => {
@@ -170,55 +170,55 @@ const TripPage = () => {
 };
 
 export default TripPage;
-/*
-<div className="mt-12">
-          <h2 className="text-2xl font-semibold mb-4">Plan:</h2>
-          <div className="relative">
-            <div className="absolute w-1 bg-gradient-to-b from-blue-400 to-green-400 h-full left-4 transform -translate-x-1/2"></div>
-            <div className="pl-8 space-y-6">
-              {trip.plan.map((planItem, index) => (
-                <div key={index} className="relative">
-                  <div className="bg-custom-pri/5 p-4 rounded-lg shadow-md">
-                    <p className=" text-lg font-medium">
-                      &nbsp; Day {index + 1}
-                    </p>
-                    <p>{planItem}</p>
-                  </div>
-                </div>
-              ))}
+
+// components/SkeletonTripPage.tsx
+const SkeletonTripPage = () => {
+  return (
+    <div className="container mt-20 mx-auto max-w-6xl">
+      <div className="flex flex-col-reverse lg:flex-row m-4 md:m-8 p-2 lg:p-8  bg-white/5 shadow-lg animate-pulse">
+        <div className="w-[80%] mx-auto lg:w-1/2 relative h-96 lg:h-auto p-4 rounded-lg shadow-lg bg-gray-100/20"></div>
+        <div className="w-full px-4 md:px-8 lg:w-1/2 p-2 lg:p-8">
+          <div>
+            <div className="h-10 w-3/4 bg-gray-100/20 rounded mb-6"></div>
+            <div className="h-6 bg-gray-100/20 rounded mb-4"></div>
+            <div className="h-6 bg-gray-100/20 rounded mb-4"></div>
+            <div className="h-6 bg-gray-100/20 rounded mb-4"></div>
+            <div className="h-6 bg-gray-100/20 rounded mb-4"></div>
+            <div className="flex w-full justify-around my-4">
+              <div className="h-12 w-12 bg-gray-100/20 rounded-full"></div>
+              <div className="h-12 w-12 bg-gray-100/20 rounded-full"></div>
+              <div className="h-12 w-12 bg-gray-100/20 rounded-full"></div>
             </div>
-          </div>
-        </div>
-
-        <div className="text-center mt-8">
-          <a className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300">
-            Book This Trip
-          </a>
-        </div>
-
-        <div className="mt-12 flex flex-col sm:flex-row items-center bg-gray-100 p-6 rounded-lg shadow-lg">
-          <div className="w-full sm:w-1/2">
-            <Image
-              className="rounded-lg object-cover"
-              src={getRandomImage()}
-              alt="Random Trip Image"
-              width={500}
-              height={300}
-              objectFit="cover"
-              objectPosition="center"
-              priority
-              loading="eager"
-            />
-          </div>
-          <div className="w-full sm:w-1/2 sm:pl-6 mt-4 sm:mt-0">
-            <h2 className="text-2xl font-semibold mb-2">About This Trip</h2>
-            <p>
-              This is a fantastic trip that offers an incredible experience
-              through various destinations. Join us for an unforgettable
-              adventure filled with excitement, culture, and breathtaking views.
-            </p>
+            <div className="h-8 bg-gray-100/20 rounded mb-4 w-1/2 mx-auto"></div>
+            <div className="h-6 bg-gray-100/20 rounded mb-2 w-1/3 mx-auto"></div>
+            <div className="h-12 bg-gray-100/20 rounded mb-8 w-1/4 mx-auto"></div>
           </div>
         </div>
       </div>
+      <div className="relative px-4 md:px-16 lg:px-28 mt-10">
+        <div className="h-8 bg-gray-100/20 rounded w-1/2 mx-auto mb-4"></div>
+        <div className="space-y-6">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <div key={index} className="relative">
+              <div className="bg-gray-100/20 p-2 rounded-lg shadow-sm h-10"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="text-center mt-8">
+        <div className="inline-block h-12 bg-gray-100/20 rounded-lg w-1/4"></div>
+      </div>
+      <div className="container px-4 my-12 flex flex-col mx-auto sm:flex-row items-center justify-between bg-color-red/5 p-6 rounded-lg shadow-lg animate-pulse">
+        <div className="w-full sm:w-1/2 sm:pl-6 mt-4 sm:mt-0">
+          <div className="h-8 bg-gray-100/20 rounded w-3/4 mb-10"></div>
+          <div className="h-6 bg-gray-100/20 rounded mb-4"></div>
+          <div className="h-6 bg-gray-100/20 rounded mb-4"></div>
+          <div className="h-6 bg-gray-100/20 rounded mb-4"></div>
+        </div>
+        <div className="w-full sm:w-1/2 items-center">
+          <div className="h-64 bg-gray-100/20 rounded-lg mx-auto"></div>
+        </div>
+      </div>
     </div>
-*/
+  );
+};
