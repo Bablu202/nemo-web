@@ -173,6 +173,7 @@ function AllTrips() {
       value.toString().toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
+
   const showMorePosts = () => {
     setVisiblePostsCount((prevCount) => prevCount + 3);
   };
@@ -180,12 +181,13 @@ function AllTrips() {
   const showLessPosts = () => {
     setVisiblePostsCount((prevCount) => Math.max(prevCount - 3, 3));
   };
+
   return (
     <section className="max-w-6xl flex m-auto justify-between items-center mt-10 px-2">
       <div className="w-full pt-2">
         <h1
           className="h1 px-4
-        bg-gradient-to-r from-[#24386E]/80 via-[#24386E]/65  to-[#24386E]/95 text-transparent bg-clip-text"
+      bg-gradient-to-r from-[#24386E]/80 via-[#24386E]/65  to-[#24386E]/95 text-transparent bg-clip-text"
         >
           Discover experiences, not just destinations.
         </h1>
@@ -203,8 +205,8 @@ function AllTrips() {
           </div>
           <button
             className="ml-auto border rounded-full font-semibold text-lg px-2 py-2
-          bg-white hover:border-custom-pri hover:text-custom-pri hover:shadow-xl 
-          transition duration-300"
+        bg-white hover:border-custom-pri hover:text-custom-pri hover:shadow-xl 
+        transition duration-300"
             onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
           >
             <HiOutlineAdjustmentsHorizontal className="text-xl" />
@@ -214,15 +216,19 @@ function AllTrips() {
           Book with us -
         </a>
         <div className="flex flex-wrap justify-between items-center ">
-          {filteredPosts.slice(0, visiblePostsCount).map((post, idx) => (
-            <PostCard key={idx} {...post} />
-          ))}
+          {loading
+            ? Array.from({ length: 6 }).map((_, index) => (
+                <SkeletonCard key={index} />
+              ))
+            : filteredPosts
+                .slice(0, visiblePostsCount)
+                .map((post, idx) => <PostCard key={idx} {...post} />)}
         </div>
         <div className="flex ml-4 mt-4 space-x-4">
           {visiblePostsCount < posts.length && (
             <button
               className="border font-semibold text-lg px-4 py-1 text-white bg-custom-pri rounded-lg
-              hover:text-custom-pri hover:bg-white hover:shadow-xl transition duration-300"
+            hover:text-custom-pri hover:bg-white hover:shadow-xl transition duration-300"
               onClick={showMorePosts}
             >
               Show More
@@ -231,7 +237,7 @@ function AllTrips() {
           {visiblePostsCount > 6 && (
             <button
               className="border font-semibold text-lg px-4 py-1 text-white bg-custom-pri rounded-lg
-              hover:text-custom-pri hover:bg-white hover:shadow-xl transition duration-300"
+            hover:text-custom-pri hover:bg-white hover:shadow-xl transition duration-300"
               onClick={showLessPosts}
             >
               Show Less
@@ -244,3 +250,18 @@ function AllTrips() {
 }
 
 export default AllTrips;
+
+// components/SkeletonCard.tsx
+const SkeletonCard = () => {
+  return (
+    <div className="flex-none w-full sm:w-1/2 lg:w-1/3 p-4 sm:p-2 ">
+      <div className="p-4 lg:p-5 bg-white shadow-lg rounded-lg animate-pulse">
+        <div className="w-full h-64 bg-gray-100/25 rounded-lg mb-4"></div>
+        <div className="h-6 bg-gray-100/25 rounded w-3/4 mb-2"></div>
+        <div className="h-6 bg-gray-100/25 rounded w-1/2 mb-2"></div>
+        <div className="h-6 bg-gray-100/25 rounded w-full mb-2"></div>
+        <div className="h-6 bg-gray-100/25 rounded w-1/3 mb-2"></div>
+      </div>
+    </div>
+  );
+};

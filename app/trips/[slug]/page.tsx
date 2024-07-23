@@ -6,7 +6,7 @@ import Image from "next/image";
 import { MdOutlineEmojiEvents } from "react-icons/md";
 import { LiaRupeeSignSolid, LiaStreetViewSolid } from "react-icons/lia";
 import { IoRestaurantOutline } from "react-icons/io5";
-
+import { Trip } from "@/types/custom";
 const TripPage = () => {
   const { slug } = useParams(); // Get the slug from the route parameters
   const [trip, setTrip] = useState<Trip | null>(null);
