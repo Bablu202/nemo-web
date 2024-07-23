@@ -72,33 +72,6 @@ const Carousel: React.FC<CarouselProps> = ({
     }
   }, [curr, isTransitioning, totalSlides]);
 
-  useEffect(() => {
-    if (isTransitioning) {
-      const transitionEndTimeout = setTimeout(() => {
-        setIsTransitioning(false);
-        if (curr > totalSlides) {
-          setCurr(1);
-          containerRef.current!.style.transition = "none";
-          containerRef.current!.style.transform = `translateX(-${100}%)`;
-          setTimeout(() => {
-            containerRef.current!.style.transition = "transform 0.5s ease-out";
-          }, 0);
-        } else if (curr < 1) {
-          setCurr(totalSlides);
-          containerRef.current!.style.transition = "none";
-          containerRef.current!.style.transform = `translateX(-${
-            totalSlides * 100
-          }%)`;
-          setTimeout(() => {
-            containerRef.current!.style.transition = "transform 0.5s ease-out";
-          }, 0);
-        }
-      }, 500); // duration matches the CSS transition duration
-
-      return () => clearTimeout(transitionEndTimeout);
-    }
-  }, [curr, isTransitioning, totalSlides]);
-
   return (
     <div className="overflow-hidden relative" {...handlers}>
       <div

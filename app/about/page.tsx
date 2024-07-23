@@ -1,5 +1,6 @@
 import AboutNemoPage from "@/components/AboutNemoPage";
-import RatingReview from "@/components/RateReview";
+import Footer from "@/components/Footer";
+import RatingReview from "@/components/RatingReview";
 import React from "react";
 
 const About = () => {
@@ -7,6 +8,7 @@ const About = () => {
     <div>
       <AboutNemoPage />
       <RatingReview />
+      <Footer />
     </div>
   );
 };
