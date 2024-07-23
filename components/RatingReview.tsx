@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { useReviews } from "@/context/ReviewsContext";
 import { useUserSession } from "@/context/SessionContext";
 import { useRouter } from "next/navigation";
-
+import { ReviewType } from "@/types/custom";
 const RatingReview = () => {
   const [rating, setRating] = useState<number>(0);
   const [review, setReview] = useState<string>("");
   const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null); // New state for error message
+  const [error, setError] = useState<string | null>(null);
   const { reviews, addReview, editReview, deleteReview } = useReviews();
   const { user, loading: userLoading } = useUserSession();
   const router = useRouter();
@@ -31,14 +31,14 @@ const RatingReview = () => {
 
   const handleRatingChange = (value: number) => {
     setRating(value);
-    if (error) setError(null); // Clear error when rating is updated
+    if (error) setError(null);
   };
 
   const handleReviewChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setReview(event.target.value);
-    if (error) setError(null); // Clear error when review text is updated
+    if (error) setError(null);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -49,11 +49,14 @@ const RatingReview = () => {
     }
     try {
       if (user) {
-        const reviewData = {
+        // Ensure user_name and user_email are not undefined
+        const reviewData: Omit<ReviewType, "id"> = {
           rating,
           review_text: review,
           user_id: user.id,
-          created_at: new Date().toISOString(), // Optional: only if needed
+          user_name: user.name || "", // Provide default value if user.name is undefined
+          user_email: user.email || "", // Provide default value if user.email is undefined
+          created_at: new Date().toISOString(),
         };
 
         if (editingReviewId) {
@@ -166,6 +169,61 @@ const RatingReview = () => {
           </button>
         )}
       </form>
+
+      <div className="mt-8">
+        <h3 className="text-xl font-semibold mb-4">All Reviews:</h3>
+        {reviews.length > 0 ? (
+          <ul>
+            {reviews.map((review) => (
+              <li
+                key={review.id}
+                className="border p-4 mb-4 rounded-lg bg-white shadow-sm"
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <div>
+                    <span className="text-lg font-semibold mr-4">
+                      {review.user_name}
+                    </span>
+                    <span className="text-gray-600 text-sm">
+                      ({review.user_email})
+                    </span>
+                  </div>
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, index) => (
+                      <span
+                        key={index}
+                        className={`text-sm ${
+                          index + 1 <= review.rating
+                            ? "text-yellow-400"
+                            : "text-gray-300"
+                        }`}
+                      >
+                        &#9733;
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <p className="mb-2">{review.review_text}</p>
+                <p className="text-gray-600 text-sm">
+                  {new Date(review.created_at).toLocaleString()}
+                </p>
+                {user?.id === review.user_id && (
+                  <div className="mt-4 flex space-x-4">
+                    <button
+                      onClick={handleDelete}
+                      className="bg-red-500 text-white py-1 px-4 rounded-md hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No reviews yet.</p>
+        )}
+      </div>
     </section>
   );
 };

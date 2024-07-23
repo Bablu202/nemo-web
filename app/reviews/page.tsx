@@ -38,36 +38,6 @@ const ReviewsPage = () => {
   return (
     <section className="flex flex-col items-center mt-12">
       <RatingReview />
-      <div className="max-w-md w-full mt-8 bg-white shadow-md rounded-lg overflow-hidden">
-        <div className="px-6 py-4">
-          <h1 className="font-bold text-xl mb-4">All Reviews</h1>
-          {reviews.length > 0 ? (
-            reviews.map((review) => (
-              <div key={review.id} className="mb-4">
-                <div className="font-bold">
-                  {review.rating} Star{review.rating > 1 && "s"}
-                </div>
-                <p>{review.review_text}</p>
-                <p className="text-gray-600 text-sm">
-                  {new Date(review.created_at).toLocaleString()}
-                </p>
-                {review.user_id === user.id && (
-                  <div className="mt-2">
-                    <button
-                      onClick={() => handleDelete(review.id)}
-                      className="bg-red-500 text-white py-1 px-2 rounded-md hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))
-          ) : (
-            <p>No reviews yet.</p>
-          )}
-        </div>
-      </div>
     </section>
   );
 };

@@ -47,13 +47,14 @@ type UpdateUserType = {
   gender?: string;
 };
 
-// types/custom.ts// types/custom.ts
-export interface ReviewType {
+export type ReviewType = {
   id: string;
+  user_id: string;
+  user_email: string;
+  user_name: string;
   rating: number;
   review_text: string;
-  user_id: string;
-  created_at: string; // Optional if not needed for creation
-}
+  created_at: string;
+};
 
-export type ReviewInputType = Omit<ReviewType, "id" | "created_at">;
+//export type ReviewInputType = Omit<ReviewType, "id" | "created_at">;

@@ -74,14 +74,25 @@ const TABLE_NAME = "reviews";
 export const getAllReviews = async (): Promise<ReviewType[]> => {
   const { data, error } = await supabase
     .from(TABLE_NAME)
-    .select("*, users(email)")
+    .select(
+      `
+      *,
+      user:users(id, email, name)
+    `
+    )
     .order("created_at", { ascending: false });
 
   if (error) {
     throw new Error(`Error fetching reviews: ${error.message}`);
   }
 
-  return data as ReviewType[];
+  // Map the response to match the expected ReviewType format
+  return data.map((review: any) => ({
+    ...review,
+    user_id: review.user.id,
+    user_email: review.user.email,
+    user_name: review.user.name,
+  }));
 };
 
 export const addReview = async (
