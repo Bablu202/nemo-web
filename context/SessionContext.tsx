@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import {
   logout,
-  updateUser,
+  addNewUser,
   addUserDetails,
   getUserSession,
 } from "@/lib/supabaseActions";
@@ -19,7 +19,7 @@ type UserSessionContextType = {
   user: UserType | null;
   loading: boolean;
   logout: () => Promise<void>;
-  updateUser: (user: Partial<UserType>) => Promise<void>;
+  addNewUser: (user: Partial<UserType>) => Promise<void>;
   addUserDetails: (
     userId: string,
     updatedDetails: Partial<UserType>
@@ -77,18 +77,18 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const handleUpdateUser = async (updatedUser: Partial<UserType>) => {
+  const handleAddNewUser = async (updatedUser: Partial<UserType>) => {
     try {
       if (user) {
         const newUser: UserType = {
           ...user,
           ...updatedUser,
         };
-        await updateUser(newUser);
+        await addNewUser(newUser);
         setUser(sanitizeUser(newUser));
       }
     } catch (error) {
-      console.error("Failed to update user", error);
+      console.error("Failed to add new user", error);
     }
   };
 
@@ -102,7 +102,7 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
         setUser(sanitizeUser({ ...user, ...updatedDetails }));
       }
     } catch (error) {
-      console.error("Failed to edit user details", error);
+      console.error("Failed to add user details", error);
     }
   };
 
@@ -112,7 +112,7 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
         user,
         loading,
         logout: handleLogout,
-        updateUser: handleUpdateUser,
+        addNewUser: handleAddNewUser,
         addUserDetails: handleAddUserDetails,
       }}
     >

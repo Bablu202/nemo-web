@@ -7,7 +7,7 @@ import UserDetailsForm from "@/components/UserDetailsForm";
 import { UserType } from "@/types/custom";
 
 const ProfilePage = () => {
-  const { user, loading, updateUser } = useUserSession();
+  const { user, loading, addUserDetails } = useUserSession();
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -25,13 +25,12 @@ const ProfilePage = () => {
     setIsEditing(false);
   };
 
-  const handleUpdateUser = async (updatedUser: Partial<UserType>) => {
+  const handleUpdateUserDetails = async (updatedUser: Partial<UserType>) => {
     try {
       if (user) {
-        console.log("Updating user with:", { ...user, ...updatedUser });
-
-        await updateUser({ ...user, ...updatedUser });
-        setIsEditing(false);
+        await addUserDetails(user.id, updatedUser);
+        console.log("User details updated successfully:", updatedUser);
+        setIsEditing(false); // Close the form after updating
       }
     } catch (error) {
       console.error("Failed to update user", error);
@@ -81,7 +80,7 @@ const ProfilePage = () => {
           <div className="bg-white p-6 rounded-lg shadow-md">
             <UserDetailsForm
               initialValues={user}
-              onUpdate={handleUpdateUser}
+              onUpdate={handleUpdateUserDetails}
               onCancel={handleCancelClick}
             />
           </div>

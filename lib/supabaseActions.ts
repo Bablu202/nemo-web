@@ -26,7 +26,7 @@ export const getUserSession = async () => {
   return { user: null };
 };
 
-export async function updateUser(user: Partial<UserType>) {
+export async function addNewUser(user: Partial<UserType>) {
   try {
     const supabase = await createSupabaseServerClient();
 
@@ -35,15 +35,15 @@ export async function updateUser(user: Partial<UserType>) {
       .upsert({ ...user }, { onConflict: "id" });
 
     if (error) {
-      console.error("Error updating user:", error.message);
+      console.error("Error adding new user:", error.message);
       throw error;
     }
 
-    console.log("User updated successfully:", data);
+    console.log("New user added successfully:", data);
     return data;
   } catch (error) {
     console.error(
-      "Unexpected error during user update:",
+      "Unexpected error during adding new user:",
       (error as Error).message
     );
     throw error;

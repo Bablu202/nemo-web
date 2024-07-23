@@ -22,7 +22,6 @@ const UserDetailsForm = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Send plain object to the onUpdate handler
     onUpdate({
       name,
       mobile_number: mobileNumber,
