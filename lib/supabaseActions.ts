@@ -131,14 +131,19 @@ export const deleteReview = async (id: string): Promise<void> => {
 
 /////////////////////////////////////////////////////Profile PIC
 // Storage-related functions
+// lib/supabaseActions.ts
+
 export const uploadProfilePicture = async (
   file: File,
   userId: string
 ): Promise<string> => {
-  const filePath = `public/${userId}/${file.name}`;
+  const filePath = `${userId}/${file.name}`;
   const { data, error } = await supabase.storage
     .from("profile-pics")
-    .upload(filePath, file);
+    .upload(filePath, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
 
   if (error) throw error;
 

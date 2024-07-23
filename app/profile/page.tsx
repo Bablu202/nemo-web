@@ -1,3 +1,4 @@
+// pages/profile.tsx
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -62,6 +63,7 @@ const ProfilePage: React.FC = () => {
       console.error("Failed to upload profile picture", error);
     } finally {
       setUploading(false);
+      setSelectedFile(null); // Clear selected file after upload
     }
   };
 
