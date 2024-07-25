@@ -24,6 +24,7 @@ type UserSessionContextType = {
     userId: string,
     updatedDetails: Partial<UserType>
   ) => Promise<void>;
+  setUser: (user: UserType | null) => void; // Add setUser to context type
 };
 
 const UserSessionContext = createContext<UserSessionContextType | undefined>(
@@ -41,6 +42,7 @@ const sanitizeUser = (user: UserType): UserType => {
     date_of_birth: user.date_of_birth || "",
     profession: user.profession || "",
     gender: user.gender || "",
+    picture: user.picture || "", // Add picture field
   };
 };
 
@@ -114,6 +116,7 @@ export const UserSessionProvider = ({ children }: { children: ReactNode }) => {
         logout: handleLogout,
         addNewUser: handleAddNewUser,
         addUserDetails: handleAddUserDetails,
+        setUser, // Provide setUser to context
       }}
     >
       {children}

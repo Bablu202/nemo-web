@@ -1,4 +1,3 @@
-// pages/profile.tsx
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -16,7 +15,7 @@ import {
 import ProfilePic from "@/components/userComponents/ProfilePic";
 
 const ProfilePage: React.FC = () => {
-  const { user, loading } = useUserSession();
+  const { user, loading, setUser } = useUserSession(); // Add setUser here
   const router = useRouter();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -43,6 +42,7 @@ const ProfilePage: React.FC = () => {
     try {
       if (user) {
         await addUserDetails(user.id, updatedUser);
+        setUser({ ...user, ...updatedUser }); // Update the local user state
         setIsEditing(false);
       }
     } catch (error) {
@@ -59,6 +59,7 @@ const ProfilePage: React.FC = () => {
       const pictureUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile-pics/${filePath}`;
 
       await addUserDetails(user.id, { picture: pictureUrl });
+      setUser({ ...user, picture: pictureUrl }); // Update the local user state
     } catch (error) {
       console.error("Failed to upload profile picture", error);
     } finally {
@@ -74,6 +75,7 @@ const ProfilePage: React.FC = () => {
     try {
       await deleteProfilePicture(filePath);
       await addUserDetails(user.id, { picture: null });
+      setUser({ ...user, picture: null }); // Update the local user state
     } catch (error) {
       console.error("Failed to delete profile picture", error);
     }

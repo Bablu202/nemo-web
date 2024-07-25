@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Trip } from "@/types/custom";
 interface TripFormProps {
   initialData?: Trip | null;
   onSubmit: (trip: Partial<Trip>) => void;
