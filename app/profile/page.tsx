@@ -15,13 +15,12 @@ import {
 import ProfilePic from "@/components/userComponents/ProfilePic";
 
 const ProfilePage: React.FC = () => {
-  const { user, loading, setUser } = useUserSession(); // Add setUser here
+  const { user, loading, setUser } = useUserSession();
   const router = useRouter();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
 
-  // Ref for file input
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -42,7 +41,7 @@ const ProfilePage: React.FC = () => {
     try {
       if (user) {
         await addUserDetails(user.id, updatedUser);
-        setUser({ ...user, ...updatedUser }); // Update the local user state
+        setUser({ ...user, ...updatedUser });
         setIsEditing(false);
       }
     } catch (error) {
@@ -55,9 +54,15 @@ const ProfilePage: React.FC = () => {
 
     setUploading(true);
     try {
-      const filePath = await uploadProfilePicture(selectedFile, user.id);
+      // Upload new profile picture, deleting the existing one if present
+      const filePath = await uploadProfilePicture(
+        selectedFile,
+        user.id,
+        user.picture ?? undefined
+      );
       const pictureUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile-pics/${filePath}`;
 
+      // Update user details with the new profile picture URL
       await addUserDetails(user.id, { picture: pictureUrl });
       setUser({ ...user, picture: pictureUrl }); // Update the local user state
     } catch (error) {

@@ -73,7 +73,7 @@ export const deleteUser = async (id: string): Promise<void> => {
 };
 
 ////////////////////////////////////REVIEW
-
+//Review related db
 import { ReviewType } from "@/types/custom";
 
 const TABLE_NAME = "reviews";
@@ -133,19 +133,7 @@ export const deleteReview = async (id: string): Promise<void> => {
 // Storage-related functions
 // lib/supabaseActions.ts
 
-export const uploadProfilePicture = async (file: File, userId: string) => {
-  const fileExt = file.name.split(".").pop();
-  const fileName = `${userId}/${Date.now()}.${fileExt}`;
-  const { error } = await supabase.storage
-    .from("profile-pics")
-    .upload(fileName, file);
-
-  if (error) {
-    throw error;
-  }
-  return fileName;
-};
-
+// Function to delete a profile picture
 export const deleteProfilePicture = async (filePath: string) => {
   const { error } = await supabase.storage
     .from("profile-pics")
@@ -154,4 +142,31 @@ export const deleteProfilePicture = async (filePath: string) => {
   if (error) {
     throw error;
   }
+};
+
+// Function to upload a profile picture
+export const uploadProfilePicture = async (
+  file: File,
+  userId: string,
+  existingPictureUrl?: string
+) => {
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${userId}/${Date.now()}.${fileExt}`;
+
+  // Delete existing picture if it exists
+  if (existingPictureUrl) {
+    const existingFilePath = existingPictureUrl.split("profile-pics/")[1];
+    await deleteProfilePicture(existingFilePath);
+  }
+
+  // Upload the new file
+  const { error: uploadError, data } = await supabase.storage
+    .from("profile-pics")
+    .upload(fileName, file);
+
+  if (uploadError) {
+    throw uploadError;
+  }
+
+  return data.path;
 };

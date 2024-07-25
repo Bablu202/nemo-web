@@ -1,3 +1,4 @@
+// ProfilePic.tsx
 import Image from "next/image";
 import { FC } from "react";
 
@@ -15,13 +16,13 @@ const ProfilePic: FC<ProfilePicProps> = ({
   uploading,
 }) => {
   return (
-    <div className="relative flex items-center justify-center bg-gray-100 rounded-full overflow-hidden w-20 h-20">
+    <div className="relative flex items-center justify-center bg-gray-100 rounded-full overflow-hidden w-24 h-24 shadow-md">
       {src ? (
         <Image
           src={src}
           alt="Profile Picture"
-          width={80}
-          height={80}
+          width={96}
+          height={96}
           className="object-cover w-full h-full"
           loader={({ src }) => src}
         />
@@ -34,7 +35,7 @@ const ProfilePic: FC<ProfilePicProps> = ({
             {src && (
               <button
                 onClick={onDelete}
-                className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
+                className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
               >
                 &times;
               </button>
@@ -42,8 +43,8 @@ const ProfilePic: FC<ProfilePicProps> = ({
             <button
               onClick={onUpload}
               className={`${
-                src ? "absolute bottom-0 left-0" : "bg-blue-500/95"
-              } text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+                src ? "absolute bottom-2 left-2" : "bg-blue-500"
+              } text-white px-3 py-1 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
             >
               {src ? "Change" : "Upload"}
             </button>
