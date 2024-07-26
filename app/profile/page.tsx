@@ -29,6 +29,12 @@ const ProfilePage: React.FC = () => {
     }
   }, [user, loading, router]);
 
+  useEffect(() => {
+    if (selectedFile) {
+      handleProfilePictureUpload();
+    }
+  }, [selectedFile]);
+
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -111,10 +117,7 @@ const ProfilePage: React.FC = () => {
           <div className="">
             <ProfilePic
               src={user.picture ?? undefined}
-              onUpload={() => {
-                fileInputRef.current?.click();
-                selectedFile && handleProfilePictureUpload();
-              }}
+              onUpload={() => fileInputRef.current?.click()}
               onDelete={handleProfilePictureDelete}
               uploading={uploading}
             />
@@ -127,15 +130,7 @@ const ProfilePage: React.FC = () => {
               className="hidden"
               ref={fileInputRef}
             />
-            {selectedFile && (
-              <button
-                onClick={handleProfilePictureUpload}
-                disabled={uploading}
-                className="ml-2 bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-              >
-                {uploading ? "Uploading..." : "Upload"}
-              </button>
-            )}
+
             {user.name && (
               <p className="mt-4 text-2xl uppercase font-medium text-custom-pri">
                 {user.name}
