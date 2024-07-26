@@ -98,11 +98,23 @@ const ProfilePage: React.FC = () => {
   return (
     <section className="flex justify-center mt-12">
       <div className="max-w-md w-full mt-8 bg-white shadow-lg rounded-lg overflow-hidden">
-        <div className="px-6 py-4 flex items-center">
+        <div className="flex p-2 justify-between">
+          <button
+            onClick={handleEditClick}
+            className="ml-4 bg-white border rounded-sm shadow-sm px-4 py-1 mb-6 text-lg lg:text-xl font-normal uppercase hover:bg-custom-pri hover:text-white"
+          >
+            Edit
+          </button>
+          <SignOutButton />
+        </div>
+        <div className="px-6 py-4 flex items-center justify-center">
           <div className="">
             <ProfilePic
               src={user.picture ?? undefined}
-              onUpload={() => fileInputRef.current?.click()}
+              onUpload={() => {
+                fileInputRef.current?.click();
+                selectedFile && handleProfilePictureUpload();
+              }}
               onDelete={handleProfilePictureDelete}
               uploading={uploading}
             />
@@ -125,8 +137,7 @@ const ProfilePage: React.FC = () => {
               </button>
             )}
             {user.name && (
-              <p className="mt-4 text-lg font-medium text-gray-700">
-                <span className="font-bold">Name: </span>
+              <p className="mt-4 text-2xl uppercase font-medium text-custom-pri">
                 {user.name}
               </p>
             )}
@@ -160,16 +171,7 @@ const ProfilePage: React.FC = () => {
               <span className="font-bold">Created At: </span>
               {format(new Date(user.created_at), "dd MMM yyyy")}
             </p>
-            <button
-              onClick={handleEditClick}
-              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Edit
-            </button>
           </div>
-        </div>
-        <div className="px-6 py-4">
-          <SignOutButton />
         </div>
       </div>
 

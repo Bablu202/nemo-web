@@ -1,6 +1,7 @@
-// ProfilePic.tsx
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
+import { HiOutlineUser } from "react-icons/hi2";
+import classNames from "classnames";
 
 interface ProfilePicProps {
   src?: string;
@@ -15,8 +16,29 @@ const ProfilePic: FC<ProfilePicProps> = ({
   onDelete,
   uploading,
 }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="relative flex items-center justify-center bg-gray-100 rounded-full overflow-hidden w-24 h-24 shadow-md">
+    <div
+      className={classNames(
+        "relative flex items-center justify-center bg-gray-100/10  rounded-lg overflow-hidden transition-all duration-300",
+        {
+          "w-full h-40 ": !isScrolled,
+          "w-16 h-16 rounded-full fixed top-4 right-4": isScrolled,
+        }
+      )}
+    >
       {src ? (
         <Image
           src={src}
@@ -24,33 +46,34 @@ const ProfilePic: FC<ProfilePicProps> = ({
           width={96}
           height={96}
           className="object-cover w-full h-full"
-          loader={({ src }) => src}
         />
       ) : (
-        <div className="text-gray-500 text-xl">No Image</div>
+        <HiOutlineUser className="text-gray-500 text-9xl" />
       )}
       <div className="absolute inset-0 flex items-center justify-center">
         {!uploading && (
           <>
-            {src && (
+            {src && !isScrolled && (
               <button
                 onClick={onDelete}
-                className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                className="absolute bottom-2 right-2 bg-custom-pri/80 text-white px-3 py-1 rounded-md shadow-md hover:bg-custom-pri focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-pri"
               >
-                &times;
+                clear
               </button>
             )}
-            <button
-              onClick={onUpload}
-              className={`${
-                src ? "absolute bottom-2 left-2" : "bg-blue-500"
-              } text-white px-3 py-1 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
-            >
-              {src ? "Change" : "Upload"}
-            </button>
+            {!isScrolled && (
+              <button
+                onClick={onUpload}
+                className="absolute bottom-2 left-2 bg-custom-pri/80 text-white px-3 py-1 rounded-md shadow-md hover:bg-custom-pri focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-pri"
+              >
+                {src ? "Change" : "Upload"}
+              </button>
+            )}
           </>
         )}
-        {uploading && <div className="text-blue-500 text-xl">Uploading...</div>}
+        {uploading && (
+          <div className="text-custom-pri text-xl">Uploading...</div>
+        )}
       </div>
     </div>
   );
