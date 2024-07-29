@@ -6,8 +6,8 @@ import React from "react";
 const About = () => {
   return (
     <div>
-      <AboutNemoPage />
       <RatingReview />
+      <AboutNemoPage />
       <Footer />
     </div>
   );

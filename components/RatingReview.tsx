@@ -13,6 +13,9 @@ const RatingReview = () => {
   const [review, setReview] = useState<string>("");
   const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [visibleReviews, setVisibleReviews] = useState<number>(2); // Initially show 2 reviews
+  const [showMore, setShowMore] = useState<boolean>(true); // State to track if more reviews are available
+
   const { reviews, addReview, editReview, deleteReview } = useReviews();
   const { user, loading: userLoading } = useUserSession();
   const router = useRouter();
@@ -31,6 +34,15 @@ const RatingReview = () => {
       }
     }
   }, [reviews, user]);
+
+  useEffect(() => {
+    // Check if more reviews are available to show
+    if (reviews.length <= visibleReviews) {
+      setShowMore(false);
+    } else {
+      setShowMore(true);
+    }
+  }, [visibleReviews, reviews]);
 
   const handleRatingChange = (value: number) => {
     setRating(value);
@@ -92,19 +104,30 @@ const RatingReview = () => {
     }
   };
 
+  const handleShowMore = () => {
+    setVisibleReviews((prev) => prev + 10);
+  };
+
+  const handleShowLess = () => {
+    setVisibleReviews(2); // Reset to show initial reviews
+  };
+
   if (userLoading) {
     return <p>Loading...</p>;
   }
 
   if (!user) {
     return (
-      <section className="px-4 py-8 max-w-6xl m-auto text-center">
-        <h2 className="text-2xl font-bold mb-4">
+      <section className="px-4 py-8 max-w-6xl m-auto text-center mt-8">
+        <h2
+          className="text-2xl font-bold mb-4 bg-gradient-to-r
+         from-color-purple via-color-yellow to-color-green text-transparent bg-clip-text"
+        >
           Rate and Review your experience..
         </h2>
         <p className="mb-4">
           You need to{" "}
-          <a href="/users" className="text-blue-500 underline">
+          <a href="/user" className="text-custom-pri p-0.5 underline">
             login
           </a>{" "}
           to submit or manage your review.
@@ -114,8 +137,11 @@ const RatingReview = () => {
   }
 
   return (
-    <section id="review" className="px-4 py-8 max-w-6xl m-auto">
-      <h2 className="text-2xl font-bold mb-4">
+    <section id="review" className="px-4 py-8 max-w-6xl m-auto mt-8">
+      <h2
+        className="text-2xl font-bold mb-4 bg-gradient-to-r
+         from-color-purple via-color-yellow to-color-green text-transparent bg-clip-text"
+      >
         Rate and Review your experience..
       </h2>
       <form
@@ -158,7 +184,7 @@ const RatingReview = () => {
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+          className=" text-lg bg-white border border-custom-pri text-custom-pri  py-2 px-4 rounded-md hover:bg-custom-pri hover:text-white"
         >
           {editingReviewId ? "Update" : "Submit"}
         </button>
@@ -179,7 +205,7 @@ const RatingReview = () => {
           <p>No reviews yet.</p>
         ) : (
           <ul>
-            {reviews.map((review) => (
+            {reviews.slice(0, visibleReviews).map((review) => (
               <li key={review.id} className="border-b py-4">
                 <div className="flex items-center mb-2">
                   {review.picture ? (
@@ -189,14 +215,14 @@ const RatingReview = () => {
                       width={64}
                       height={64}
                       className="flex items-center justify-center border rounded-full p-0.5 
-                        h-12 w-12 bg-custom-pri"
+                        h-16 w-16 bg-gray-200"
                     />
                   ) : (
                     <div
                       className="flex items-center justify-center border rounded-full 
-                    h-12 w-12 p-0.5 bg-custom-pri"
+                        h-16 w-16 p-2 bg-gray-200"
                     >
-                      <HiOutlineUser className="text-3xl text-white" />
+                      <HiOutlineUser className="text-3xl text-gray-600" />
                     </div>
                   )}
                   <span className="font-semibold ml-4">{review.user_name}</span>{" "}
@@ -223,6 +249,23 @@ const RatingReview = () => {
             ))}
           </ul>
         )}
+        <div className="mt-4 flex justify-center">
+          {visibleReviews < reviews.length && showMore ? (
+            <button
+              onClick={handleShowMore}
+              className="bg-white border border-custom-pri text-custom-pri  py-2 px-4 rounded-md hover:bg-custom-pri hover:text-white"
+            >
+              Show More
+            </button>
+          ) : visibleReviews > 2 ? (
+            <button
+              onClick={handleShowLess}
+              className="bg-white border border-custom-pri text-custom-pri  py-2 px-4 rounded-md hover:bg-custom-pri hover:text-white"
+            >
+              Show Less
+            </button>
+          ) : null}
+        </div>
       </div>
     </section>
   );
