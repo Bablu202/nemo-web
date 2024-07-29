@@ -76,18 +76,18 @@ const TripForm: React.FC<TripFormProps> = ({
   return (
     <div
       onClick={handleBackgroundClick}
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-1.5 lg:p-0"
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-1.5 lg:p-0 "
     >
       <div
-        className="bg-white p-4 lg:p-6 rounded shadow-md w-full max-w-md"
-        style={{ maxHeight: "80%", display: "flex", flexDirection: "column" }}
+        className=" bg-white p-4 lg:p-6 rounded shadow-md w-full max-w-md flex flex-col  "
+        style={{ maxHeight: "80vh" }}
       >
         <h2 className="text-xl text-custom-pri font-bold mb-2 lg:mb-4">
           {initialData ? "Edit Trip" : "Add New Trip"}
         </h2>
-        <div className="overflow-y-auto flex-grow bg-custom-white">
-          <form onSubmit={handleSubmit}>
-            <label className="block mb-2 text-lg font-semibold ">
+        <div className="flex-grow overflow-y-auto">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <label className="block text-lg font-semibold ">
               Title:
               <input
                 type="text"
@@ -99,7 +99,7 @@ const TripForm: React.FC<TripFormProps> = ({
               />
             </label>
             {formData.image?.map((imageUrl, index) => (
-              <label key={index} className="block mb-2 text-lg font-semibold ">
+              <label key={index} className="block text-lg font-semibold ">
                 Image URL {index + 1}:
                 <input
                   type="url"
@@ -117,7 +117,7 @@ const TripForm: React.FC<TripFormProps> = ({
             >
               Add More Images
             </button>
-            <label className="block mb-2 text-lg font-semibold ">
+            <label className="block text-lg font-semibold ">
               Start Date:
               <input
                 type="date"
@@ -128,7 +128,7 @@ const TripForm: React.FC<TripFormProps> = ({
                 required
               />
             </label>
-            <label className="block mb-2 text-lg font-semibold ">
+            <label className="block text-lg font-semibold ">
               Return Date:
               <input
                 type="date"
@@ -140,7 +140,7 @@ const TripForm: React.FC<TripFormProps> = ({
               />
             </label>
             {formData.plan?.map((planItem, index) => (
-              <label key={index} className="block mb-2 text-lg font-semibold ">
+              <label key={index} className="block text-lg font-semibold ">
                 Day {index + 1}:
                 <input
                   type="text"
@@ -158,7 +158,7 @@ const TripForm: React.FC<TripFormProps> = ({
             >
               Add More Plans
             </button>
-            <label className="block mb-2 text-lg font-semibold ">
+            <label className="block text-lg font-semibold ">
               Status:
               <input
                 type="text"
@@ -169,7 +169,7 @@ const TripForm: React.FC<TripFormProps> = ({
                 required
               />
             </label>
-            <label className="block mb-2 text-lg font-semibold ">
+            <label className="block text-lg font-semibold ">
               Price:
               <input
                 type="number"
@@ -180,7 +180,7 @@ const TripForm: React.FC<TripFormProps> = ({
                 required
               />
             </label>
-            <label className="block mb-2 text-lg font-semibold ">
+            <label className="block text-lg font-semibold ">
               Seats:
               <input
                 type="number"
@@ -191,22 +191,23 @@ const TripForm: React.FC<TripFormProps> = ({
                 required
               />
             </label>
-            <div className="flex justify-end gap-4 mt-4">
-              <button
-                type="button"
-                onClick={onCancel}
-                className="bg-custom-pri text-white px-4 py-2 rounded-md"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="bg-color-green text-white px-4 py-2 rounded-md"
-              >
-                {initialData ? "Update" : "Create"}
-              </button>
-            </div>
           </form>
+        </div>
+        <div className="flex justify-end gap-4 mt-4">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="bg-custom-pri text-white px-4 py-2 rounded-md"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            form="trip-form"
+            className="bg-color-green text-white px-4 py-2 rounded-md"
+          >
+            {initialData ? "Update" : "Create"}
+          </button>
         </div>
       </div>
     </div>
