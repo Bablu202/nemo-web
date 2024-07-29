@@ -189,14 +189,14 @@ const RatingReview = () => {
                       width={64}
                       height={64}
                       className="flex items-center justify-center border rounded-full p-0.5 
-                        h-16 w-16 bg-gray-200"
+                        h-12 w-12 bg-custom-pri"
                     />
                   ) : (
                     <div
                       className="flex items-center justify-center border rounded-full 
-                    h-16 w-16 p-0.5 bg-gray-200"
+                    h-12 w-12 p-0.5 bg-custom-pri"
                     >
-                      <HiOutlineUser className="text-3xl text-gray-600" />
+                      <HiOutlineUser className="text-3xl text-white" />
                     </div>
                   )}
                   <span className="font-semibold ml-4">{review.user_name}</span>{" "}
