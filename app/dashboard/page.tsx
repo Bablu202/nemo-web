@@ -81,17 +81,34 @@ const Dashboard: React.FC = () => {
     try {
       let response;
       if (currentTrip) {
+        // Update existing trip
         response = await axios.put(`/api/trips/${currentTrip.id}`, trip);
       } else {
-        response = await axios.post("/api/trips", trip);
+        // Create new trip
+        console.log("Sending POST data:", trip); // Log the data being sent
+        response = await axios.post("/api/trips", {
+          title: trip.title,
+          start_date: trip.start_date,
+          return_date: trip.return_date,
+          price: trip.price,
+          seats: trip.seats,
+          image: trip.image || [], // Ensure optional fields are handled
+          duration: trip.duration || null,
+          status: trip.status || null,
+          plan: trip.plan || [], // Default to empty array
+          url: trip.url || null,
+        });
         const newTrip = response.data;
         setTrips((prevTrips) => [...prevTrips, newTrip]);
       }
 
       setIsModalOpen(false);
       setCurrentTrip(null);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      console.error(
+        "Form Submit Error:",
+        error.response?.data || error.message
+      );
     } finally {
       setLoading(false);
     }
