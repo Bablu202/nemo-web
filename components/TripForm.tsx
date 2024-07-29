@@ -76,137 +76,145 @@ const TripForm: React.FC<TripFormProps> = ({
   return (
     <div
       onClick={handleBackgroundClick}
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-1.5 lg:p-0"
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-2 lg:p-4"
     >
       <div
         className="bg-white p-4 lg:p-6 rounded shadow-md w-full max-w-md flex flex-col"
         style={{ maxHeight: "80vh" }}
       >
-        <h2 className="text-xl text-custom-pri font-bold mb-2 lg:mb-4">
+        <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-4 text-custom-pri">
           {initialData ? "Edit Trip" : "Add New Trip"}
         </h2>
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-4 flex-grow overflow-y-auto"
-          style={{ maxHeight: "calc(90vh - 60px)" }} // Adjust the max height to account for buttons
+          className="flex flex-col flex-grow overflow-y-auto"
+          id="trip-form"
         >
-          <label className="block text-lg font-semibold ">
-            Title:
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              className="w-full border p-1 rounded lg:p-2"
-              required
-            />
-          </label>
-          {formData.image?.map((imageUrl, index) => (
-            <label key={index} className="block text-lg font-semibold ">
-              Image URL {index + 1}:
-              <input
-                type="url"
-                value={imageUrl}
-                onChange={(e) => handleArrayChange(e, index, "image")}
-                className="w-full border p-1 rounded lg:p-2"
-                required
-              />
-            </label>
-          ))}
-          <button
-            type="button"
-            onClick={() => addArrayField("image")}
-            className="bg-custom-pri text-white px-4 py-2 rounded mb-4"
-          >
-            Add More Images
-          </button>
-          <label className="block text-lg font-semibold ">
-            Start Date:
-            <input
-              type="date"
-              name="start_date"
-              value={formData.start_date}
-              onChange={handleChange}
-              className="w-full border p-1 rounded lg:p-2"
-              required
-            />
-          </label>
-          <label className="block text-lg font-semibold ">
-            Return Date:
-            <input
-              type="date"
-              name="return_date"
-              value={formData.return_date}
-              onChange={handleChange}
-              className="w-full border p-1 rounded lg:p-2"
-              required
-            />
-          </label>
-          {formData.plan?.map((planItem, index) => (
-            <label key={index} className="block text-lg font-semibold ">
-              Day {index + 1}:
+          <div className="flex flex-col gap-2 sm:gap-4 flex-grow">
+            <label className="block text-sm sm:text-lg font-semibold mb-1">
+              Title:
               <input
                 type="text"
-                value={planItem}
-                onChange={(e) => handleArrayChange(e, index, "plan")}
-                className="w-full border p-1 rounded lg:p-2"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                className="w-full border p-1 rounded sm:p-2 text-sm sm:text-base"
                 required
               />
             </label>
-          ))}
-          <button
-            type="button"
-            onClick={() => addArrayField("plan")}
-            className="bg-custom-pri text-white px-4 py-2 rounded mb-4"
-          >
-            Add More Plans
-          </button>
-          <label className="block text-lg font-semibold ">
-            Status:
-            <input
-              type="text"
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              className="w-full border p-1 rounded lg:p-2"
-              required
-            />
-          </label>
-          <label className="block text-lg font-semibold ">
-            Price:
-            <input
-              type="number"
-              name="price"
-              value={formData.price}
-              onChange={handleChange}
-              className="w-full border p-1 rounded lg:p-2"
-              required
-            />
-          </label>
-          <label className="block text-lg font-semibold ">
-            Seats:
-            <input
-              type="number"
-              name="seats"
-              value={formData.seats}
-              onChange={handleChange}
-              className="w-full border p-1 rounded lg:p-2"
-              required
-            />
-          </label>
+            {formData.image?.map((imageUrl, index) => (
+              <label
+                key={index}
+                className="block text-sm sm:text-lg font-semibold mb-1"
+              >
+                Image URL {index + 1}:
+                <input
+                  type="url"
+                  value={imageUrl}
+                  onChange={(e) => handleArrayChange(e, index, "image")}
+                  className="w-full border p-1 rounded sm:p-2 text-sm sm:text-base"
+                  required
+                />
+              </label>
+            ))}
+            <button
+              type="button"
+              onClick={() => addArrayField("image")}
+              className="bg-custom-pri text-white px-2 sm:px-4 py-1 sm:py-2 rounded mb-2 sm:mb-4 text-sm sm:text-base"
+            >
+              Add More Images
+            </button>
+            <label className="block text-sm sm:text-lg font-semibold mb-1">
+              Start Date:
+              <input
+                type="date"
+                name="start_date"
+                value={formData.start_date}
+                onChange={handleChange}
+                className="w-full border p-1 rounded sm:p-2 text-sm sm:text-base"
+                required
+              />
+            </label>
+            <label className="block text-sm sm:text-lg font-semibold mb-1">
+              Return Date:
+              <input
+                type="date"
+                name="return_date"
+                value={formData.return_date}
+                onChange={handleChange}
+                className="w-full border p-1 rounded sm:p-2 text-sm sm:text-base"
+                required
+              />
+            </label>
+            {formData.plan?.map((planItem, index) => (
+              <label
+                key={index}
+                className="block text-sm sm:text-lg font-semibold mb-1"
+              >
+                Day {index + 1}:
+                <input
+                  type="text"
+                  value={planItem}
+                  onChange={(e) => handleArrayChange(e, index, "plan")}
+                  className="w-full border p-1 rounded sm:p-2 text-sm sm:text-base"
+                  required
+                />
+              </label>
+            ))}
+            <button
+              type="button"
+              onClick={() => addArrayField("plan")}
+              className="bg-custom-pri text-white px-2 sm:px-4 py-1 sm:py-2 rounded mb-2 sm:mb-4 text-sm sm:text-base"
+            >
+              Add More Plans
+            </button>
+            <label className="block text-sm sm:text-lg font-semibold mb-1">
+              Status:
+              <input
+                type="text"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="w-full border p-1 rounded sm:p-2 text-sm sm:text-base"
+                required
+              />
+            </label>
+            <label className="block text-sm sm:text-lg font-semibold mb-1">
+              Price:
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                className="w-full border p-1 rounded sm:p-2 text-sm sm:text-base"
+                required
+              />
+            </label>
+            <label className="block text-sm sm:text-lg font-semibold mb-1">
+              Seats:
+              <input
+                type="number"
+                name="seats"
+                value={formData.seats}
+                onChange={handleChange}
+                className="w-full border p-1 rounded sm:p-2 text-sm sm:text-base"
+                required
+              />
+            </label>
+          </div>
         </form>
-        <div className="flex justify-end gap-4 mt-4">
+        <div className="flex justify-between gap-2 sm:gap-4 mt-4">
           <button
             type="button"
             onClick={onCancel}
-            className="bg-custom-pri text-white px-4 py-2 rounded-md"
+            className="bg-custom-pri text-white px-2 sm:px-4 py-1 sm:py-2 rounded-md text-sm sm:text-base"
           >
             Cancel
           </button>
           <button
             type="submit"
             form="trip-form"
-            className="bg-color-green text-white px-4 py-2 rounded-md"
+            className="bg-color-green text-white px-2 sm:px-4 py-1 sm:py-2 rounded-md text-sm sm:text-base"
           >
             {initialData ? "Update" : "Create"}
           </button>
