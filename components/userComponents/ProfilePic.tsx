@@ -46,6 +46,7 @@ const ProfilePic: FC<ProfilePicProps> = ({
           width={96}
           height={96}
           className="object-cover w-full h-full"
+          key={src} // Ensures image re-render if the src changes
         />
       ) : (
         <HiOutlineUser className="text-gray-500 text-9xl" />

@@ -60,11 +60,13 @@ const ProfilePage: React.FC = () => {
 
     setUploading(true);
     try {
-      // Upload new profile picture, deleting the existing one if present
+      // Upload new profile picture
       const filePath = await uploadProfilePicture(selectedFile, user.id);
-      const pictureUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile-pics/${filePath}`;
 
-      // Update user details with the new profile picture URL
+      // Update the user profile with the new picture URL
+      const pictureUrl = `${
+        process.env.NEXT_PUBLIC_SUPABASE_URL
+      }/storage/v1/object/public/profile-pics/${filePath}?t=${Date.now()}`;
       await addUserDetails(user.id, { picture: pictureUrl });
       setUser({ ...user, picture: pictureUrl }); // Update the local user state
     } catch (error) {

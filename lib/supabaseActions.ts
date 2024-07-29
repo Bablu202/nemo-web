@@ -135,25 +135,20 @@ export const deleteReview = async (id: string): Promise<void> => {
 
 // Function to delete a profile picture folder
 export const deleteProfilePictureFolder = async (userId: string) => {
-  const folderPath = `${userId}`;
-
-  // List all files in the user's folder
-  const { data: files, error: listError } = await supabase.storage
+  const { data: listData, error: listError } = await supabase.storage
     .from("profile-pics")
-    .list(folderPath);
+    .list(userId);
 
   if (listError) {
     throw listError;
   }
 
-  // Collect all file paths
-  const filePaths = files.map((file) => `${folderPath}/${file.name}`);
-
+  // Extract paths and remove them
+  const filePaths = listData?.map((file) => file.name) || [];
   if (filePaths.length > 0) {
-    // Delete all files in the user's folder
     const { error: deleteError } = await supabase.storage
       .from("profile-pics")
-      .remove(filePaths);
+      .remove(filePaths.map((name) => `${userId}/${name}`));
 
     if (deleteError) {
       throw deleteError;
