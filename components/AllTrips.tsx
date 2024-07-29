@@ -183,7 +183,7 @@ function AllTrips() {
   };
 
   return (
-    <section className="max-w-6xl flex m-auto justify-between items-center mt-10 px-2">
+    <section className="max-w-6xl flex m-auto justify-between items-center mt-8 px-2">
       <div className="w-full pt-2">
         <h1
           className="h1 px-4

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Trip } from "@/types/custom";
+
 interface TripFormProps {
   initialData?: Trip | null;
   onSubmit: (trip: Partial<Trip>) => void;
@@ -137,7 +138,7 @@ const TripForm: React.FC<TripFormProps> = ({
                 className="w-full border p-1 rounded lg:p-2"
                 required
               />
-            </label>{" "}
+            </label>
             {formData.plan?.map((planItem, index) => (
               <label key={index} className="block mb-2 text-lg font-semibold ">
                 Day {index + 1}:
@@ -157,17 +158,6 @@ const TripForm: React.FC<TripFormProps> = ({
             >
               Add More Plans
             </button>
-            {/* <label className="block mb-2 text-lg font-semibold ">
-              Duration:
-              <input
-                type="text"
-                name="duration"
-                value={formData.duration}
-                onChange={handleChange}
-                className="w-full border p-1 rounded lg:p-2"
-                required
-              />
-            </label> */}
             <label className="block mb-2 text-lg font-semibold ">
               Status:
               <input
@@ -201,22 +191,22 @@ const TripForm: React.FC<TripFormProps> = ({
                 required
               />
             </label>
+            <div className="flex justify-end gap-4 mt-4">
+              <button
+                type="button"
+                onClick={onCancel}
+                className="bg-custom-pri text-white px-4 py-2 rounded-md"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="bg-color-green text-white px-4 py-2 rounded-md"
+              >
+                {initialData ? "Update" : "Create"}
+              </button>
+            </div>
           </form>
-        </div>
-        <div className="flex justify-end gap-4 mt-4">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="bg-custom-pri text-white px-4 py-2 rounded-md"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="bg-color-green text-white px-4 py-2 rounded-md"
-          >
-            {initialData ? "Update" : "Create"}
-          </button>
         </div>
       </div>
     </div>
