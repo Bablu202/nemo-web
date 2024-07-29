@@ -133,31 +133,40 @@ export const deleteReview = async (id: string): Promise<void> => {
 // Storage-related functions
 // lib/supabaseActions.ts
 
-// Function to delete a profile picture
-export const deleteProfilePicture = async (filePath: string) => {
-  const { error } = await supabase.storage
-    .from("profile-pics")
-    .remove([filePath]);
+// Function to delete a profile picture folder
+export const deleteProfilePictureFolder = async (userId: string) => {
+  const folderPath = `${userId}`;
 
-  if (error) {
-    throw error;
+  // List all files in the user's folder
+  const { data: files, error: listError } = await supabase.storage
+    .from("profile-pics")
+    .list(folderPath);
+
+  if (listError) {
+    throw listError;
+  }
+
+  // Collect all file paths
+  const filePaths = files.map((file) => `${folderPath}/${file.name}`);
+
+  if (filePaths.length > 0) {
+    // Delete all files in the user's folder
+    const { error: deleteError } = await supabase.storage
+      .from("profile-pics")
+      .remove(filePaths);
+
+    if (deleteError) {
+      throw deleteError;
+    }
   }
 };
 
-// Function to upload a profile picture
-export const uploadProfilePicture = async (
-  file: File,
-  userId: string,
-  existingPictureUrl?: string
-) => {
-  const fileExt = file.name.split(".").pop();
-  const fileName = `${userId}/${Date.now()}.${fileExt}`;
+export const uploadProfilePicture = async (file: File, userId: string) => {
+  const folderPath = `${userId}`;
+  const fileName = `${folderPath}/profile.${file.name.split(".").pop()}`;
 
-  // Delete existing picture if it exists
-  if (existingPictureUrl) {
-    const existingFilePath = existingPictureUrl.split("profile-pics/")[1];
-    await deleteProfilePicture(existingFilePath);
-  }
+  // Delete existing profile picture folder if it exists
+  await deleteProfilePictureFolder(userId);
 
   // Upload the new file
   const { error: uploadError, data } = await supabase.storage

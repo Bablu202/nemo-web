@@ -6,7 +6,7 @@ import classNames from "classnames";
 interface ProfilePicProps {
   src?: string;
   onUpload: () => void;
-  onDelete: () => void;
+  onDelete: () => Promise<void>;
   uploading?: boolean;
 }
 

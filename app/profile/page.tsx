@@ -9,7 +9,7 @@ import { UserType } from "@/types/custom";
 import { format, differenceInYears } from "date-fns";
 import {
   uploadProfilePicture,
-  deleteProfilePicture,
+  deleteProfilePictureFolder,
   addUserDetails,
 } from "@/lib/supabaseActions";
 import ProfilePic from "@/components/userComponents/ProfilePic";
@@ -61,11 +61,7 @@ const ProfilePage: React.FC = () => {
     setUploading(true);
     try {
       // Upload new profile picture, deleting the existing one if present
-      const filePath = await uploadProfilePicture(
-        selectedFile,
-        user.id,
-        user.picture ?? undefined
-      );
+      const filePath = await uploadProfilePicture(selectedFile, user.id);
       const pictureUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile-pics/${filePath}`;
 
       // Update user details with the new profile picture URL
@@ -82,9 +78,8 @@ const ProfilePage: React.FC = () => {
   const handleProfilePictureDelete = async () => {
     if (!user?.picture) return;
 
-    const filePath = user.picture.split("profile-pics/")[1];
     try {
-      await deleteProfilePicture(filePath);
+      await deleteProfilePictureFolder(user.id);
       await addUserDetails(user.id, { picture: null });
       setUser({ ...user, picture: null }); // Update the local user state
     } catch (error) {
