@@ -5,6 +5,9 @@ import { useReviews } from "@/context/ReviewsContext";
 import { useUserSession } from "@/context/SessionContext";
 import { useRouter } from "next/navigation";
 import { ReviewType } from "@/types/custom";
+import Image from "next/image";
+import { HiOutlineUser } from "react-icons/hi2";
+
 const RatingReview = () => {
   const [rating, setRating] = useState<number>(0);
   const [review, setReview] = useState<string>("");
@@ -56,6 +59,7 @@ const RatingReview = () => {
           user_name: user.name || "",
           user_email: user.email || "", // Adjust if user_email is not used
           created_at: new Date().toISOString(),
+          picture: user.picture || "", // Adjust this line based on how you handle user picture
         };
 
         if (editingReviewId) {
@@ -178,7 +182,25 @@ const RatingReview = () => {
             {reviews.map((review) => (
               <li key={review.id} className="border-b py-4">
                 <div className="flex items-center mb-2">
-                  <span className="font-semibold">{review.user_name}</span> -{" "}
+                  {review.picture ? (
+                    <Image
+                      alt="Profile Picture"
+                      src={review.picture}
+                      width={64}
+                      height={64}
+                      className="flex items-center justify-center border rounded-full p-0.5 
+                        h-16 w-16 bg-gray-200"
+                    />
+                  ) : (
+                    <div
+                      className="flex items-center justify-center border rounded-full 
+                    h-16 w-16 p-0.5 bg-gray-200"
+                    >
+                      <HiOutlineUser className="text-3xl text-gray-600" />
+                    </div>
+                  )}
+                  <span className="font-semibold ml-4">{review.user_name}</span>{" "}
+                  -{" "}
                   <span className="text-yellow-400">
                     {"★".repeat(review.rating)} {"☆".repeat(5 - review.rating)}
                   </span>

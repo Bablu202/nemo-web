@@ -55,6 +55,7 @@ export type ReviewType = {
   rating: number;
   review_text: string;
   created_at: string;
+  picture: string;
 };
 
 //export type ReviewInputType = Omit<ReviewType, "id" | "created_at">;
