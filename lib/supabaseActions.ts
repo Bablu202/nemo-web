@@ -174,3 +174,65 @@ export const uploadProfilePicture = async (file: File, userId: string) => {
 
   return data.path;
 };
+
+//////////////////////////////////////////////////
+//For Trip supabase upload and delete images
+
+const BUCKET_TRIPS = "trips-pics";
+
+export const uploadTripImages = async (files: File[], tripId: string) => {
+  const uploadedFiles: string[] = [];
+
+  for (const file of files) {
+    // Construct the file path using the tripId and file name
+    const fileName = `${tripId}/${file.name}`;
+    const { error: uploadError } = await supabase.storage
+      .from(BUCKET_TRIPS)
+      .upload(fileName, file);
+
+    if (uploadError) {
+      throw uploadError;
+    }
+
+    // Construct the public URL for the uploaded file
+    const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${BUCKET_TRIPS}/${fileName}`;
+    uploadedFiles.push(publicUrl);
+  }
+
+  return uploadedFiles;
+};
+
+export const deleteTripImagesFolder = async (tripId: string) => {
+  try {
+    // List all files in the tripId folder
+    const { data: listData, error: listError } = await supabase.storage
+      .from(BUCKET_TRIPS)
+      .list(tripId, { limit: 1000 }); // Adjust the limit if necessary
+
+    if (listError) {
+      console.error("Error listing files:", listError);
+      throw listError;
+    }
+
+    // Extract file paths
+    const filePaths = listData?.map((file) => `${tripId}/${file.name}`) || [];
+
+    if (filePaths.length > 0) {
+      // Delete all files in the folder
+      const { error: deleteError } = await supabase.storage
+        .from(BUCKET_TRIPS)
+        .remove(filePaths);
+
+      if (deleteError) {
+        console.error("Error deleting files:", deleteError);
+        throw deleteError;
+      }
+    }
+
+    console.log("Files deleted successfully from folder:", tripId);
+  } catch (error) {
+    console.error("Error deleting folder:", error);
+    throw error;
+  }
+};
+//    const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${BUCKET_TRIPS}/${fileName}`;

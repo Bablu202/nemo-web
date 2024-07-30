@@ -7,6 +7,7 @@ import { GrChapterAdd } from "react-icons/gr";
 import axios from "axios";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { Trip } from "@/types/custom";
+import { deleteTripImagesFolder } from "@/lib/supabaseActions";
 const Dashboard: React.FC = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);
@@ -60,10 +61,14 @@ const Dashboard: React.FC = () => {
     if (tripToDelete === null) return;
 
     try {
+      // Delete trip images from Supabase storage
+      await deleteTripImagesFolder(tripToDelete.toString());
+
+      // Delete trip from the database
       await axios.delete(`/api/trips/${tripToDelete}`);
       setTrips(trips.filter((trip) => trip.id !== tripToDelete));
     } catch (error) {
-      console.error(error);
+      console.error("Error deleting trip:", error);
     } finally {
       setShowDeleteConfirmation(false);
       setTripToDelete(null);
@@ -76,32 +81,36 @@ const Dashboard: React.FC = () => {
   };
 
   const handleFormSubmit = async (trip: Partial<Trip>) => {
-    setLoading(true);
+    setLoading(true); // Indicate that the form submission is in progress
 
     try {
       let response;
+
       if (currentTrip) {
         // Update existing trip
         response = await axios.put(`/api/trips/${currentTrip.id}`, trip);
+        console.log("Trip updated:", response.data); // Optional: log the response data for debugging
       } else {
         // Create new trip
-        console.log("Sending POST data:", trip); // Log the data being sent
+        console.log("Sending POST data:", trip); // Log the data being sent for debugging
         response = await axios.post("/api/trips", {
           title: trip.title,
           start_date: trip.start_date,
           return_date: trip.return_date,
           price: trip.price,
           seats: trip.seats,
-          image: trip.image || [], // Ensure optional fields are handled
+          image: trip.image || [], // Default to empty array if not provided
           duration: trip.duration || null,
           status: trip.status || null,
-          plan: trip.plan || [], // Default to empty array
+          plan: trip.plan || [], // Default to empty array if not provided
           url: trip.url || null,
         });
+
         const newTrip = response.data;
-        setTrips((prevTrips) => [...prevTrips, newTrip]);
+        setTrips((prevTrips) => [...prevTrips, newTrip]); // Update the list of trips
       }
 
+      // Close the modal and reset current trip
       setIsModalOpen(false);
       setCurrentTrip(null);
     } catch (error: any) {
@@ -109,8 +118,9 @@ const Dashboard: React.FC = () => {
         "Form Submit Error:",
         error.response?.data || error.message
       );
+      // Optionally: display a user-friendly error message
     } finally {
-      setLoading(false);
+      setLoading(false); // Ensure loading state is reset
     }
   };
 
