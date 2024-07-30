@@ -148,7 +148,7 @@ const TripForm: React.FC<TripFormProps> = ({
     >
       <div
         className="bg-white p-4 rounded-lg shadow-lg w-full max-w-md lg:max-w-2xl flex flex-col"
-        style={{ maxHeight: "75vh" }}
+        style={{ maxHeight: "90vh", overflowY: "auto" }}
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-bold text-custom-pri">
@@ -164,7 +164,7 @@ const TripForm: React.FC<TripFormProps> = ({
         </div>
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-4 flex-grow overflow-y-auto scrollbar-hide"
+          className="flex flex-col gap-4"
           id="trip-form"
         >
           <label className="text-lg font-semibold">
@@ -178,45 +178,43 @@ const TripForm: React.FC<TripFormProps> = ({
               required
             />
           </label>
-          <div className="relative">
-            <label className="text-lg font-semibold">
-              Upload Images (up to 6):
-              <input
-                id="image-upload-input"
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={handleFileChange}
-                className="hidden"
-              />
-              <button
-                type="button"
-                onClick={handleAddMoreImages}
-                className="border-2 border-gray-300 border-dashed p-2 rounded-md cursor-pointer flex items-center justify-center"
-              >
-                <span>Choose files...</span>
-              </button>
-            </label>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {imagePreviews.map((preview, index) => (
-                <div key={index} className="relative w-24 h-24">
-                  <Image
-                    width={96}
-                    height={96}
-                    src={preview}
-                    alt={`Preview ${index}`}
-                    className="w-full h-full object-cover rounded-md"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveImage(index)}
-                    className="absolute top-0 right-0 p-1 text-red-500 bg-white rounded-full"
-                  >
-                    <FaTimes />
-                  </button>
-                </div>
-              ))}
-            </div>
+          <label className="text-lg font-semibold">
+            Upload Images (up to 6):
+            <input
+              id="image-upload-input"
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            <button
+              type="button"
+              onClick={handleAddMoreImages}
+              className="border-2 border-gray-300 border-dashed p-2 rounded-md cursor-pointer flex items-center justify-center"
+            >
+              <span>Choose files...</span>
+            </button>
+          </label>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {imagePreviews.map((preview, index) => (
+              <div key={index} className="relative w-24 h-24">
+                <Image
+                  width={96}
+                  height={96}
+                  src={preview}
+                  alt={`Preview ${index}`}
+                  className="w-full h-full object-cover rounded-md"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImage(index)}
+                  className="absolute top-0 right-0 p-1 text-red-500 bg-white rounded-full"
+                >
+                  <FaTimes />
+                </button>
+              </div>
+            ))}
           </div>
           <label className="text-lg font-semibold">
             Start Date:
