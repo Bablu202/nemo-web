@@ -148,7 +148,7 @@ const TripForm: React.FC<TripFormProps> = ({
     >
       <div
         className="bg-white p-4 rounded-lg shadow-lg w-full max-w-md lg:max-w-2xl flex flex-col"
-        style={{ maxHeight: "90vh" }}
+        style={{ maxHeight: "80vh" }}
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-bold text-custom-pri">
