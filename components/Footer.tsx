@@ -2,7 +2,7 @@ import { IconType } from "react-icons/lib";
 
 const Footer = () => {
   return (
-    <footer className="bg-custom-pri p-2.5 mt-5 w-full">
+    <footer className="bg-custom-pri p-2.5 mt-5 w-full pb-20 lg:pb-0">
       <section className="max-w-6xl m-auto">
         <div className="flex flex-col text-white text-center mx-5 lg:flex lg:flex-row lg:justify-between">
           <div className="flex flex-col">
