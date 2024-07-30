@@ -135,7 +135,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="container mt-12 mx-auto p-4">
+    <div className="container mt-12 mx-auto p-4 overflow-y-auto">
       <h1 className="text-2xl font-bold mb-4">Trips Dashboard</h1>
       <div
         onClick={() => {

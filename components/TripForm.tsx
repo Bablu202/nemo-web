@@ -149,34 +149,43 @@ const TripForm: React.FC<TripFormProps> = ({
   return (
     <div
       onClick={handleBackgroundClick}
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4"
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4 py-2"
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg flex flex-col overflow-hidden"
-        style={{ maxHeight: "90vh" }}
+        className="bg-white px-2 py-3 rounded-lg shadow-lg w-full max-w-lg flex flex-col overflow-hidden"
+        style={{ maxHeight: "80vh" }}
       >
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">
-          {initialData ? "Edit Trip" : "Add New Trip"}
-        </h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold mb-4 text-custom-pri">
+            {initialData ? "Edit Trip" : "Add New Trip"}
+          </h2>
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="border border-custom-pri hover:border-color-red/80 text-custom-pri  p-2 rounded-full shadow-lg "
+          >
+            <FaTimes />
+          </button>
+        </div>
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-4 flex-grow overflow-auto"
+          className="flex flex-col gap-2 flex-grow  overflow-y-auto scrollbar-hide"
           id="trip-form"
         >
-          <div className="flex flex-col gap-4">
-            <label className="text-lg font-semibold">
+          <div className="flex flex-col gap-2">
+            <label className="text-lg lg:font-semibold">
               Title:
               <input
                 type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                className="w-full border-gray-300 border p-2 rounded-md text-lg"
+                className="w-full border-custom-sec border p-0.5 lg:p-2 rounded-md text-lg"
                 required
               />
             </label>
             <div className="relative">
-              <label className="text-lg font-semibold">
+              <label className="text-lg lg:font-semibold">
                 Upload Images (up to 6):
                 <input
                   id="image-upload-input"
@@ -189,9 +198,9 @@ const TripForm: React.FC<TripFormProps> = ({
                 <button
                   type="button"
                   onClick={handleAddMoreImages}
-                  className="border-2 border-gray-300 border-dashed p-2 rounded-md cursor-pointer"
+                  className="border-2 border-custom-sec border-dashed p-0.5 lg:p-2 rounded-md cursor-pointer"
                 >
-                  <span className="text-gray-700">Choose files...</span>
+                  <span className="p-1">Choose files...</span>
                 </button>
               </label>
               <div className="flex flex-wrap gap-2 mt-2">
@@ -215,65 +224,68 @@ const TripForm: React.FC<TripFormProps> = ({
                 ))}
               </div>
             </div>
-            <label className="text-lg font-semibold">
+            <label className="text-lg lg:font-semibold">
               Start Date:
               <input
                 type="date"
                 name="start_date"
                 value={formData.start_date}
                 onChange={handleChange}
-                className="w-full border-gray-300 border p-2 rounded-md text-lg"
+                className="w-full border-custom-sec border p-0.5 lg:p-2 rounded-md text-lg"
                 required
               />
             </label>
-            <label className="text-lg font-semibold">
+            <label className="text-lg lg:font-semibold">
               Return Date:
               <input
                 type="date"
                 name="return_date"
                 value={formData.return_date}
                 onChange={handleChange}
-                className="w-full border-gray-300 border p-2 rounded-md text-lg"
+                className="w-full border-custom-sec border p-0.5 lg:p-2 rounded-md text-lg"
                 required
               />
             </label>
             {formData.plan?.map((planItem, index) => (
-              <label key={index} className="text-lg font-semibold">
+              <label key={index} className="text-lg lg:font-semibold">
                 Day {index + 1}:
                 <input
                   type="text"
                   value={planItem}
                   onChange={(e) => handleArrayChange(e, index, "plan")}
-                  className="w-full border-gray-300 border p-2 rounded-md text-lg"
+                  className="w-full border-custom-sec border p-0.5 lg:p-2 rounded-md text-lg"
                 />
               </label>
             ))}
-            <button
-              type="button"
-              onClick={() => addArrayField("plan")}
-              className="bg-custom-pri text-white px-4 py-2 rounded-md text-lg"
-            >
-              Add More Days
-            </button>
-            <label className="text-lg font-semibold">
+            <div className="flex ml-auto">
+              <button
+                type="button"
+                onClick={() => addArrayField("plan")}
+                className="bg-white text-custom-sec border border-custom-sec hover:bg-custom-pri hover:text-white
+              px-1 py-1 lg:px-4 lg:py-2 rounded-md text-lg"
+              >
+                add each day summery
+              </button>
+            </div>
+            {/* <label className="text-lg lg:font-semibold">
               Duration (days):
               <input
                 type="number"
                 name="duration"
                 value={formData.duration}
                 onChange={handleChange}
-                className="w-full border-gray-300 border p-2 rounded-md text-lg"
+                className="w-full border-custom-sec border p-0.5 lg:p-2 rounded-md text-lg"
                 required
               />
-            </label>
-            <label className="text-lg font-semibold">
+            </label> */}
+            <label className="text-lg lg:font-semibold">
               Status:
               <input
                 type="text"
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="w-full border-gray-300 border p-2 rounded-md text-lg"
+                className="w-full border-custom-sec border p-0.5 lg:p-2 rounded-md text-lg"
                 required
               />
             </label>
@@ -284,7 +296,7 @@ const TripForm: React.FC<TripFormProps> = ({
                 name="price"
                 value={formData.price}
                 onChange={handleChange}
-                className="w-full border-gray-300 border p-2 rounded-md text-lg"
+                className="w-full border-custom-sec border p-0.5 lg:p-2 rounded-md text-lg"
                 required
               />
             </label>
@@ -295,22 +307,22 @@ const TripForm: React.FC<TripFormProps> = ({
                 name="seats"
                 value={formData.seats}
                 onChange={handleChange}
-                className="w-full border-gray-300 border p-2 rounded-md text-lg"
+                className="w-full border-custom-sec border p-0.5 lg:p-2 rounded-md text-lg"
                 required
               />
             </label>
           </div>
-          <div className="flex justify-between gap-4 mt-4">
+          <div className="flex justify-between gap-4 mt-2 lg:mt-4 px-2">
             <button
               type="button"
               onClick={handleCancel}
-              className="bg-red-500 text-white px-4 py-2 rounded-md text-lg"
+              className="bg-color-red text-white px-4 py-1 rounded-md shadow-lg text-lg"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-custom-pri text-white px-4 py-2 rounded-md text-lg"
+              className="bg-custom-pri text-white px-4 py-1 rounded-md shadow-lg text-lg"
             >
               {initialData ? "Update" : "Create"}
             </button>
