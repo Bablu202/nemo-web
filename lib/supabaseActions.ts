@@ -177,14 +177,12 @@ export const uploadProfilePicture = async (file: File, userId: string) => {
 
 //////////////////////////////////////////////////
 //For Trip supabase upload and delete images
-
 const BUCKET_TRIPS = "trips-pics";
-
 export const uploadTripImages = async (files: File[], tripId: string) => {
   const uploadedFiles = [];
 
   for (const file of files) {
-    const fileName = `${tripId}/${file.name}`; // Use tripId as folder name
+    const fileName = `${tripId}/${file.name}`;
     const { error: uploadError } = await supabase.storage
       .from(BUCKET_TRIPS)
       .upload(fileName, file);
@@ -193,31 +191,26 @@ export const uploadTripImages = async (files: File[], tripId: string) => {
       throw uploadError;
     }
 
-    // Construct the public URL for the uploaded file
     const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${BUCKET_TRIPS}/${fileName}`;
     uploadedFiles.push(publicUrl);
   }
 
   return uploadedFiles;
 };
-
 export const deleteTripImagesFolder = async (tripId: string) => {
   try {
-    // List all files in the tripId folder
     const { data: listData, error: listError } = await supabase.storage
       .from(BUCKET_TRIPS)
-      .list(tripId, { limit: 1000 }); // Adjust limit if needed
+      .list(tripId, { limit: 1000 });
 
     if (listError) {
       console.error("Error listing files:", listError);
       throw listError;
     }
 
-    // Extract file paths
     const filePaths = listData?.map((file) => `${tripId}/${file.name}`) || [];
 
     if (filePaths.length > 0) {
-      // Delete all files in the folder
       const { error: deleteError } = await supabase.storage
         .from(BUCKET_TRIPS)
         .remove(filePaths);
@@ -228,7 +221,6 @@ export const deleteTripImagesFolder = async (tripId: string) => {
       }
     }
 
-    // Optionally, check if the folder is empty
     const { data: finalListData, error: finalListError } =
       await supabase.storage.from(BUCKET_TRIPS).list(tripId);
 
@@ -247,4 +239,18 @@ export const deleteTripImagesFolder = async (tripId: string) => {
     throw error;
   }
 };
-//    const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${BUCKET_TRIPS}/${fileName}`;
+export const updateTripImages = async (
+  tripId: string,
+  newImageUrls: string[]
+) => {
+  const { data, error } = await supabase
+    .from("trips")
+    .update({ image: newImageUrls })
+    .eq("id", tripId);
+
+  if (error) {
+    throw new Error(`Error updating images: ${error.message}`);
+  }
+
+  return data;
+};

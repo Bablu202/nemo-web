@@ -1,13 +1,13 @@
-//app/dashboard/page.tsx
 "use client";
 import React, { useState, useEffect } from "react";
 import TripCard from "@/components/TripCard";
 import TripForm from "@/components/TripForm";
-import { GrChapterAdd } from "react-icons/gr";
+import { deleteTripImagesFolder } from "@/lib/supabaseActions";
 import axios from "axios";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { Trip } from "@/types/custom";
-import { deleteTripImagesFolder } from "@/lib/supabaseActions";
+import { GrChapterAdd } from "react-icons/gr";
+
 const Dashboard: React.FC = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);
@@ -15,13 +15,17 @@ const Dashboard: React.FC = () => {
   const [currentTrip, setCurrentTrip] = useState<Trip | null>(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [tripToDelete, setTripToDelete] = useState<number | null>(null);
+
   useEffect(() => {
+    // Function to handle escape key press
     const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setShowDeleteConfirmation(false);
-        setCurrentTrip(null);
-        setIsModalOpen(false);
-        enablePageScroll();
+        if (isModalOpen) {
+          handleCloseModal();
+        }
+        if (showDeleteConfirmation) {
+          cancelDelete();
+        }
       }
     };
 
@@ -30,7 +34,7 @@ const Dashboard: React.FC = () => {
     return () => {
       window.removeEventListener("keydown", handleEscKey);
     };
-  }, []);
+  }, [isModalOpen, showDeleteConfirmation]);
 
   useEffect(() => {
     const fetchTrips = async () => {
@@ -49,22 +53,20 @@ const Dashboard: React.FC = () => {
   const handleEdit = (trip: Trip) => {
     setCurrentTrip(trip);
     setIsModalOpen(true);
-    disablePageScroll();
+    disablePageScroll(); // Disable page scroll when modal is open
   };
 
   const handleDelete = (id: number) => {
     setShowDeleteConfirmation(true);
     setTripToDelete(id);
+    disablePageScroll(); // Disable page scroll when delete confirmation is open
   };
 
   const confirmDelete = async () => {
     if (tripToDelete === null) return;
 
     try {
-      // Delete trip images from Supabase storage
       await deleteTripImagesFolder(tripToDelete.toString());
-
-      // Delete trip from the database
       await axios.delete(`/api/trips/${tripToDelete}`);
       setTrips(trips.filter((trip) => trip.id !== tripToDelete));
     } catch (error) {
@@ -72,45 +74,42 @@ const Dashboard: React.FC = () => {
     } finally {
       setShowDeleteConfirmation(false);
       setTripToDelete(null);
+      enablePageScroll(); // Re-enable page scroll after delete confirmation is handled
     }
   };
 
   const cancelDelete = () => {
     setShowDeleteConfirmation(false);
     setTripToDelete(null);
+    enablePageScroll(); // Re-enable page scroll after canceling delete
   };
 
   const handleFormSubmit = async (trip: Partial<Trip>) => {
-    setLoading(true); // Indicate that the form submission is in progress
+    setLoading(true);
 
     try {
       let response;
 
       if (currentTrip) {
-        // Update existing trip
         response = await axios.put(`/api/trips/${currentTrip.id}`, trip);
-        console.log("Trip updated:", response.data); // Optional: log the response data for debugging
       } else {
-        // Create new trip
-        console.log("Sending POST data:", trip); // Log the data being sent for debugging
         response = await axios.post("/api/trips", {
           title: trip.title,
           start_date: trip.start_date,
           return_date: trip.return_date,
           price: trip.price,
           seats: trip.seats,
-          image: trip.image || [], // Default to empty array if not provided
+          image: trip.image || [],
           duration: trip.duration || null,
           status: trip.status || null,
-          plan: trip.plan || [], // Default to empty array if not provided
+          plan: trip.plan || [],
           url: trip.url || null,
         });
 
         const newTrip = response.data;
-        setTrips((prevTrips) => [...prevTrips, newTrip]); // Update the list of trips
+        setTrips((prevTrips) => [...prevTrips, newTrip]);
       }
 
-      // Close the modal and reset current trip
       setIsModalOpen(false);
       setCurrentTrip(null);
     } catch (error: any) {
@@ -118,21 +117,28 @@ const Dashboard: React.FC = () => {
         "Form Submit Error:",
         error.response?.data || error.message
       );
-      // Optionally: display a user-friendly error message
     } finally {
-      setLoading(false); // Ensure loading state is reset
+      setLoading(false);
+      enablePageScroll(); // Ensure scroll is re-enabled after form submission
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    enablePageScroll(); // Ensure scroll is re-enabled when closing modal
+  };
 
   const handleDeleteBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) setShowDeleteConfirmation(false);
+    if (e.target === e.currentTarget) {
+      cancelDelete();
+    }
   };
 
   const handleBackgroundClick = () => {
-    setIsModalOpen(false);
+    handleCloseModal();
   };
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="container mt-12 mx-auto p-4 overflow-y-auto">
@@ -144,7 +150,7 @@ const Dashboard: React.FC = () => {
         }}
         className="fixed bottom-16 right-5 w-14 h-14 flex justify-around items-center rounded-full bg-white/95 backdrop-blur-lg shadow-xl"
       >
-        <GrChapterAdd className="text-custom-pri text-2xl" />
+        <GrChapterAdd className="text-custom-pri text-2xl z-50" />
       </div>
       <button
         onClick={() => {
@@ -171,10 +177,7 @@ const Dashboard: React.FC = () => {
         <TripForm
           initialData={currentTrip}
           onSubmit={handleFormSubmit}
-          onCancel={() => {
-            setIsModalOpen(false);
-            setCurrentTrip(null);
-          }}
+          onCancel={handleCloseModal}
           onBackgroundClick={handleBackgroundClick}
         />
       )}
