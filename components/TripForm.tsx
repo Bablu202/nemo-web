@@ -148,7 +148,7 @@ const TripForm: React.FC<TripFormProps> = ({
     >
       <div
         className="bg-white p-4 rounded-lg shadow-lg w-full max-w-md lg:max-w-2xl flex flex-col"
-        style={{ maxHeight: "80vh" }}
+        style={{ maxHeight: "75vh" }}
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-bold text-custom-pri">
@@ -164,7 +164,7 @@ const TripForm: React.FC<TripFormProps> = ({
         </div>
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-4 flex-grow overflow-auto"
+          className="flex flex-col gap-4 flex-grow overflow-y-auto scrollbar-hide"
           id="trip-form"
         >
           <label className="text-lg font-semibold">
