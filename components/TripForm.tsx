@@ -1,4 +1,3 @@
-// components/TripForm.tsx
 import React, { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 import Image from "next/image";
@@ -113,18 +112,22 @@ const TripForm: React.FC<TripFormProps> = ({
     try {
       const tripId = initialData?.id.toString() || formData.title || "new-trip";
 
+      // If updating an existing trip and images are being updated, prompt for confirmation
       if (initialData) {
-        // Confirm deletion and handle image deletion and upload
         if (
           window.confirm(
             "Are you sure you want to delete existing images for this trip?"
           )
         ) {
+          // Ensure the trip ID is used for deleting images
           await deleteTripImagesFolder(tripId);
         }
       }
 
+      // Upload new images with the trip ID as the folder name
       const uploadedImagePaths = await uploadTripImages(selectedFiles, tripId);
+
+      // Submit the form data including the uploaded image paths
       onSubmit({ ...formData, image: uploadedImagePaths });
     } catch (error) {
       console.error("Error uploading images:", error);
@@ -135,6 +138,12 @@ const TripForm: React.FC<TripFormProps> = ({
     if (e.target === e.currentTarget) {
       onBackgroundClick();
     }
+  };
+
+  const handleCancel = () => {
+    setSelectedFiles([]);
+    setImagePreviews([]);
+    onCancel();
   };
 
   return (
@@ -242,7 +251,7 @@ const TripForm: React.FC<TripFormProps> = ({
             <button
               type="button"
               onClick={() => addArrayField("plan")}
-              className="bg-green-500 text-white px-4 py-2 rounded-md text-lg"
+              className="bg-custom-pri text-white px-4 py-2 rounded-md text-lg"
             >
               Add More Days
             </button>
@@ -294,14 +303,14 @@ const TripForm: React.FC<TripFormProps> = ({
           <div className="flex justify-between gap-4 mt-4">
             <button
               type="button"
-              onClick={onCancel}
+              onClick={handleCancel}
               className="bg-red-500 text-white px-4 py-2 rounded-md text-lg"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-green-500 text-white px-4 py-2 rounded-md text-lg"
+              className="bg-custom-pri text-white px-4 py-2 rounded-md text-lg"
             >
               {initialData ? "Update" : "Create"}
             </button>
