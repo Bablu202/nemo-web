@@ -261,28 +261,30 @@ const TripForm: React.FC<TripFormProps> = ({
                 ))}
               </div>
             </div>
-            <label className="text-sm sm:text-base md:text-lg font-semibold">
-              Start Date:
-              <input
-                type="date"
-                name="start_date"
-                value={formData.start_date}
-                onChange={handleChange}
-                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base md:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
-                required
-              />
-            </label>
-            <label className="text-sm sm:text-base md:text-lg font-semibold">
-              Return Date:
-              <input
-                type="date"
-                name="return_date"
-                value={formData.return_date}
-                onChange={handleChange}
-                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base md:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
-                required
-              />
-            </label>
+            <div className="flex gap-2">
+              <label className="flex-1 text-sm sm:text-base md:text-lg font-semibold">
+                Start Date:
+                <input
+                  type="date"
+                  name="start_date"
+                  value={formData.start_date}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base md:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                  required
+                />
+              </label>
+              <label className="flex-1 text-sm sm:text-base md:text-lg font-semibold">
+                Return Date:
+                <input
+                  type="date"
+                  name="return_date"
+                  value={formData.return_date}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base md:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                  required
+                />
+              </label>
+            </div>
             {formData.plan?.map((planItem, index) => (
               <label
                 key={index}
@@ -300,9 +302,9 @@ const TripForm: React.FC<TripFormProps> = ({
             <button
               type="button"
               onClick={() => addArrayField("plan")}
-              className="bg-white text-custom-sec border border-custom-sec hover:bg-custom-pri
-               hover:text-white px-2 py-1 lg:px-4 lg:py-2 rounded-lg text-sm sm:text-base md:text-lg mt-2 
-               transition-all duration-300"
+              className="bg-white text-custom-sec border border-custom-sec
+               hover:bg-custom-pri hover:text-white px-2 py-1 lg:px-4 lg:py-2 rounded-lg 
+               text-sm sm:text-base md:text-lg mt-2 transition-all duration-300"
             >
               Add Each Day Summary
             </button>
