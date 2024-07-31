@@ -179,7 +179,7 @@ const TripForm: React.FC<TripFormProps> = ({
         </div>
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-3 sm:gap-4 flex-grow overflow-y-auto custom-scrollbar"
+          className="flex flex-col gap-3 sm:gap-4 flex-grow overflow-y-auto"
           id="trip-form"
         >
           <label className="text-md sm:text-lg font-semibold">
