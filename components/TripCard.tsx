@@ -101,13 +101,13 @@ const TripCard: React.FC<TripCardProps> = ({ trip, onEdit, onDelete }) => {
         <div className="flex space-x-2 mt-auto">
           <button
             onClick={onEdit}
-            className="flex items-center justify-center bg-blue-600 text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md text-sm md:text-base font-medium transition-transform transform hover:scale-105"
+            className="flex items-center justify-center bg-custom-pri text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md text-sm md:text-base font-medium transition-transform transform hover:scale-105"
           >
             <FaEdit className="mr-1 md:mr-2" /> Edit
           </button>
           <button
             onClick={onDelete}
-            className="flex items-center justify-center bg-red-600 text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md text-sm md:text-base font-medium transition-transform transform hover:scale-105"
+            className="flex items-center justify-center bg-color-red text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md text-sm md:text-base font-medium transition-transform transform hover:scale-105"
           >
             <FaTrashAlt className="mr-1 md:mr-2" /> Delete
           </button>

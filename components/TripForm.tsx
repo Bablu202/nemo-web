@@ -158,10 +158,10 @@ const TripForm: React.FC<TripFormProps> = ({
   return (
     <div
       onClick={handleBackgroundClick}
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4 py-2 overflow-auto"
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4 py-2 "
     >
       <div
-        className="bg-white p-6 rounded-3xl shadow-2xl w-full max-w-md lg:max-w-2xl flex flex-col overflow-hidden border border-gray-300 modal-scrollbar"
+        className="bg-white p-6 rounded-3xl shadow-2xl w-full max-w-md lg:max-w-2xl flex flex-col border border-gray-300 "
         style={{ maxHeight: "80vh" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -179,7 +179,7 @@ const TripForm: React.FC<TripFormProps> = ({
         </div>
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-3 sm:gap-4 flex-grow overflow-y-auto"
+          className="flex flex-col gap-3 sm:gap-4 flex-grow  overflow-y-auto form-scrollbar"
           id="trip-form"
         >
           <label className="text-md sm:text-lg font-semibold">
