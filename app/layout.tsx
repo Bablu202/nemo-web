@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import MobileNav from "@/components/MobileNav";
 import { UserSessionProvider } from "@/context/SessionContext";
 import { ReviewsProvider } from "@/context/ReviewsContext";
+import { DashboardProvider } from "@/context/DashboardContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,13 +24,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <UserSessionProvider>
-          <ReviewsProvider>
-            <main>
-              <Header />
-              {children}
-              <MobileNav />
-            </main>
-          </ReviewsProvider>
+          <DashboardProvider>
+            <ReviewsProvider>
+              <main>
+                <Header />
+                {children}
+                <MobileNav />
+              </main>
+            </ReviewsProvider>
+          </DashboardProvider>
         </UserSessionProvider>
       </body>
     </html>
