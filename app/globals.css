@@ -108,3 +108,9 @@ body {
     @apply sm:py-8 py-8 sm:px-4 px-2;
   }
 }
+
+.scrollable-container {
+  max-height: 75vh; /* or another value depending on your layout */
+  overflow-y: auto; /* enables vertical scrolling */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+}
