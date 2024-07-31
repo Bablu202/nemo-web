@@ -95,7 +95,11 @@ const TripForm: React.FC<TripFormProps> = ({
   };
 
   const handleRemoveImage = (index: number) => {
-    setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    // Update the image URLs in formData
+    setFormData((prevData) => ({
+      ...prevData,
+      image: (prevData.image || []).filter((_, i) => i !== index),
+    }));
   };
 
   const handleAddMoreImages = () => {
@@ -113,13 +117,7 @@ const TripForm: React.FC<TripFormProps> = ({
       const tripId = initialData?.id.toString() || tripTitle;
 
       if (initialData) {
-        if (
-          window.confirm(
-            "Are you sure you want to delete existing images for this trip?"
-          )
-        ) {
-          await deleteTripImagesFolder(tripId);
-        }
+        await deleteTripImagesFolder(tripId);
       }
 
       const uploadedImagePaths = await uploadTripImages(
@@ -214,6 +212,14 @@ const TripForm: React.FC<TripFormProps> = ({
                     alt={`Image ${index}`}
                     className="w-full h-full object-cover rounded-md"
                   />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(index)}
+                    className="absolute top-0 right-0 p-1 text-red-500 bg-white rounded-full"
+                    style={{ transform: "translate(50%, -50%)" }}
+                  >
+                    <FaTimes />
+                  </button>
                 </div>
               ))}
               {imagePreviews.map((preview, index) => (
@@ -229,6 +235,7 @@ const TripForm: React.FC<TripFormProps> = ({
                     type="button"
                     onClick={() => handleRemoveImage(index)}
                     className="absolute top-0 right-0 p-1 text-red-500 bg-white rounded-full"
+                    style={{ transform: "translate(50%, -50%)" }}
                   >
                     <FaTimes />
                   </button>

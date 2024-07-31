@@ -258,34 +258,3 @@ export const updateTripImages = async (
 
   return data;
 };
-export const listTripImages = async (tripTitle: string): Promise<string[]> => {
-  try {
-    // Fetch the list of files in the specified folder
-    const { data: listData, error: listError } = await supabase.storage
-      .from(BUCKET_TRIPS)
-      .list(tripTitle, { limit: 100 }); // Increased limit to check for more files
-
-    if (listError) {
-      throw listError;
-    }
-
-    console.log("List data:", listData); // Check the output
-
-    // Filter and map URLs
-    const imageUrls = listData
-      .filter(
-        (file) => file.name.endsWith(".jpg") || file.name.endsWith(".png")
-      )
-      .map(
-        (file) =>
-          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${BUCKET_TRIPS}/${tripTitle}/${file.name}`
-      );
-
-    console.log("Image URLs:", imageUrls); // Check the output
-
-    return imageUrls;
-  } catch (error) {
-    console.error("Error listing images:", error);
-    throw error;
-  }
-};
