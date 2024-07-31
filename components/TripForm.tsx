@@ -177,161 +177,163 @@ const TripForm: React.FC<TripFormProps> = ({
             <FaTimes />
           </button>
         </div>
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-3 sm:gap-4 flex-grow  overflow-y-auto form-scrollbar"
-          id="trip-form"
-        >
-          <label className="text-md sm:text-lg font-semibold">
-            Title:
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-md sm:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
-              required
-            />
-          </label>
-          <div className="relative">
+        <div className="overflow-y-auto scrollbar-hide">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-3 sm:gap-4 flex-grow  "
+            id="trip-form"
+          >
             <label className="text-md sm:text-lg font-semibold">
-              Upload Images (up to 6):
-              <input
-                id="image-upload-input"
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={handleFileChange}
-                className="hidden"
-              />
-              <button
-                type="button"
-                onClick={handleAddMoreImages}
-                className="border-2 border-gray-300 border-dashed p-2 rounded-lg cursor-pointer flex items-center justify-center mt-2 transition-colors duration-200 hover:bg-gray-100"
-              >
-                <FaUpload className="mr-2" />
-                <span>Choose files...</span>
-              </button>
-            </label>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {formData.image?.map((imageUrl, index) => (
-                <div
-                  key={index}
-                  className="relative w-20 h-20 sm:w-24 sm:h-24 border border-gray-300 rounded-lg overflow-hidden shadow-sm"
-                >
-                  <Image
-                    width={96}
-                    height={96}
-                    src={imageUrl}
-                    alt={`Image ${index}`}
-                    className="w-full h-full object-cover"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveImage(index)}
-                    className="absolute top-1 right-1 p-1 text-red-500 bg-white rounded-full shadow-md"
-                  >
-                    <FaTimes />
-                  </button>
-                </div>
-              ))}
-              {imagePreviews.map((preview, index) => (
-                <div
-                  key={`preview-${index}`}
-                  className="relative w-20 h-20 sm:w-24 sm:h-24 border border-gray-300 rounded-lg overflow-hidden shadow-sm"
-                >
-                  <Image
-                    width={96}
-                    height={96}
-                    src={preview}
-                    alt={`Preview ${index}`}
-                    className="w-full h-full object-cover"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveImage(index)}
-                    className="absolute top-1 right-1 p-1 text-red-500 bg-white rounded-full shadow-md"
-                  >
-                    <FaTimes />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-          <label className="text-md sm:text-lg font-semibold">
-            Start Date:
-            <input
-              type="date"
-              name="start_date"
-              value={formData.start_date}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-md sm:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
-              required
-            />
-          </label>
-          <label className="text-md sm:text-lg font-semibold">
-            Return Date:
-            <input
-              type="date"
-              name="return_date"
-              value={formData.return_date}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-md sm:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
-              required
-            />
-          </label>
-          {formData.plan?.map((planItem, index) => (
-            <label key={index} className="text-md sm:text-lg font-semibold">
-              Day {index + 1}:
+              Title:
               <input
                 type="text"
-                value={planItem}
-                onChange={(e) => handleArrayChange(e, index, "plan")}
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
                 className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-md sm:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                required
               />
             </label>
-          ))}
-          <button
-            type="button"
-            onClick={() => addArrayField("plan")}
-            className="bg-white text-custom-sec border border-custom-sec hover:bg-custom-pri hover:text-white px-4 py-2 rounded-lg text-md sm:text-lg mt-2 transition-all duration-300"
-          >
-            Add Each Day Summary
-          </button>
-          <label className="text-md sm:text-lg font-semibold">
-            Status:
-            <input
-              type="text"
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-md sm:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
-              required
-            />
-          </label>
-          <label className="text-md sm:text-lg font-semibold">
-            Price:
-            <input
-              type="number"
-              name="price"
-              value={formData.price}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-md sm:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
-              required
-            />
-          </label>
-          <label className="text-md sm:text-lg font-semibold">
-            Seats:
-            <input
-              type="number"
-              name="seats"
-              value={formData.seats}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-md sm:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
-              required
-            />
-          </label>
-        </form>
+            <div className="relative">
+              <label className="text-md sm:text-lg font-semibold">
+                Upload Images (up to 6):
+                <input
+                  id="image-upload-input"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddMoreImages}
+                  className="border-2 border-gray-300 border-dashed p-2 rounded-lg cursor-pointer flex items-center justify-center mt-2 transition-colors duration-200 hover:bg-gray-100"
+                >
+                  <FaUpload className="mr-2" />
+                  <span>Choose files...</span>
+                </button>
+              </label>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {formData.image?.map((imageUrl, index) => (
+                  <div
+                    key={index}
+                    className="relative w-20 h-20 sm:w-24 sm:h-24 border border-gray-300 rounded-lg overflow-hidden shadow-sm"
+                  >
+                    <Image
+                      width={96}
+                      height={96}
+                      src={imageUrl}
+                      alt={`Image ${index}`}
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveImage(index)}
+                      className="absolute top-1 right-1 p-1 text-red-500 bg-white rounded-full shadow-md"
+                    >
+                      <FaTimes />
+                    </button>
+                  </div>
+                ))}
+                {imagePreviews.map((preview, index) => (
+                  <div
+                    key={`preview-${index}`}
+                    className="relative w-20 h-20 sm:w-24 sm:h-24 border border-gray-300 rounded-lg overflow-hidden shadow-sm"
+                  >
+                    <Image
+                      width={96}
+                      height={96}
+                      src={preview}
+                      alt={`Preview ${index}`}
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveImage(index)}
+                      className="absolute top-1 right-1 p-1 text-red-500 bg-white rounded-full shadow-md"
+                    >
+                      <FaTimes />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <label className="text-md sm:text-lg font-semibold">
+              Start Date:
+              <input
+                type="date"
+                name="start_date"
+                value={formData.start_date}
+                onChange={handleChange}
+                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-md sm:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                required
+              />
+            </label>
+            <label className="text-md sm:text-lg font-semibold">
+              Return Date:
+              <input
+                type="date"
+                name="return_date"
+                value={formData.return_date}
+                onChange={handleChange}
+                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-md sm:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                required
+              />
+            </label>
+            {formData.plan?.map((planItem, index) => (
+              <label key={index} className="text-md sm:text-lg font-semibold">
+                Day {index + 1}:
+                <input
+                  type="text"
+                  value={planItem}
+                  onChange={(e) => handleArrayChange(e, index, "plan")}
+                  className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-md sm:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                />
+              </label>
+            ))}
+            <button
+              type="button"
+              onClick={() => addArrayField("plan")}
+              className="bg-white text-custom-sec border border-custom-sec hover:bg-custom-pri hover:text-white px-4 py-2 rounded-lg text-md sm:text-lg mt-2 transition-all duration-300"
+            >
+              Add Each Day Summary
+            </button>
+            <label className="text-md sm:text-lg font-semibold">
+              Status:
+              <input
+                type="text"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-md sm:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                required
+              />
+            </label>
+            <label className="text-md sm:text-lg font-semibold">
+              Price:
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-md sm:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                required
+              />
+            </label>
+            <label className="text-md sm:text-lg font-semibold">
+              Seats:
+              <input
+                type="number"
+                name="seats"
+                value={formData.seats}
+                onChange={handleChange}
+                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-md sm:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                required
+              />
+            </label>
+          </form>
+        </div>
         <div className="flex justify-between gap-2 mt-4 pt-4 border-t border-gray-200">
           <button
             type="button"
