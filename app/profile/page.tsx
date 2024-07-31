@@ -13,6 +13,7 @@ import {
   addUserDetails,
 } from "@/lib/supabaseActions";
 import ProfilePic from "@/components/userComponents/ProfilePic";
+import { FaEdit, FaSignOutAlt, FaTimes } from "react-icons/fa";
 
 const ProfilePage: React.FC = () => {
   const { user, loading, setUser } = useUserSession();
@@ -97,70 +98,72 @@ const ProfilePage: React.FC = () => {
   if (loading || !user) {
     return <p>Loading...</p>;
   }
-
   return (
-    <section className="flex justify-center mt-12">
-      <div className="max-w-md w-full mt-8 bg-white shadow-lg rounded-lg overflow-hidden">
-        <div className="flex p-2 justify-between">
+    <section className="flex flex-col items-center mt-12 p-4">
+      <div className="max-w-md w-full bg-white shadow-xl rounded-lg overflow-hidden border border-gray-300">
+        <div className="flex items-center justify-between p-4 bg-gray-50 border-b border-gray-200">
           <button
             onClick={handleEditClick}
-            className="ml-4 bg-white border rounded-sm shadow-sm px-4 py-1 mb-6 text-lg lg:text-xl font-normal uppercase hover:bg-custom-pri hover:text-white"
+            className="flex items-center text-lg lg:text-xl font-medium text-custom-pri hover:bg-custom-pri hover:text-white px-4 py-2 rounded-lg transition-colors"
           >
-            Edit
+            <FaEdit className="mr-2" /> Edit
           </button>
-          <SignOutButton />
+          <button
+            onClick={() => {} /* Add sign out handler */}
+            className="flex items-center text-lg lg:text-xl font-medium text-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            <FaSignOutAlt className="mr-2" /> Sign Out
+          </button>
         </div>
-        <div className="px-6 py-4 flex items-center justify-center">
-          <div className="">
-            <ProfilePic
-              src={user.picture ?? undefined}
-              onUpload={() => fileInputRef.current?.click()}
-              onDelete={handleProfilePictureDelete}
-              uploading={uploading}
-            />
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) =>
-                setSelectedFile(e.target.files ? e.target.files[0] : null)
-              }
-              className="hidden"
-              ref={fileInputRef}
-            />
-
+        <div className="p-6 flex flex-col items-center">
+          <ProfilePic
+            src={user.picture ?? undefined}
+            onUpload={() => fileInputRef.current?.click()}
+            onDelete={handleProfilePictureDelete}
+            uploading={false} // Adjust based on your state
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              setSelectedFile(e.target.files ? e.target.files[0] : null)
+            }
+            className="hidden"
+            ref={fileInputRef}
+          />
+          <hr className="my-4 border-gray-300 w-full" /> {/* Horizontal line */}
+          <div className="text-left w-full px-4">
             {user.name && (
-              <p className="mt-4 text-2xl uppercase font-medium text-custom-pri">
+              <p className="text-2xl font-semibold text-custom-pri">
                 {user.name}
               </p>
             )}
             {user.profession && (
-              <p className="mt-2 text-lg font-medium text-gray-700">
-                <span className="font-bold">Profession: </span>
+              <p className="mt-2 text-lg font-medium text-gray-800">
+                <span className="font-semibold">Profession:</span>{" "}
                 {user.profession}
               </p>
             )}
             {user.mobile_number && (
-              <p className="mt-2 text-lg font-medium text-gray-700">
-                <span className="font-bold">Mobile Number: </span>
+              <p className="mt-2 text-lg font-medium text-gray-800">
+                <span className="font-semibold">Mobile Number:</span>{" "}
                 {user.mobile_number}
               </p>
             )}
             {user.date_of_birth && (
-              <p className="mt-2 text-lg font-medium text-gray-700">
-                <span className="font-bold">Age: </span>
+              <p className="mt-2 text-lg font-medium text-gray-800">
+                <span className="font-semibold">Age:</span>{" "}
                 {calculateAge(user.date_of_birth)}
               </p>
             )}
-            <p className="mt-2 text-lg font-medium text-gray-700">
-              <span className="font-bold">Email: </span>
-              {user.email}
+            <p className="mt-2 text-lg font-medium text-gray-800">
+              <span className="font-semibold">Email:</span> {user.email}
             </p>
-            <p className="mt-2 text-lg font-medium text-gray-700">
-              <span className="font-bold">Provider: </span>
-              {user.provider}
+            <p className="mt-2 text-lg font-medium text-gray-800">
+              <span className="font-semibold">Provider:</span> {user.provider}
             </p>
-            <p className="mt-2 text-lg font-medium text-gray-700">
-              <span className="font-bold">Created At: </span>
+            <p className="mt-2 text-lg font-medium text-gray-800">
+              <span className="font-semibold">Created At:</span>{" "}
               {format(new Date(user.created_at), "dd MMM yyyy")}
             </p>
           </div>
@@ -169,13 +172,25 @@ const ProfilePage: React.FC = () => {
 
       {isEditing && (
         <div
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4"
           onClick={() => setIsEditing(false)}
         >
           <div
-            className="bg-white p-6 rounded-lg shadow-md"
+            className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg"
             onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
           >
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-semibold text-custom-pri">
+                Edit Your Details
+              </h3>
+              <button
+                type="button"
+                onClick={() => setIsEditing(false)}
+                className="text-gray-600 hover:text-gray-800 p-2 rounded-full transition-colors"
+              >
+                <FaTimes size={20} />
+              </button>
+            </div>
             <UserDetailsForm
               initialValues={user}
               onUpdate={handleUpdateUserDetails}
