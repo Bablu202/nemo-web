@@ -109,7 +109,8 @@ const TripForm: React.FC<TripFormProps> = ({
     e.preventDefault();
 
     try {
-      const tripId = initialData?.id.toString() || formData.title || "new-trip";
+      const tripTitle = formData.title || "new-trip";
+      const tripId = initialData?.id.toString() || tripTitle;
 
       if (initialData) {
         if (
@@ -121,9 +122,15 @@ const TripForm: React.FC<TripFormProps> = ({
         }
       }
 
-      const uploadedImagePaths = await uploadTripImages(selectedFiles, tripId);
+      const uploadedImagePaths = await uploadTripImages(
+        selectedFiles,
+        tripTitle
+      );
 
-      onSubmit({ ...formData, image: uploadedImagePaths });
+      onSubmit({
+        ...formData,
+        image: [...(formData.image || []), ...uploadedImagePaths],
+      });
     } catch (error) {
       console.error("Error uploading images:", error);
     }
@@ -198,8 +205,19 @@ const TripForm: React.FC<TripFormProps> = ({
               </button>
             </label>
             <div className="flex flex-wrap gap-2 mt-2">
-              {imagePreviews.map((preview, index) => (
+              {formData.image?.map((imageUrl, index) => (
                 <div key={index} className="relative w-24 h-24">
+                  <Image
+                    width={96}
+                    height={96}
+                    src={imageUrl}
+                    alt={`Image ${index}`}
+                    className="w-full h-full object-cover rounded-md"
+                  />
+                </div>
+              ))}
+              {imagePreviews.map((preview, index) => (
+                <div key={`preview-${index}`} className="relative w-24 h-24">
                   <Image
                     width={96}
                     height={96}

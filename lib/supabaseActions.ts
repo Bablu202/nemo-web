@@ -178,11 +178,12 @@ export const uploadProfilePicture = async (file: File, userId: string) => {
 //////////////////////////////////////////////////
 //For Trip supabase upload and delete images
 const BUCKET_TRIPS = "trips-pics";
-export const uploadTripImages = async (files: File[], tripId: string) => {
-  const uploadedFiles = [];
+
+export const uploadTripImages = async (files: File[], tripTitle: string) => {
+  const uploadedFiles: string[] = [];
 
   for (const file of files) {
-    const fileName = `${tripId}/${file.name}`;
+    const fileName = `${tripTitle}/${file.name}`;
     const { error: uploadError } = await supabase.storage
       .from(BUCKET_TRIPS)
       .upload(fileName, file);
@@ -197,18 +198,20 @@ export const uploadTripImages = async (files: File[], tripId: string) => {
 
   return uploadedFiles;
 };
-export const deleteTripImagesFolder = async (tripId: string) => {
+
+export const deleteTripImagesFolder = async (tripTitle: string) => {
   try {
     const { data: listData, error: listError } = await supabase.storage
       .from(BUCKET_TRIPS)
-      .list(tripId, { limit: 1000 });
+      .list(tripTitle, { limit: 1000 });
 
     if (listError) {
       console.error("Error listing files:", listError);
       throw listError;
     }
 
-    const filePaths = listData?.map((file) => `${tripId}/${file.name}`) || [];
+    const filePaths =
+      listData?.map((file) => `${tripTitle}/${file.name}`) || [];
 
     if (filePaths.length > 0) {
       const { error: deleteError } = await supabase.storage
@@ -222,7 +225,7 @@ export const deleteTripImagesFolder = async (tripId: string) => {
     }
 
     const { data: finalListData, error: finalListError } =
-      await supabase.storage.from(BUCKET_TRIPS).list(tripId);
+      await supabase.storage.from(BUCKET_TRIPS).list(tripTitle);
 
     if (finalListError) {
       console.error("Error listing files after deletion:", finalListError);
@@ -230,15 +233,16 @@ export const deleteTripImagesFolder = async (tripId: string) => {
     }
 
     if (finalListData?.length === 0) {
-      console.log("Folder deleted successfully:", tripId);
+      console.log("Folder deleted successfully:", tripTitle);
     } else {
-      console.warn("Folder not empty after deletion attempt:", tripId);
+      console.warn("Folder not empty after deletion attempt:", tripTitle);
     }
   } catch (error) {
     console.error("Error deleting folder:", error);
     throw error;
   }
 };
+
 export const updateTripImages = async (
   tripId: string,
   newImageUrls: string[]
@@ -253,4 +257,35 @@ export const updateTripImages = async (
   }
 
   return data;
+};
+export const listTripImages = async (tripTitle: string): Promise<string[]> => {
+  try {
+    // Fetch the list of files in the specified folder
+    const { data: listData, error: listError } = await supabase.storage
+      .from(BUCKET_TRIPS)
+      .list(tripTitle, { limit: 100 }); // Increased limit to check for more files
+
+    if (listError) {
+      throw listError;
+    }
+
+    console.log("List data:", listData); // Check the output
+
+    // Filter and map URLs
+    const imageUrls = listData
+      .filter(
+        (file) => file.name.endsWith(".jpg") || file.name.endsWith(".png")
+      )
+      .map(
+        (file) =>
+          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${BUCKET_TRIPS}/${tripTitle}/${file.name}`
+      );
+
+    console.log("Image URLs:", imageUrls); // Check the output
+
+    return imageUrls;
+  } catch (error) {
+    console.error("Error listing images:", error);
+    throw error;
+  }
 };
