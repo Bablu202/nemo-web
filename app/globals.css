@@ -17,7 +17,6 @@
 }
 body {
   color: #27272a;
-  overflow: hidden; /* Hide body overflow */
 }
 
 /* Hide scrollbar for Webkit browsers */
@@ -108,12 +107,4 @@ body {
   .common-padding {
     @apply sm:py-8 py-8 sm:px-4 px-2;
   }
-}
-
-/* Ensure the scrollable container takes up available space */
-.scrollable-container {
-  max-height: 75vh; /* Adjust as needed */
-  overflow-y: auto; /* Enable vertical scrolling */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  padding-right: 15px; /* To avoid content getting hidden behind scrollbar */
 }

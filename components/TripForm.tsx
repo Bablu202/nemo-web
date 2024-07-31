@@ -152,7 +152,7 @@ const TripForm: React.FC<TripFormProps> = ({
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4 py-2"
     >
       <div
-        className="bg-white p-4 rounded-lg shadow-lg w-full max-w-md lg:max-w-2xl flex flex-col overflow-scroll scrollable-containers"
+        className="bg-white p-4 rounded-lg shadow-lg w-full max-w-md lg:max-w-2xl flex flex-col "
         style={{ maxHeight: "75vh" }}
       >
         <div className="flex items-center justify-between mb-4">
