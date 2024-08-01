@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaTimes, FaUpload } from "react-icons/fa";
-
 import {
   uploadTripImages,
   deleteTripImagesFolder,
@@ -30,7 +29,7 @@ const TripForm: React.FC<TripFormProps> = ({
     status: initialData?.status || "",
     price: initialData?.price || 0,
     seats: initialData?.seats || 0,
-    plan: initialData?.plan || [""],
+    plan: [], // Initialize as an empty array
   });
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -65,7 +64,7 @@ const TripForm: React.FC<TripFormProps> = ({
   };
 
   const handleArrayChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     index: number,
     field: "plan"
   ) => {
@@ -81,6 +80,13 @@ const TripForm: React.FC<TripFormProps> = ({
     setFormData((prevData) => ({
       ...prevData,
       [field]: [...(prevData[field] || []), ""],
+    }));
+  };
+
+  const removeArrayField = (field: "plan", index: number) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: prevData[field]?.filter((_, i) => i !== index),
     }));
   };
 
@@ -158,11 +164,11 @@ const TripForm: React.FC<TripFormProps> = ({
   return (
     <div
       onClick={handleBackgroundClick}
-      className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto p-2 sm:p-4"
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-2 sm:p-4"
     >
       <div
-        className="bg-white p-4 sm:p-6 rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-2xl flex flex-col border border-gray-300"
-        style={{ maxHeight: "90vh" }} // Increased maxHeight to allow more space for scrolling
+        className="bg-white p-4 sm:p-6 rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-2xl flex flex-col border border-gray-300 overflow-y-auto"
+        style={{ maxHeight: "80vh" }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-2 sm:mb-4">
@@ -183,20 +189,21 @@ const TripForm: React.FC<TripFormProps> = ({
             className="flex flex-col gap-2 sm:gap-3 md:gap-4"
             id="trip-form"
           >
-            <label className="text-sm sm:text-base md:text-lg font-semibold">
-              Title:
+            <label className="flex flex-row items-center text-sm sm:text-base md:text-lg font-semibold">
+              <span className="w-1/6">Title:</span>
               <input
                 type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base md:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                className="flex-grow border-b border-gray-300 p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none"
                 required
               />
             </label>
             <div className="relative">
-              <label className="text-sm sm:text-base md:text-lg font-semibold">
-                Upload Images (up to 6):
+              <label className=" flex flex-row items-center  justify-between text-sm sm:text-base md:text-lg font-semibold">
+                <span className="w-1/2 "> Upload Images (up to 6):</span>
+
                 <input
                   id="image-upload-input"
                   type="file"
@@ -208,10 +215,11 @@ const TripForm: React.FC<TripFormProps> = ({
                 <button
                   type="button"
                   onClick={handleAddMoreImages}
-                  className="border-2 border-gray-300 border-dashed p-2 sm:p-3 rounded-lg cursor-pointer flex items-center justify-center mt-2 transition-colors duration-200 hover:bg-gray-100"
+                  className="border-b border-gray-300 bg-custom-pri text-white p-1 sm:p-2 rounded-lg cursor-pointer flex items-center
+                   justify-center mt-2  transition-colors duration-200 hover:bg-custom-pri/30"
                 >
                   <FaUpload className="mr-2" />
-                  <span className="text-sm sm:text-base md:text-lg">
+                  <span className="text-sm sm:text-base md:text-lg ">
                     Choose files...
                   </span>
                 </button>
@@ -269,7 +277,7 @@ const TripForm: React.FC<TripFormProps> = ({
                   name="start_date"
                   value={formData.start_date}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base md:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                  className="w-full border-b border-gray-300 p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none"
                   required
                 />
               </label>
@@ -280,64 +288,70 @@ const TripForm: React.FC<TripFormProps> = ({
                   name="return_date"
                   value={formData.return_date}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base md:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                  className="w-full border-b border-gray-300 p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none"
                   required
                 />
               </label>
             </div>
             {formData.plan?.map((planItem, index) => (
-              <label
-                key={index}
-                className="text-sm sm:text-base md:text-lg font-semibold"
-              >
-                Day {index + 1}:
-                <input
-                  type="text"
+              <div key={index} className="relative flex flex-col mb-2">
+                <label className="flex flex-row items-center text-sm sm:text-base md:text-lg font-semibold mb-1">
+                  <span className="w-1/6">Day {index + 1}:</span>
+                </label>
+                <textarea
                   value={planItem}
                   onChange={(e) => handleArrayChange(e, index, "plan")}
-                  className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base md:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                  className="flex-grow border border-gray-300 rounded-lg p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none resize-none"
+                  rows={4} // Adjust the rows as needed
                 />
-              </label>
+                <button
+                  type="button"
+                  onClick={() => removeArrayField("plan", index)}
+                  className="absolute top-1 right-1 p-1 text-red-500 bg-white rounded-full shadow-md hover:bg-red-100"
+                >
+                  <FaTimes />
+                </button>
+              </div>
             ))}
             <button
               type="button"
               onClick={() => addArrayField("plan")}
               className="bg-white text-custom-sec border border-custom-sec
-               hover:bg-custom-pri hover:text-white px-2 py-1 sm:px-3 sm:py-2 lg:px-4 lg:py-2 rounded-lg 
-               text-sm sm:text-base md:text-lg mt-2 transition-all duration-300"
+                hover:bg-custom-pri hover:text-white px-2 py-1 sm:px-3 sm:py-2 lg:px-4 lg:py-2 rounded-lg 
+                text-sm sm:text-base md:text-lg mt-2 transition-all duration-300"
             >
               Add Each Day Summary
             </button>
-            <label className="text-sm sm:text-base md:text-lg font-semibold">
-              Status:
+            <label className="flex flex-row items-center text-sm sm:text-base md:text-lg font-semibold">
+              <span className="w-1/6">Status:</span>
               <input
                 type="text"
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base md:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                className="flex-grow border-b border-gray-300 p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none"
                 required
               />
             </label>
-            <label className="text-sm sm:text-base md:text-lg font-semibold">
-              Price:
+            <label className="flex flex-row items-center text-sm sm:text-base md:text-lg font-semibold">
+              <span className="w-1/6">Price:</span>
               <input
                 type="number"
                 name="price"
                 value={formData.price}
                 onChange={handleChange}
-                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base md:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                className="flex-grow border-b border-gray-300 p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none"
                 required
               />
             </label>
-            <label className="text-sm sm:text-base md:text-lg font-semibold">
-              Seats:
+            <label className="flex flex-row items-center text-sm sm:text-base md:text-lg font-semibold">
+              <span className="w-1/6">Seats:</span>
               <input
                 type="number"
                 name="seats"
                 value={formData.seats}
                 onChange={handleChange}
-                className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg text-sm sm:text-base md:text-lg shadow-inner focus:ring-2 focus:ring-custom-pri focus:outline-none"
+                className="flex-grow border-b border-gray-300 p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none"
                 required
               />
             </label>
