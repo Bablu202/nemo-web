@@ -183,10 +183,10 @@ const TripForm: React.FC<TripFormProps> = ({
             <FaTimes />
           </button>
         </div>
-        <div className="flex flex-col flex-grow overflow-scroll">
+        <div className="flex flex-col flex-grow overflow-auto">
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-2 sm:gap-3 md:gap-4 overflow-scroll"
+            className="flex flex-col gap-2 sm:gap-3 md:gap-4 "
             id="trip-form"
           >
             <label className="flex flex-row items-center text-sm sm:text-base md:text-lg font-semibold">

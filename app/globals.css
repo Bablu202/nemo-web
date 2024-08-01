@@ -9,51 +9,12 @@
   scroll-behavior: smooth;
 }
 
-.li/* Hide scrollbar for Firefox */
-/* Source: https://stackoverflow.com/a/59202685/11603696 */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent; /* thumb and track color */
-}
 body {
   color: #27272a;
 }
 
 /* Hide scrollbar for Webkit browsers */
 /* Source: https://stackoverflow.com/a/67515004/11603696 */
-::-webkit-scrollbar {
-  width: 6px; /* width of the entire scrollbar */
-  height: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent; /* color of the track */
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.685); /* color of the scroll thumb */
-  border-radius: 10px; /* roundness of the scroll thumb */
-  border: 2px solid transparent; /* border around the scroll thumb */
-}
-
-/* For Webkit-based browsers */
-/* Source: https://stackoverflow.com/a/47399736/11603696 */
-/* Custom scrollbar track */
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* Custom scrollbar thumb */
-::-webkit-scrollbar-thumb {
-  background-color: #dadde0;
-  border-radius: 10px;
-}
-
-/* Hide scrollbar buttons (arrows) */
-::-webkit-scrollbar-button {
-  display: none;
-  z-index: -10;
-}
 
 .head {
   @apply text-4xl md:text-6xl lg:text-7xl text-center font-bold text-white;
