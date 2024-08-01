@@ -164,10 +164,10 @@ const TripForm: React.FC<TripFormProps> = ({
   return (
     <div
       onClick={handleBackgroundClick}
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-2 sm:p-4"
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-2 sm:p-4 overflow-y-auto"
     >
       <div
-        className="bg-white p-4 sm:p-6 rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-2xl flex flex-col border border-gray-300 overflow-y-auto"
+        className="bg-white p-4 sm:p-6 rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-2xl flex flex-col border border-gray-300"
         style={{ maxHeight: "80vh" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -201,9 +201,8 @@ const TripForm: React.FC<TripFormProps> = ({
               />
             </label>
             <div className="relative">
-              <label className=" flex flex-row items-center  justify-between text-sm sm:text-base md:text-lg font-semibold">
-                <span className="w-1/2 "> Upload Images (up to 6):</span>
-
+              <label className="flex flex-row items-center justify-between text-sm sm:text-base md:text-lg font-semibold">
+                <span className="w-1/2">Upload Images (up to 6):</span>
                 <input
                   id="image-upload-input"
                   type="file"
@@ -215,11 +214,10 @@ const TripForm: React.FC<TripFormProps> = ({
                 <button
                   type="button"
                   onClick={handleAddMoreImages}
-                  className="border-b border-gray-300 bg-custom-pri text-white p-1 sm:p-2 rounded-lg cursor-pointer flex items-center
-                   justify-center mt-2  transition-colors duration-200 hover:bg-custom-pri/30"
+                  className="border-b border-gray-300 bg-custom-pri text-white p-1 sm:p-2 rounded-lg cursor-pointer flex items-center justify-center mt-2 transition-colors duration-200 hover:bg-custom-pri/30"
                 >
                   <FaUpload className="mr-2" />
-                  <span className="text-sm sm:text-base md:text-lg ">
+                  <span className="text-sm sm:text-base md:text-lg">
                     Choose files...
                   </span>
                 </button>
@@ -316,9 +314,7 @@ const TripForm: React.FC<TripFormProps> = ({
             <button
               type="button"
               onClick={() => addArrayField("plan")}
-              className="bg-white text-custom-sec border border-custom-sec
-                hover:bg-custom-pri hover:text-white px-2 py-1 sm:px-3 sm:py-2 lg:px-4 lg:py-2 rounded-lg 
-                text-sm sm:text-base md:text-lg mt-2 transition-all duration-300"
+              className="bg-white text-custom-sec border border-custom-sec hover:bg-custom-pri hover:text-white px-2 py-1 sm:px-3 sm:py-2 lg:px-4 lg:py-2 rounded-lg text-sm sm:text-base md:text-lg mt-2 transition-all duration-300"
             >
               Add Each Day Summary
             </button>

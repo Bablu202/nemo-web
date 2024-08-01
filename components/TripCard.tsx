@@ -83,7 +83,7 @@ const TripCard: React.FC<TripCardProps> = ({ trip, onEdit, onDelete }) => {
             </span>
           </p>
           <p>
-            Price: <span className="font-medium">${trip.price.toFixed(2)}</span>
+            Price: <span className="font-medium">₹ {trip.price}</span>
           </p>
         </div>
         <div className="text-sm md:text-base text-gray-600">
