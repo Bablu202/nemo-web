@@ -158,26 +158,26 @@ const TripForm: React.FC<TripFormProps> = ({
   return (
     <div
       onClick={handleBackgroundClick}
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4 py-2"
+      className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 p-2 sm:p-4"
     >
       <div
-        className="bg-white p-6 rounded-3xl shadow-2xl w-full max-w-md lg:max-w-2xl flex flex-col border border-gray-300"
+        className="bg-white p-4 sm:p-6 rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-2xl flex flex-col border border-gray-300 overflow-y-auto"
         style={{ maxHeight: "80vh" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-custom-pri">
+        <div className="flex items-center justify-between mb-2 sm:mb-4">
+          <h2 className="text-base sm:text-lg md:text-xl font-bold text-custom-pri">
             {initialData ? "Edit Trip" : "Add New Trip"}
           </h2>
           <button
             type="button"
             onClick={handleCancel}
-            className="text-custom-pri hover:text-red-500 p-2 rounded-full transition-colors duration-200"
+            className="text-custom-pri hover:text-red-500 p-1 sm:p-2 rounded-full transition-colors duration-200"
           >
             <FaTimes />
           </button>
         </div>
-        <div className="flex flex-col flex-grow overflow-y-auto scrollbar-hide">
+        <div className="flex flex-col flex-grow overflow-y-auto">
           <form
             onSubmit={handleSubmit}
             className="flex flex-col gap-2 sm:gap-3 md:gap-4"
@@ -208,7 +208,7 @@ const TripForm: React.FC<TripFormProps> = ({
                 <button
                   type="button"
                   onClick={handleAddMoreImages}
-                  className="border-2 border-gray-300 border-dashed p-2 rounded-lg cursor-pointer flex items-center justify-center mt-2 transition-colors duration-200 hover:bg-gray-100"
+                  className="border-2 border-gray-300 border-dashed p-2 sm:p-3 rounded-lg cursor-pointer flex items-center justify-center mt-2 transition-colors duration-200 hover:bg-gray-100"
                 >
                   <FaUpload className="mr-2" />
                   <span className="text-sm sm:text-base md:text-lg">
@@ -261,7 +261,7 @@ const TripForm: React.FC<TripFormProps> = ({
                 ))}
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 sm:gap-3">
               <label className="flex-1 text-sm sm:text-base md:text-lg font-semibold">
                 Start Date:
                 <input
@@ -303,7 +303,7 @@ const TripForm: React.FC<TripFormProps> = ({
               type="button"
               onClick={() => addArrayField("plan")}
               className="bg-white text-custom-sec border border-custom-sec
-               hover:bg-custom-pri hover:text-white px-2 py-1 lg:px-4 lg:py-2 rounded-lg 
+               hover:bg-custom-pri hover:text-white px-2 py-1 sm:px-3 sm:py-2 lg:px-4 lg:py-2 rounded-lg 
                text-sm sm:text-base md:text-lg mt-2 transition-all duration-300"
             >
               Add Each Day Summary
