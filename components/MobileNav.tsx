@@ -2,13 +2,13 @@
 "use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import { CiSearch } from "react-icons/ci";
-import { CiHome } from "react-icons/ci";
-import { CiUser } from "react-icons/ci";
+import { CiSearch, CiHome, CiUser } from "react-icons/ci";
+import { usePathname } from "next/navigation"; // Import usePathname from next/navigation
 
 const MobileNav: React.FC = () => {
   const [showNav, setShowNav] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const pathname = usePathname(); // Get the current pathname
 
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
@@ -19,17 +19,26 @@ const MobileNav: React.FC = () => {
       // Scrolling up
       setShowNav(true);
     }
-
     setLastScrollY(currentScrollY);
   };
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lastScrollY]); // Only add the event listener once, on mount
+  }, [lastScrollY]);
+
+  // Hide the nav if the pathname is /dashboard
+  useEffect(() => {
+    if (pathname.startsWith("/dashboard")) {
+      setShowNav(false);
+    }
+  }, [pathname]);
+
+  if (pathname.startsWith("/dashboard")) {
+    return null; // Don't render the component if on /dashboard page
+  }
 
   return (
     <nav
@@ -37,18 +46,15 @@ const MobileNav: React.FC = () => {
         showNav ? "translate-y-0" : "translate-y-full"
       }`}
     >
-      <div
-        className="flex justify-around items-center w-full h-full  px-5 md:px-6 bg-white/95 
-    backdrop-blur-lg shadow-2xl rounded-full "
-      >
+      <div className="flex justify-around items-center w-full h-full px-5 md:px-6 bg-white/95 backdrop-blur-lg shadow-2xl rounded-full">
         {navigationData.map((item: NavigationItem) => (
           <Link
             key={item.id}
             href={item.url}
-            className="flex flex-col items-center justify-center group "
+            className="flex flex-col items-center justify-center group"
           >
-            <item.icon className="text-xl sm:2xl md:text-3xl  group-hover:text-custom-pri transition-colors duration-200" />
-            <span className="font-semibold text-xs md:text-sm  group-hover:text-custom-pri transition-colors duration-200">
+            <item.icon className="text-xl sm:text-2xl md:text-3xl group-hover:text-custom-pri transition-colors duration-200" />
+            <span className="font-semibold text-xs md:text-sm group-hover:text-custom-pri transition-colors duration-200">
               {item.title}
             </span>
           </Link>
@@ -87,16 +93,4 @@ export const navigationData: NavigationItem[] = [
     url: "/user",
     icon: CiUser,
   },
-  /*{
-    id: "5",
-    title: "New account",
-    url: "/register",
-    onlyMobile: false,
-    },
-    {
-      id: "6",
-      title: "Account",
-      url: "/profile",
-      onlyMobile: false,
-      },*/
 ];

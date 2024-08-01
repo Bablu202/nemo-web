@@ -139,7 +139,7 @@ const TripPage = () => {
           className="inline-block border border-custom-pri bg-white text-custom-pri px-2 py-0.5 md:py-1 lg:px-3 lg:py-2 rounded-lg text-lg 
          hover:bg-custom-pri hover:text-white hover:shadow-xl transition duration-300 shadow-md"
         >
-          Book This Trip
+          Request This Trip
         </a>
       </div>
       <div className="container  px-4 my-12 flex flex-col mx-auto sm:flex-row items-center justify-between bg-color-red/5 p-6 rounded-lg shadow-lg">
