@@ -158,11 +158,11 @@ const TripForm: React.FC<TripFormProps> = ({
   return (
     <div
       onClick={handleBackgroundClick}
-      className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 p-2 sm:p-4"
+      className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto p-2 sm:p-4"
     >
       <div
-        className="bg-white p-4 sm:p-6 rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-2xl flex flex-col border border-gray-300 overflow-y-auto"
-        style={{ maxHeight: "80vh" }}
+        className="bg-white p-4 sm:p-6 rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-2xl flex flex-col border border-gray-300"
+        style={{ maxHeight: "90vh" }} // Increased maxHeight to allow more space for scrolling
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-2 sm:mb-4">
