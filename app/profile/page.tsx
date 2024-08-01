@@ -112,7 +112,7 @@ const ProfilePage: React.FC = () => {
             onClick={() => {} /* Add sign out handler */}
             className="flex items-center text-lg lg:text-xl font-medium text-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-lg transition-colors"
           >
-            <FaSignOutAlt className="mr-2" /> Sign Out
+            <FaSignOutAlt className="mr-2" /> <SignOutButton />
           </button>
         </div>
         <div className="p-6 flex flex-col items-center">
