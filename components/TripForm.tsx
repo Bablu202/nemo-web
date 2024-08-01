@@ -164,12 +164,11 @@ const TripForm: React.FC<TripFormProps> = ({
   return (
     <div
       onClick={handleBackgroundClick}
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-2 sm:p-4"
-      style={{ overflowY: "scroll" }} // Allow scrolling on the backdrop
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-2 sm:p-4 overflow-y-auto"
     >
       <div
-        className="bg-white p-4 sm:p-6 rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        style={{ maxHeight: "80vh", overflowY: "auto" }} // Ensure the modal itself can scroll
+        className="bg-white p-4 sm:p-6 rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-2xl flex flex-col border border-gray-300"
+        style={{ maxHeight: "80vh" }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-2 sm:mb-4">
@@ -184,10 +183,10 @@ const TripForm: React.FC<TripFormProps> = ({
             <FaTimes />
           </button>
         </div>
-        <div className="flex flex-col flex-grow overflow-y-auto">
+        <div className="flex flex-col flex-grow overflow-scroll">
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-2 sm:gap-3 md:gap-4"
+            className="flex flex-col gap-2 sm:gap-3 md:gap-4 overflow-scroll"
             id="trip-form"
           >
             <label className="flex flex-row items-center text-sm sm:text-base md:text-lg font-semibold">
