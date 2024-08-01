@@ -199,21 +199,29 @@ export const uploadTripImages = async (files: File[], tripTitle: string) => {
   return uploadedFiles;
 };
 
+// Function to delete all images in a folder
+// Function to delete a trip's image folder
 export const deleteTripImagesFolder = async (tripTitle: string) => {
   try {
+    // List all files in the specified folder
     const { data: listData, error: listError } = await supabase.storage
       .from(BUCKET_TRIPS)
-      .list(tripTitle, { limit: 1000 });
+      .list(tripTitle, {
+        limit: 1000,
+        sortBy: { column: "name", order: "asc" },
+      });
 
     if (listError) {
       console.error("Error listing files:", listError);
       throw listError;
     }
 
+    // Extract paths for deletion
     const filePaths =
       listData?.map((file) => `${tripTitle}/${file.name}`) || [];
 
     if (filePaths.length > 0) {
+      // Remove all files in the folder
       const { error: deleteError } = await supabase.storage
         .from(BUCKET_TRIPS)
         .remove(filePaths);
@@ -224,8 +232,9 @@ export const deleteTripImagesFolder = async (tripTitle: string) => {
       }
     }
 
+    // Confirm if the folder is empty after deletion
     const { data: finalListData, error: finalListError } =
-      await supabase.storage.from(BUCKET_TRIPS).list(tripTitle);
+      await supabase.storage.from(BUCKET_TRIPS).list(tripTitle, { limit: 1 }); // Check if the folder is empty
 
     if (finalListError) {
       console.error("Error listing files after deletion:", finalListError);
@@ -241,20 +250,4 @@ export const deleteTripImagesFolder = async (tripTitle: string) => {
     console.error("Error deleting folder:", error);
     throw error;
   }
-};
-
-export const updateTripImages = async (
-  tripId: string,
-  newImageUrls: string[]
-) => {
-  const { data, error } = await supabase
-    .from("trips")
-    .update({ image: newImageUrls })
-    .eq("id", tripId);
-
-  if (error) {
-    throw new Error(`Error updating images: ${error.message}`);
-  }
-
-  return data;
 };
