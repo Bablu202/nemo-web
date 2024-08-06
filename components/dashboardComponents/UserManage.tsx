@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import InputFormUserManage from "./InputFormUserManage"; // Import the new component
 
 interface User {
   email: string;
@@ -8,6 +9,7 @@ interface User {
   remaining_amount: number;
   confirmed: boolean;
   refund: boolean;
+  price: number; // Include price
 }
 
 interface Trip {
@@ -19,23 +21,47 @@ const UserManage: React.FC = () => {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [activeTrip, setActiveTrip] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
+
+  // Define fetchTrips function
+  const fetchTrips = async () => {
+    try {
+      const response = await axios.get("/api/user/manage/get-trips");
+      setTrips(response.data.trips);
+    } catch (error) {
+      console.error("Error fetching trips:", error);
+      setError("Failed to fetch trips");
+    }
+  };
 
   useEffect(() => {
-    const fetchTrips = async () => {
-      try {
-        const response = await axios.get("/api/user/manage/get-trips");
-        setTrips(response.data.trips);
-      } catch (error) {
-        console.error("Error fetching trips:", error);
-        setError("Failed to fetch trips");
-      }
-    };
-
     fetchTrips();
   }, []);
 
   const handleTripClick = (trip_name: string) => {
     setActiveTrip(trip_name === activeTrip ? null : trip_name);
+  };
+
+  const handleEditUser = (user: User) => {
+    setEditingUser(user);
+  };
+
+  const handleUpdateUser = async (updatedUser: User) => {
+    try {
+      const response = await axios.put(
+        "/api/user/manage/update-user",
+        updatedUser
+      );
+      if (response.data.message === "User updated successfully") {
+        await fetchTrips(); // Refresh trips data
+        setEditingUser(null);
+      } else {
+        setError(response.data.error);
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+      setError("Failed to update user");
+    }
   };
 
   return (
@@ -47,7 +73,7 @@ const UserManage: React.FC = () => {
           {trips.map(({ trip_name, users }) => (
             <div key={trip_name} className="relative">
               <button
-                className="block w-full bg-blue-500 text-white py-2 px-4 mb-2 rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-105"
+                className="block w-full bg-custom-pri text-white py-2 px-4 mb-2 rounded-lg uppercase tracking-[0.35rem] lg:tracking-[1rem]"
                 onClick={() => handleTripClick(trip_name)}
               >
                 {trip_name}
@@ -60,10 +86,10 @@ const UserManage: React.FC = () => {
                       {users.map((user) => (
                         <div
                           key={user.email}
-                          className="bg-gray-100 p-4 rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:scale-105"
+                          className="bg-white shadow-lg p-4 rounded-lg"
                         >
                           <p className="text-lg font-medium mb-1">
-                            <strong>Email:</strong> {user.email}
+                            {user.email}
                           </p>
                           <div className="space-y-2">
                             <p>
@@ -85,6 +111,16 @@ const UserManage: React.FC = () => {
                               <strong>Refund:</strong>{" "}
                               {user.refund ? "Yes" : "No"}
                             </p>
+                            <p>
+                              <strong>Price:</strong> ${user.price.toFixed(2)}{" "}
+                              {/* Display price */}
+                            </p>
+                            <button
+                              className="bg-blue-500 text-white py-1 px-2 rounded-lg mt-2"
+                              onClick={() => handleEditUser(user)}
+                            >
+                              Edit
+                            </button>
                           </div>
                         </div>
                       ))}
@@ -99,6 +135,13 @@ const UserManage: React.FC = () => {
         </div>
       ) : (
         <p>No trips available</p>
+      )}
+      {editingUser && (
+        <InputFormUserManage
+          user={editingUser}
+          onSave={handleUpdateUser}
+          onCancel={() => setEditingUser(null)}
+        />
       )}
     </div>
   );

@@ -1,13 +1,14 @@
+// app/api/user/manage/get-trips/route.ts
 import { NextResponse } from "next/server";
 import supabase from "@/lib/supabaseClient";
 
 export async function GET() {
   try {
-    // Fetch all trip names and user details with the new schema
+    // Fetch all trip names and user details with the price included
     const { data: allData, error: allDataError } = await supabase
       .from("trip_users")
       .select(
-        "trip_name, email, count, paid_amount, remaining_amount, confirmed, refund"
+        "trip_name, email, count, paid_amount, remaining_amount, confirmed, refund, price"
       );
 
     if (allDataError) {
@@ -30,6 +31,7 @@ export async function GET() {
         remaining_amount: number;
         confirmed: boolean;
         refund: boolean;
+        price: number; // Ensure price is included
       }) => {
         if (!tripMap.has(entry.trip_name)) {
           tripMap.set(entry.trip_name, []);
@@ -41,6 +43,7 @@ export async function GET() {
           remaining_amount: entry.remaining_amount,
           confirmed: entry.confirmed,
           refund: entry.refund,
+          price: entry.price, // Ensure price is included
         });
       }
     );
