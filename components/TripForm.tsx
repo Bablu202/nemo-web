@@ -33,6 +33,7 @@ const TripForm: React.FC<TripFormProps> = ({
   });
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const isTitleEditable = !initialData?.title;
 
   useEffect(() => {
     if (initialData) {
@@ -198,8 +199,19 @@ const TripForm: React.FC<TripFormProps> = ({
                 onChange={handleChange}
                 className="flex-grow border-b border-gray-300 p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none"
                 required
+                disabled={!isTitleEditable} // Disable input if title is not editable
               />
             </label>
+            {isTitleEditable && (
+              <span className="justify-between text-center text-color-green text-sm">
+                title have to be unique and cannot change it later
+              </span>
+            )}
+            {!isTitleEditable && (
+              <span className="justify-between text-center text-color-red text-sm">
+                title cannot be changed
+              </span>
+            )}
             <div className="relative">
               <label className="flex flex-row items-center justify-between text-sm sm:text-base md:text-lg font-semibold">
                 <span className="w-1/2">Upload Images (up to 6):</span>

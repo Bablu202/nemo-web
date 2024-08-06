@@ -62,6 +62,7 @@ const TripPage: React.FC = () => {
         picture: user.picture ?? null,
         trip_name: trip?.title,
         trip_id: trip?.id,
+        price: trip?.price ?? 0, // Ensure price is included
         start_date: trip?.start_date ?? null,
         return_date: trip?.return_date ?? null,
       });

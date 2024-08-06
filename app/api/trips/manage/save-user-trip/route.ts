@@ -5,23 +5,21 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const {
-      id, // User UUID
+      id,
       email,
-      name = null,
-      mobile_number = null,
-      date_of_birth = null,
-      profession = null,
-      gender = null,
-      picture = null,
       trip_name,
       trip_id,
+      price, // Ensure price is included
       start_date = null,
       return_date = null,
     } = body;
 
-    if (!id || !email || !trip_name || !trip_id) {
+    if (!id || !email || !trip_name || !trip_id || price === undefined) {
       return NextResponse.json(
-        { error: "Missing required fields: id, email, trip_name, or trip_id" },
+        {
+          error:
+            "Missing required fields: id, email, trip_name, trip_id, or price",
+        },
         { status: 400 }
       );
     }
@@ -50,14 +48,13 @@ export async function POST(request: Request) {
       const { error: insertError } = await supabase.from("trip_users").insert({
         trip_name,
         trip_id,
+        price, // Insert price
         email,
-        user_data: {
-          count: 1,
-          confirmed: false,
-          paid: 0,
-          balance: 0,
-          refund: false,
-        },
+        count: 1,
+        paid_amount: 0,
+        remaining_amount: 0,
+        confirmed: false,
+        refund: false,
       });
 
       if (insertError) {
