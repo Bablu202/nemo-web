@@ -7,6 +7,7 @@ import MobileNav from "@/components/MobileNav";
 import { UserSessionProvider } from "@/context/SessionContext";
 import { ReviewsProvider } from "@/context/ReviewsContext";
 import { DashboardProvider } from "@/context/DashboardContext";
+import { Toaster } from "react-hot-toast"; // Import the Toaster component
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +31,8 @@ export default function RootLayout({
                 <Header />
                 {children}
                 <MobileNav />
-              </main>
+              </main>{" "}
+              <Toaster /> {/* Add the Toaster component here */}
             </ReviewsProvider>
           </DashboardProvider>
         </UserSessionProvider>

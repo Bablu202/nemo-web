@@ -167,7 +167,7 @@ const TripForm: React.FC<TripFormProps> = ({
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-2 sm:p-4 overflow-y-auto"
     >
       <div
-        className="bg-white p-4 sm:p-6 rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-2xl flex flex-col border border-gray-300"
+        className="bg-white mt-24 p-4 sm:p-6 rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-2xl flex flex-col border border-gray-300"
         style={{ maxHeight: "80vh" }}
         onClick={(e) => e.stopPropagation()}
       >

@@ -7,6 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import { MdOutlineEmojiEvents } from "react-icons/md";
 import { LiaStreetViewSolid, LiaRupeeSignSolid } from "react-icons/lia";
 import { IoRestaurantOutline } from "react-icons/io5";
+import toast from "react-hot-toast"; // Import react-hot-toast
 
 // Define the Trip type based on your data structure
 type Trip = {
@@ -21,15 +22,13 @@ type Trip = {
 };
 
 const TripPage: React.FC = () => {
-  const { slug } = useParams(); // Get the slug from the route parameters
+  const { slug } = useParams();
   const [trip, setTrip] = useState<Trip | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const { user, loading } = useUserSession(); // Get user session
+  const { user, loading } = useUserSession();
   const router = useRouter();
 
   useEffect(() => {
-    console.log(user);
-
     if (slug) {
       const fetchTrip = async () => {
         try {
@@ -47,14 +46,13 @@ const TripPage: React.FC = () => {
 
   const handleRequestTrip = async () => {
     if (!user) {
-      // Redirect to login page if no user is found
       router.push("/user");
       return;
     }
 
     try {
-      await axios.post("/api/trips/manage/save-user-trip", {
-        id: user.id, // Ensure user id is passed correctly
+      const response = await axios.post("/api/trips/manage/save-user-trip", {
+        id: user.id,
         email: user.email,
         name: user.name ?? null,
         mobile_number: user.mobile_number ?? null,
@@ -68,10 +66,14 @@ const TripPage: React.FC = () => {
         return_date: trip?.return_date ?? null,
       });
 
-      alert("Request saved successfully!");
+      if (response.data.message === "User already registered for this trip") {
+        toast.error("You are already registered for this trip.");
+      } else {
+        toast.success("Request saved successfully!");
+      }
     } catch (error: any) {
-      console.error(error);
-      alert("An error occurred while saving your request.");
+      console.error("API Error:", error);
+      toast.error("An error occurred while saving your request.");
     }
   };
 
@@ -82,10 +84,10 @@ const TripPage: React.FC = () => {
   if (!trip) {
     return <SkeletonTripPage />;
   }
-
   const getRandomImage = () => {
     return trip.image[Math.floor(Math.random() * trip.image.length)];
   };
+
   return (
     <div className="container mt-20 mx-auto max-w-6xl">
       <div className="flex flex-col-reverse lg:flex-row m-4 md:m-8 p-2 lg:p-8 bg-color-green/5 shadow-lg">
