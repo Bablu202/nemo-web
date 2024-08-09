@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import InputFormUserManage from "./InputFormUserManage"; // Import the new component
+import InputFormUserManage from "./InputFormUserManage"; // Import the input form component
+import ConfirmationModal from "../re-useable/ConfirmationModal";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 interface User {
+  id: string; // ID from trip_users table
   email: string;
   count: number;
   paid_amount: number;
   remaining_amount: number;
   confirmed: boolean;
   refund: boolean;
-  price: number; // Include price
+  price: number;
 }
 
 interface Trip {
+  id: string;
+  trip_id: string;
+  email: string;
   trip_name: string;
   users: User[];
 }
@@ -22,8 +28,14 @@ const UserManage: React.FC = () => {
   const [activeTrip, setActiveTrip] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [showConfirmationModal, setShowConfirmationModal] =
+    useState<boolean>(false);
+  const [userIdToDelete, setUserIdToDelete] = useState<string | null>(null);
 
-  // Define fetchTrips function
+  useEffect(() => {
+    fetchTrips();
+  }, []);
+
   const fetchTrips = async () => {
     try {
       const response = await axios.get("/api/user/manage/get-trips");
@@ -34,19 +46,15 @@ const UserManage: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    fetchTrips();
-  }, []);
-
   const handleTripClick = (trip_name: string) => {
     setActiveTrip(trip_name === activeTrip ? null : trip_name);
   };
 
-  const handleEditUser = (user: User) => {
-    setEditingUser(user);
-  };
-
   const handleUpdateUser = async (updatedUser: User) => {
+    // Recalculate remaining amount
+    updatedUser.remaining_amount =
+      updatedUser.price * updatedUser.count - updatedUser.paid_amount;
+
     try {
       const response = await axios.put(
         "/api/user/manage/update-user",
@@ -64,74 +72,178 @@ const UserManage: React.FC = () => {
     }
   };
 
+  const handleDeleteUser = async () => {
+    if (!userIdToDelete) return;
+
+    try {
+      const response = await axios.delete("/api/user/manage/delete-user", {
+        data: { id: userIdToDelete }, // Pass the ID of the user to delete
+      });
+      if (response.data.message === "User deleted successfully") {
+        await fetchTrips(); // Refresh trips data
+        setShowConfirmationModal(false);
+        setUserIdToDelete(null);
+      } else {
+        setError(response.data.error);
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      setError("Failed to delete user");
+    }
+  };
+
   return (
     <div className="container mt-12 mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">User Management</h1>
       {error && <p className="text-red-500">{error}</p>}
       {trips.length > 0 ? (
         <div className="space-y-4">
-          {trips.map(({ trip_name, users }) => (
-            <div key={trip_name} className="relative">
-              <button
-                className="block w-full bg-custom-pri text-white py-2 px-4 mb-2 rounded-lg uppercase tracking-[0.35rem] lg:tracking-[1rem]"
-                onClick={() => handleTripClick(trip_name)}
-              >
-                {trip_name}
-              </button>
-              {activeTrip === trip_name && (
-                <div className="transition-all duration-500 ease-in-out bg-white p-4 rounded-lg shadow-lg mt-2">
-                  <h2 className="text-lg font-semibold mb-2">User Details</h2>
-                  {users.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {users.map((user) => (
-                        <div
-                          key={user.email}
-                          className="bg-white shadow-lg p-4 rounded-lg"
-                        >
-                          <p className="text-lg font-medium mb-1">
-                            {user.email}
-                          </p>
-                          <div className="space-y-2">
-                            <p>
-                              <strong>Count:</strong> {user.count}
-                            </p>
-                            <p>
-                              <strong>Paid Amount:</strong> $
-                              {user.paid_amount.toFixed(2)}
-                            </p>
-                            <p>
-                              <strong>Remaining Amount:</strong> $
-                              {user.remaining_amount.toFixed(2)}
-                            </p>
-                            <p>
-                              <strong>Confirmed:</strong>{" "}
-                              {user.confirmed ? "Yes" : "No"}
-                            </p>
-                            <p>
-                              <strong>Refund:</strong>{" "}
-                              {user.refund ? "Yes" : "No"}
-                            </p>
-                            <p>
-                              <strong>Price:</strong> ${user.price.toFixed(2)}{" "}
-                              {/* Display price */}
-                            </p>
-                            <button
-                              className="bg-blue-500 text-white py-1 px-2 rounded-lg mt-2"
-                              onClick={() => handleEditUser(user)}
+          {trips.map(({ id, trip_name, users }) => {
+            // Calculate summary values
+            const totalMembers = users.reduce(
+              (sum, user) => sum + user.count,
+              0
+            );
+            const totalReceivedAmount = users.reduce(
+              (sum, user) => sum + user.paid_amount,
+              0
+            );
+            const totalPendingAmount = users.reduce(
+              (sum, user) => sum + (user.price * user.count - user.paid_amount),
+              0
+            );
+
+            return (
+              <div key={id} className="relative">
+                <button
+                  className="block w-full bg-custom-pri text-white py-2 px-4 mb-2 rounded-lg uppercase tracking-[0.35rem] lg:tracking-[1rem]"
+                  onClick={() => handleTripClick(trip_name)}
+                >
+                  {trip_name}
+                </button>
+                {activeTrip === trip_name && (
+                  <div className="transition-all duration-500 ease-in-out bg-white p-4 rounded-lg shadow-lg mt-2">
+                    <h2 className="text-lg font-semibold mb-2">User Details</h2>
+                    {users.length > 0 ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {users.map((user) => {
+                          const totalPrice = user.price * user.count;
+                          const remainingAmount = totalPrice - user.paid_amount;
+
+                          return (
+                            <div
+                              key={user.id} // Use ID as the key
+                              className={`bg-white shadow-lg p-4 rounded-lg relative ${
+                                remainingAmount === 0
+                                  ? "bg-green-100"
+                                  : "bg-red-200/30"
+                              }`} // Apply green background if remainingAmount is zero
                             >
-                              Edit
-                            </button>
-                          </div>
+                              <div className="bg-white shadow-lg p-4 rounded-lg space-y-4">
+                                <p className="text-base flex text-custom-pri md:text-lg font-medium mb-1 ">
+                                  {user.email}
+                                </p>
+                                <div className="space-y-2 pb-2">
+                                  <div className="flex flex-1 justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
+                                    <strong className="text-custom-pri">
+                                      Price:
+                                    </strong>
+                                    <span>₹ {user.price.toFixed(2)}</span>
+                                  </div>
+                                  <div className="flex flex-1 justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
+                                    <strong className="text-custom-pri">
+                                      Count:
+                                    </strong>
+                                    <span>{user.count} Persons</span>
+                                  </div>
+                                  <div className="flex justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
+                                    <strong className="text-custom-pri">
+                                      Total Price:
+                                    </strong>
+                                    <span>₹ {totalPrice.toFixed(2)}</span>
+                                  </div>
+                                  <div className="flex justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
+                                    <strong className="text-custom-pri">
+                                      Paid Amount:
+                                    </strong>
+                                    <span>₹ {user.paid_amount.toFixed(2)}</span>
+                                  </div>
+                                  <div className="flex justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
+                                    <strong className="text-custom-pri">
+                                      Remaining Amount:
+                                    </strong>
+                                    <span>₹ {remainingAmount.toFixed(2)}</span>
+                                  </div>
+                                  <div className="flex justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
+                                    <strong className="text-custom-pri">
+                                      Confirmed:
+                                    </strong>
+                                    <span>{user.confirmed ? "Yes" : "No"}</span>
+                                  </div>
+                                  <div className="flex justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
+                                    <strong className="text-custom-pri">
+                                      Refund:
+                                    </strong>
+                                    <span>{user.refund ? "Yes" : "No"}</span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="flex justify-end space-x-4">
+                                <button
+                                  className="mt-6 flex items-center bg-custom-pri text-white px-4 py-1 lg:px-6 lg:py-1 lg:text-base rounded"
+                                  onClick={() => setEditingUser(user)}
+                                >
+                                  <FaEdit className="mr-2 lg:mr-4" />
+                                  Edit
+                                </button>
+                                <button
+                                  className="mt-6 flex items-center bg-color-red text-white px-4 py-1 lg:px-6 lg:py-1 lg:text-base rounded"
+                                  onClick={() => {
+                                    setUserIdToDelete(user.id);
+                                    setShowConfirmationModal(true);
+                                  }} // Set the user ID to delete and show modal
+                                >
+                                  <FaTrashAlt className="mr-2 lg:mr-4" />
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <p>No users found for this trip.</p>
+                    )}
+                    {/* Summary Section */}
+                    <div className=" p-4 mt-4 rounded-lg border shadow-lg">
+                      <h3 className="text-lg font-semibold mb-2">Summary</h3>
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center border-b border-custom-pri/40 pb-2">
+                          <strong className="text-custom-pri">
+                            Total Members:
+                          </strong>
+                          <span>{totalMembers} Persons</span>
                         </div>
-                      ))}
+                        <div className="flex justify-between items-center border-b border-custom-pri/40 pb-2">
+                          <strong className="text-custom-pri">
+                            Total Received Amount:
+                          </strong>
+                          <span>₹ {totalReceivedAmount.toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between items-center border-b border-custom-pri/40 pb-2">
+                          <strong className="text-custom-pri">
+                            Total Pending Amount:
+                          </strong>
+                          <span>₹ {totalPendingAmount.toFixed(2)}</span>
+                        </div>
+                      </div>
                     </div>
-                  ) : (
-                    <p>No users found for this trip.</p>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       ) : (
         <p>No trips available</p>
@@ -141,6 +253,16 @@ const UserManage: React.FC = () => {
           user={editingUser}
           onSave={handleUpdateUser}
           onCancel={() => setEditingUser(null)}
+        />
+      )}
+      {showConfirmationModal && (
+        <ConfirmationModal
+          message={`Remove this user from ${activeTrip} Trip?`}
+          onConfirm={handleDeleteUser}
+          onCancel={() => {
+            setShowConfirmationModal(false);
+            setUserIdToDelete(null);
+          }}
         />
       )}
     </div>

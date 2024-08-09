@@ -8,7 +8,7 @@ export async function GET() {
     const { data: allData, error: allDataError } = await supabase
       .from("trip_users")
       .select(
-        "trip_name, email, count, paid_amount, remaining_amount, confirmed, refund, price"
+        "id,trip_id,  trip_name, email, count, paid_amount, remaining_amount, confirmed, refund, price"
       );
 
     if (allDataError) {
@@ -24,8 +24,10 @@ export async function GET() {
 
     allData.forEach(
       (entry: {
-        trip_name: string;
+        id: string;
+        trip_id: string;
         email: string;
+        trip_name: string;
         count: number;
         paid_amount: number;
         remaining_amount: number;
@@ -37,6 +39,7 @@ export async function GET() {
           tripMap.set(entry.trip_name, []);
         }
         tripMap.get(entry.trip_name)?.push({
+          id: entry.id,
           email: entry.email,
           count: entry.count,
           paid_amount: entry.paid_amount,

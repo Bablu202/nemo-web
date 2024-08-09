@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 
 interface User {
+  id: string;
   email: string;
   count: number;
   paid_amount: number;
@@ -21,120 +22,107 @@ const InputFormUserManage: React.FC<InputFormUserManageProps> = ({
   onSave,
   onCancel,
 }) => {
-  const [updatedUser, setUpdatedUser] = useState<User>({ ...user });
+  const [formData, setFormData] = useState<User>(user);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUpdatedUser((prev) => ({
-      ...prev,
-      [name]:
-        name === "confirmed" || name === "refund"
-          ? e.target.checked
-          : parseFloat(value),
-    }));
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(updatedUser);
+    onSave(formData);
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-xl font-semibold mb-4">Edit User Details</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="count">
-              Count
-            </label>
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+      <div className="bg-white  rounded-lg shadow-lg">
+        <h2
+          className=" bg-custom-pri text-white p-2 rounded-t-lg
+         text-center text-xl lg:text-2xl  font-extralight mb-1 md:mb-2 lg:mb-4"
+        >
+          Edit Trip User
+        </h2>
+        <form onSubmit={handleSubmit} className="p-6">
+          <div className="mb-1 md:mb-2 lg:mb-4 ">
+            <label className="block text-sm font-medium mb-2">Count</label>
             <input
               type="number"
-              id="count"
               name="count"
-              value={updatedUser.count}
+              value={formData.count}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-0.5 md:p-1 lg:p-2 border rounded"
             />
           </div>
-          <div>
-            <label
-              className="block text-sm font-medium mb-1"
-              htmlFor="paid_amount"
-            >
+          <div className="mb-1 md:mb-2 lg:mb-4">
+            <label className="block text-sm font-medium mb-2">
               Paid Amount
             </label>
             <input
               type="number"
-              id="paid_amount"
               name="paid_amount"
-              value={updatedUser.paid_amount}
+              value={formData.paid_amount}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-0.5 md:p-1 lg:p-2 border rounded"
             />
           </div>
-          <div>
-            <label
-              className="block text-sm font-medium mb-1"
-              htmlFor="remaining_amount"
-            >
+          {/* <div className="mb-1 md:mb-2 lg:mb-4">
+            <label className="block text-sm font-medium mb-2">
               Remaining Amount
             </label>
             <input
               type="number"
-              id="remaining_amount"
               name="remaining_amount"
-              value={updatedUser.remaining_amount}
+              value={formData.remaining_amount}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              disabled
+              className="w-full p-0.5 md:p-1 lg:p-2 border rounded"
+            />
+          </div> */}
+          <div className="mb-1 md:mb-2 lg:mb-4">
+            <label className="block text-sm font-medium mb-2">Confirmed</label>
+            <input
+              type="checkbox"
+              name="confirmed"
+              checked={formData.confirmed}
+              onChange={handleChange}
+              className="mr-2"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium mb-1" htmlFor="price">
-              Price
-            </label>
+          <div className="mb-1 md:mb-2 lg:mb-4">
+            <label className="block text-sm font-medium mb-2">Refund</label>
+            <input
+              type="checkbox"
+              name="refund"
+              checked={formData.refund}
+              onChange={handleChange}
+              className="mr-2"
+            />
+          </div>
+          <div className="mb-1 md:mb-2 lg:mb-4">
+            <label className="block text-sm font-medium mb-2">Price</label>
             <input
               type="number"
-              id="price"
               name="price"
-              value={updatedUser.price}
+              value={formData.price}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-0.5 md:p-1 lg:p-2 border rounded"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Confirmed</label>
-            <input
-              type="checkbox"
-              id="confirmed"
-              name="confirmed"
-              checked={updatedUser.confirmed}
-              onChange={handleChange}
-              className="mr-2"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Refund</label>
-            <input
-              type="checkbox"
-              id="refund"
-              name="refund"
-              checked={updatedUser.refund}
-              onChange={handleChange}
-              className="mr-2"
-            />
-          </div>
-          <div className="flex justify-between">
+          <div className="flex justify-end space-x-4 mt-6 ">
             <button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+              className="bg-custom-pri shadow-md hover:shadow-2xl text-white px-3 py-1 lg:px-5 lg:py-2 rounded-lg"
             >
               Save
             </button>
             <button
               type="button"
               onClick={onCancel}
-              className="bg-gray-500 text-white py-2 px-4 rounded-lg"
+              className="bg-white shadow-md hover:shadow-2xl  px-3 py-1 lg:px-5 lg:py-2 rounded-lg"
             >
               Cancel
             </button>

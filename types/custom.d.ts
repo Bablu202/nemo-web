@@ -59,3 +59,14 @@ export type ReviewType = {
 };
 
 //export type ReviewInputType = Omit<ReviewType, "id" | "created_at">;
+
+interface User {
+  id: string;
+  email: string;
+  count: number;
+  paid_amount: number;
+  remaining_amount: number;
+  confirmed: boolean;
+  refund: boolean;
+  price: number;
+}
