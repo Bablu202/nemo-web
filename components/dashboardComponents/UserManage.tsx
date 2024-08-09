@@ -135,8 +135,8 @@ const UserManage: React.FC = () => {
                               key={user.id} // Use ID as the key
                               className={`bg-white shadow-lg p-4 rounded-lg relative ${
                                 remainingAmount === 0
-                                  ? "bg-green-100"
-                                  : "bg-red-200/30"
+                                  ? "bg-green-200"
+                                  : "bg-red-200"
                               }`} // Apply green background if remainingAmount is zero
                             >
                               <div className="bg-white shadow-lg p-4 rounded-lg space-y-4">
