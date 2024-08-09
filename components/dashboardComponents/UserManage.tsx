@@ -146,19 +146,19 @@ const UserManage: React.FC = () => {
                                 <div className="space-y-2 pb-2">
                                   <div className="flex flex-1 justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
                                     <strong className="text-custom-pri">
-                                      Price:
+                                      Price :
                                     </strong>
                                     <span>₹ {user.price.toFixed(2)}</span>
                                   </div>
                                   <div className="flex flex-1 justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
                                     <strong className="text-custom-pri">
-                                      Count:
+                                      Count :
                                     </strong>
                                     <span>{user.count} Persons</span>
                                   </div>
                                   <div className="flex justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
                                     <strong className="text-custom-pri">
-                                      Total Price:
+                                      Total Price :
                                     </strong>
                                     <span>₹ {totalPrice.toFixed(2)}</span>
                                   </div>
@@ -170,13 +170,13 @@ const UserManage: React.FC = () => {
                                   </div>
                                   <div className="flex justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
                                     <strong className="text-custom-pri">
-                                      Remaining Amount:
+                                      Pending :
                                     </strong>
                                     <span>₹ {remainingAmount.toFixed(2)}</span>
                                   </div>
                                   <div className="flex justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
                                     <strong className="text-custom-pri">
-                                      Confirmed:
+                                      Confirmed :
                                     </strong>
                                     <span>{user.confirmed ? "Yes" : "No"}</span>
                                   </div>
