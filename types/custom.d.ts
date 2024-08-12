@@ -70,3 +70,16 @@ interface User {
   refund: boolean;
   price: number;
 }
+
+export interface TripUser {
+  id: string;
+  email: string;
+  count: number;
+  paid_amount: number;
+  remaining_amount: number;
+  confirmed: boolean;
+  refund: boolean;
+  price: number;
+  start_date: string;
+  return_date: string;
+}

@@ -4,11 +4,11 @@ import supabase from "@/lib/supabaseClient";
 
 export async function GET() {
   try {
-    // Fetch all trip names and user details with the price included
+    // Fetch all trip names, user details, and dates
     const { data: allData, error: allDataError } = await supabase
       .from("trip_users")
       .select(
-        "id,trip_id,  trip_name, email, count, paid_amount, remaining_amount, confirmed, refund, price"
+        "id, trip_id, trip_name, email, count, paid_amount, remaining_amount, confirmed, refund, price, start_date, return_date"
       );
 
     if (allDataError) {
@@ -33,7 +33,9 @@ export async function GET() {
         remaining_amount: number;
         confirmed: boolean;
         refund: boolean;
-        price: number; // Ensure price is included
+        price: number;
+        start_date: string; // Add start_date to the type
+        return_date: string; // Add return_date to the type
       }) => {
         if (!tripMap.has(entry.trip_name)) {
           tripMap.set(entry.trip_name, []);
@@ -46,7 +48,9 @@ export async function GET() {
           remaining_amount: entry.remaining_amount,
           confirmed: entry.confirmed,
           refund: entry.refund,
-          price: entry.price, // Ensure price is included
+          price: entry.price,
+          start_date: entry.start_date, // Add start_date to the user details
+          return_date: entry.return_date, // Add return_date to the user details
         });
       }
     );

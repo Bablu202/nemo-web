@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import { FaMapMarkedAlt, FaUserFriends, FaChartBar } from "react-icons/fa";
 
 const Dashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("TripManage");
+  const [activeTab, setActiveTab] = useState("AnalyticsManage");
   const [isTabBarVisible, setIsTabBarVisible] = useState(true);
   const [lastScrollTop, setLastScrollTop] = useState(0);
 
