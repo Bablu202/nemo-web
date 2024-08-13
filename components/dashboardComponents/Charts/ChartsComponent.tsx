@@ -50,19 +50,19 @@ const ChartsComponent: React.FC<ChartsComponentProps> = ({ trips }) => {
   // Prepare data for Column Chart (Total Price, Total Count, Remaining Amount)
   const columnSeries = [
     {
-      name: "Total Price",
+      name: "Price",
       data: trips.map((trip) =>
         trip.users.reduce((acc, user) => acc + user.price * user.count, 0)
       ),
     },
     {
-      name: "Total Count",
+      name: "Count",
       data: trips.map((trip) =>
         trip.users.reduce((acc, user) => acc + user.count, 0)
       ),
     },
     {
-      name: "Remaining Amount",
+      name: "Balance",
       data: trips.map((trip) =>
         trip.users.reduce((acc, user) => acc + user.remaining_amount, 0)
       ),
@@ -173,7 +173,7 @@ const ChartsComponent: React.FC<ChartsComponentProps> = ({ trips }) => {
       text: "Number of People per Trip",
       align: "left",
     },
-    colors: ["#4D9DE0"],
+    colors: ["#FFC43D"],
   };
 
   return (
