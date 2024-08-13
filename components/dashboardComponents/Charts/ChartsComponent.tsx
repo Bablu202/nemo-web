@@ -33,21 +33,21 @@ const ChartsComponent: React.FC<ChartsComponentProps> = ({ trips }) => {
       polarArea: {
         rings: {
           strokeWidth: 1,
-          strokeColor: "#eaeaea",
+          strokeColor: "#eaeaea11",
         },
         spokes: {
           strokeWidth: 1,
-          connectorColors: "#eaeaea",
+          connectorColors: "#eaeaea24",
         },
       },
     },
     title: {
-      text: "Total Price per Trip",
+      text: "On each Trip",
       align: "center",
     },
   };
 
-  // Prepare data for Column Chart
+  // Prepare data for Column Chart (Total Price, Total Count, Remaining Amount)
   const columnSeries = [
     {
       name: "Total Price",
@@ -77,8 +77,7 @@ const ChartsComponent: React.FC<ChartsComponentProps> = ({ trips }) => {
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "55%", // Use columnWidth for bar chart width
-        // Removed 'endingShape'
+        columnWidth: "55%",
       },
     },
     dataLabels: {
@@ -106,16 +105,82 @@ const ChartsComponent: React.FC<ChartsComponentProps> = ({ trips }) => {
       floating: true,
     },
     title: {
-      text: "Trip Metrics",
+      text: "Trip amount",
       align: "center",
     },
-    colors: ["#AC6AFF", "#FFC43D", "#FE5E41"], // Customize colors for each series
+    colors: ["#AC6AFF", "#FFC43D", "#FE5E41"],
+  };
+
+  // Prepare data for Donut Chart (Number of Days for Each Trip)
+  const donutSeries = trips.map((trip) => {
+    const numberOfDays = Math.ceil(
+      (new Date(trip.users[0].return_date).getTime() -
+        new Date(trip.users[0].start_date).getTime()) /
+        (1000 * 60 * 60 * 24)
+    );
+    return numberOfDays;
+  });
+
+  const donutOptions: ApexOptions = {
+    chart: {
+      type: "donut",
+    },
+    labels: trips.map((trip) => trip.trip_name),
+    colors: ["#4D9DE0", "#3BB273", "#FE5E41", "#FFC43D", "#AC6AFF"],
+    plotOptions: {
+      pie: {
+        donut: {
+          size: "75%",
+        },
+      },
+    },
+    title: {
+      text: "Number of Days per Trip",
+      align: "center",
+    },
+  };
+
+  // Prepare data for Line Chart (Number of People for Each Trip)
+  const lineSeries = [
+    {
+      name: "Number of People",
+      data: trips.map((trip) => trip.users.length),
+    },
+  ];
+
+  const lineOptions: ApexOptions = {
+    chart: {
+      type: "line",
+      zoom: {
+        enabled: true,
+      },
+    },
+    dataLabels: {
+      enabled: true,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    xaxis: {
+      categories: trips.map((trip) => trip.trip_name),
+    },
+    yaxis: {
+      title: {
+        text: "Number of People",
+      },
+    },
+    title: {
+      text: "Number of People per Trip",
+      align: "left",
+    },
+    colors: ["#4D9DE0"],
   };
 
   return (
     <div className="container mt-12 mx-auto p-4">
       <div className="flex flex-col lg:flex-row gap-6">
-        <div className="lg:w-1/2 w-full">
+        {/* Existing Charts */}
+        <div className="lg:w-1/2 w-full p-1 lg:p-4 rounded-lg">
           <ApexCharts
             type="polarArea"
             series={polarAreaSeries}
@@ -123,11 +188,30 @@ const ChartsComponent: React.FC<ChartsComponentProps> = ({ trips }) => {
             height={350}
           />
         </div>
-        <div className="lg:w-1/2 w-full">
+        <div className="lg:w-1/2 w-full p-1 lg:p-4 rounded-lg">
           <ApexCharts
             type="bar"
             series={columnSeries}
             options={columnOptions}
+            height={350}
+          />
+        </div>
+      </div>
+      <div className="flex flex-col lg:flex-row gap-6 ">
+        {/* New Charts */}
+        <div className="lg:w-1/2 w-full p-1 lg:p-4 rounded-lg">
+          <ApexCharts
+            type="donut"
+            series={donutSeries}
+            options={donutOptions}
+            height={350}
+          />
+        </div>
+        <div className="lg:w-1/2 w-full p-1 lg:p-4 rounded-lg">
+          <ApexCharts
+            type="line"
+            series={lineSeries}
+            options={lineOptions}
             height={350}
           />
         </div>
