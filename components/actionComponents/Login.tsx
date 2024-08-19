@@ -71,7 +71,9 @@ export const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
       {error && (
-        <p className="text-center bg-red-300 py-4 mb-6 rounded">{error}</p>
+        <p className="text-center bg-color-white dark:bg-color-orange/[0.025] py-4 mb-6 rounded">
+          {error}
+        </p>
       )}
 
       {/* <div className="mb-6">
@@ -114,8 +116,12 @@ export const LoginForm = () => {
         <p className="text-center font-semibold mx-4 mb-0">OR</p>
       </div> */}
       <a
-        className="px-7 py-2 font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center mb-3"
-        style={{ backgroundColor: "#ffff" }}
+        className="px-7 py-2 font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg 
+        focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 
+        ease-in-out w-full flex justify-center items-center mb-3 
+        bg-color-white text-custom-sec  dark:bg-color-gray dark:text-color-white
+        hover:bg-custom-pri dark:hover:bg-color-orange
+        hover:text-white dark:hover:text-white"
         onClick={loginWithGoogle}
         role="button"
       >
@@ -123,8 +129,12 @@ export const LoginForm = () => {
         Continue with Google
       </a>
       <a
-        className="px-7 py-2 mb-6 font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center"
-        style={{ backgroundColor: "#ffff" }}
+        className="px-7 py-2 mb-6 font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg
+         focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 
+         ease-in-out w-full flex justify-center items-center 
+         bg-color-white text-custom-sec  dark:bg-color-gray dark:text-color-white
+         hover:bg-custom-pri dark:hover:bg-color-orange
+         hover:text-white dark:hover:text-white"
         onClick={loginWithGitHub}
         role="button"
       >

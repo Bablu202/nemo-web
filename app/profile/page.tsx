@@ -185,11 +185,11 @@ const ProfilePage: React.FC = () => {
           onClick={() => setIsEditing(false)}
         >
           <div
-            className="bg-white  p-6 rounded-lg shadow-xl w-full max-w-lg"
+            className="bg-white dark:bg-color-gray  p-6 rounded-lg shadow-xl w-full max-w-lg"
             onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold text-custom-pri">
+              <h3 className="text-xl font-semibold text-custom-pri dark:text-color-orange">
                 Edit Your Details
               </h3>
               <button

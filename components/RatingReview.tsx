@@ -181,7 +181,7 @@ const RatingReview = () => {
             value={review}
             onChange={handleReviewChange}
             rows={4}
-            className="w-full px-3 py-2   form-input"
+            className="w-full px-3 py-2 form-input"
             required
           ></textarea>
         </div>

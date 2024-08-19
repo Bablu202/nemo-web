@@ -53,22 +53,24 @@ const UserDetailsForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4 ">
       <div>
-        <label className="block text-sm font-medium text-gray-700">Name:</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-color-orange">
+          Name:
+        </label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter your name"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="input-form-update"
         />
         {errors.name && (
           <span className="text-red-500 text-sm">{errors.name}</span>
         )}
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-color-orange">
           Mobile Number:
         </label>
         <input
@@ -76,25 +78,25 @@ const UserDetailsForm = ({
           value={mobileNumber}
           onChange={(e) => setMobileNumber(e.target.value)}
           placeholder="Enter your mobile number"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="input-form-update"
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-color-orange">
           Date of Birth:
         </label>
         <input
           type="date"
           value={dateOfBirth}
           onChange={(e) => setDateOfBirth(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="input-form-update "
         />
         {errors.dateOfBirth && (
           <span className="text-red-500 text-sm">{errors.dateOfBirth}</span>
         )}
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-color-orange">
           Profession:
         </label>
         <input
@@ -102,17 +104,17 @@ const UserDetailsForm = ({
           value={profession}
           onChange={(e) => setProfession(e.target.value)}
           placeholder="Enter your profession"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="input-form-update"
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-color-orange">
           Gender:
         </label>
         <select
           value={gender}
           onChange={(e) => setGender(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="input-form-update"
         >
           <option value="">Select</option>
           <option value="male">Male</option>
@@ -121,16 +123,13 @@ const UserDetailsForm = ({
         </select>
       </div>
       <div className="flex justify-end space-x-4 mt-4">
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
+        <button type="submit" className="px-4 py-2 btn-dark-light-update ">
           Update
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="bg-gray-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+          className="px-4 py-2 btn-dark-light-cancel "
         >
           Cancel
         </button>

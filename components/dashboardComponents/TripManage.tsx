@@ -29,7 +29,7 @@ const TripManage: React.FC = () => {
       <h1 className="text-2xl font-bold mb-4">Trips Dashboard</h1>
       <button
         onClick={handleOpenAddNewModal}
-        className="bg-custom-pri text-white px-4 py-2 rounded mb-4"
+        className=" px-4 py-2 rounded mb-4 btn-dark-light"
       >
         Add New Trip
       </button>

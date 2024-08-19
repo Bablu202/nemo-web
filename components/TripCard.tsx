@@ -40,7 +40,10 @@ const TripCard: React.FC<TripCardProps> = ({ trip, onEdit, onDelete }) => {
     }).format(amount);
   };
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow duration-300">
+    <div
+      className="bg-white dark:bg-color-orange/[0.035]  shadow-lg rounded-lg overflow-hidden flex flex-col 
+    hover:shadow-xl transition-shadow duration-300"
+    >
       <div className="relative w-full h-60 md:h-80" {...handlers}>
         <Image
           src={trip.image[currentImageIndex]}
@@ -75,10 +78,10 @@ const TripCard: React.FC<TripCardProps> = ({ trip, onEdit, onDelete }) => {
         </div>
       </div>
       <div className="p-4 flex flex-col space-y-2">
-        <h2 className="text-lg md:text-xl font-bold text-gray-800">
+        <h2 className="text-lg md:text-xl font-bold text-custom-pri dark:text-color-orange">
           {trip.title}
         </h2>
-        <div className="flex justify-between text-sm md:text-base text-gray-600">
+        <div className="flex justify-between text-sm md:text-base text-gray-600 dark:text-color-white">
           <p>
             Duration:{" "}
             <span className="font-medium">
@@ -94,7 +97,7 @@ const TripCard: React.FC<TripCardProps> = ({ trip, onEdit, onDelete }) => {
             <span className="font-medium"> {formatCurrency(trip.price)}</span>
           </p>
         </div>
-        <div className="text-sm md:text-base text-gray-600">
+        <div className="text-sm md:text-base text-gray-600 dark:text-color-white">
           <p>
             Start Date: <span className="font-medium">{trip.start_date}</span>
           </p>
@@ -109,13 +112,13 @@ const TripCard: React.FC<TripCardProps> = ({ trip, onEdit, onDelete }) => {
         <div className="flex space-x-2 mt-auto">
           <button
             onClick={onEdit}
-            className="flex items-center justify-center bg-custom-pri text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md text-sm md:text-base font-medium transition-transform transform hover:scale-105"
+            className="flex items-center justify-center bg-custom-pri dark:bg-color-green text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md text-sm md:text-base font-medium transition-transform transform hover:scale-105"
           >
             <FaEdit className="mr-1 md:mr-2" /> Edit
           </button>
           <button
             onClick={onDelete}
-            className="flex items-center justify-center bg-color-red text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md text-sm md:text-base font-medium transition-transform transform hover:scale-105"
+            className="flex items-center justify-center bg-color-red dark:bg-gray-500 text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md text-sm md:text-base font-medium transition-transform transform hover:scale-105"
           >
             <FaTrashAlt className="mr-1 md:mr-2" /> Delete
           </button>

@@ -35,7 +35,10 @@ const AnalyticsPage: React.FC = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="container mt-12 mx-auto p-4">
+    <div
+      className="container mt-12 mx-auto p-4
+     bg-color-white text-custom-sec dark:bg-color-gray dark:text-color-white"
+    >
       <h1 className="text-2xl font-bold mb-4">Analytics Dashboard</h1>
       <ChartsComponent trips={trips} />
     </div>

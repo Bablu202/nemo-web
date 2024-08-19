@@ -152,7 +152,7 @@ const SmallDevicesMenu: React.FC<SmallDevicesMenuProps> = ({
   return (
     <div
       onClick={onClick}
-      className="z-10 fixed top-8 right-3 w-10 h-8 cursor-pointer "
+      className="lg:hidden z-10 fixed top-8 right-3 w-10 h-8 cursor-pointer "
     >
       <div
         className={`z-10 fixed top-2 right-2 w-10 h-2 lg:hidden ${

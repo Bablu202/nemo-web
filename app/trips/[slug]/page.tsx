@@ -231,7 +231,7 @@ export default TripPage;
 const SkeletonTripPage = () => {
   return (
     <div className="container mt-20 mx-auto max-w-6xl">
-      <div className="flex flex-col-reverse lg:flex-row m-4 md:m-8 p-2 lg:p-8  bg-white/5 shadow-lg animate-pulse">
+      <div className="flex flex-col-reverse lg:flex-row m-4 md:m-8 p-2 lg:p-8  bg-white/5  shadow-lg animate-pulse">
         <div className="w-[80%] mx-auto lg:w-1/2 relative h-96 lg:h-auto p-4 rounded-lg shadow-lg bg-gray-100/20"></div>
         <div className="w-full px-4 md:px-8 lg:w-1/2 p-2 lg:p-8">
           <div>

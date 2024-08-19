@@ -257,12 +257,12 @@ export default AllTrips;
 const SkeletonCard = () => {
   return (
     <div className="flex-none w-full sm:w-1/2 lg:w-1/3 p-4 sm:p-2 ">
-      <div className="p-4 lg:p-5 bg-white shadow-lg rounded-lg animate-pulse">
+      <div className="p-4 lg:p-5 bg-white dark:bg-color-gray shadow-lg rounded-lg animate-pulse">
         <div className="w-full h-64 bg-gray-100/25 rounded-lg mb-4"></div>
-        <div className="h-6 bg-gray-100/25 rounded w-3/4 mb-2"></div>
-        <div className="h-6 bg-gray-100/25 rounded w-1/2 mb-2"></div>
-        <div className="h-6 bg-gray-100/25 rounded w-full mb-2"></div>
-        <div className="h-6 bg-gray-100/25 rounded w-1/3 mb-2"></div>
+        <div className="h-6 bg-gray-100/25 dark:bg-color-white/25 rounded w-3/4 mb-2"></div>
+        <div className="h-6 bg-gray-100/25 dark:bg-color-white/25 rounded w-1/2 mb-2"></div>
+        <div className="h-6 bg-gray-100/25 dark:bg-color-white/25 rounded w-full mb-2"></div>
+        <div className="h-6 bg-gray-100/25 dark:bg-color-white/25 rounded w-1/3 mb-2"></div>
       </div>
     </div>
   );

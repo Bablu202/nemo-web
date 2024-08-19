@@ -185,7 +185,10 @@ const ChartsComponent: React.FC<ChartsComponentProps> = ({ trips }) => {
   };
 
   return (
-    <div className="container mt-12 mx-auto p-4">
+    <div
+      className="container mt-12 mx-auto p-4
+     bg-color-white text-custom-sec dark:bg-color-gray dark:text-color-white"
+    >
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Existing Charts */}
         <div className="lg:w-1/2 w-full p-1 lg:p-4 rounded-lg">

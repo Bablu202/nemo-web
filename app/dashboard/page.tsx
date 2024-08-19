@@ -52,12 +52,15 @@ const Dashboard: React.FC = () => {
           isTabBarVisible ? "translate-y-0" : "-translate-y-28"
         }`}
       >
-        <div className="flex max-w-xs sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto justify-around bg-white/95 px-4 py-2 shadow-xl rounded-b-lg">
+        <div
+          className="flex max-w-xs sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto justify-around
+         bg-white/80 dark:bg-color-gray/80 backdrop-blur-lg px-4 py-2 shadow-xl rounded-b-lg"
+        >
           <button
             onClick={() => setActiveTab("TripManage")}
             className={`flex flex-col items-center px-4 py-2 rounded lg:text-lg transition-all duration-300 ${
               activeTab === "TripManage"
-                ? "bg-custom-pri text-white shadow-md"
+                ? "bg-custom-pri dark:bg-color-orange text-white shadow-md"
                 : ""
             }`}
           >
@@ -68,7 +71,7 @@ const Dashboard: React.FC = () => {
             onClick={() => setActiveTab("UserManage")}
             className={`flex flex-col items-center px-4 py-2 rounded lg:text-lg transition-all duration-300 ${
               activeTab === "UserManage"
-                ? "bg-custom-pri text-white shadow-md"
+                ? "bg-custom-pri dark:bg-color-orange text-white shadow-md"
                 : ""
             }`}
           >
@@ -79,7 +82,7 @@ const Dashboard: React.FC = () => {
             onClick={() => setActiveTab("AnalyticsManage")}
             className={`flex flex-col items-center px-4 py-2 rounded lg:text-lg transition-all duration-300 ${
               activeTab === "AnalyticsManage"
-                ? "bg-custom-pri text-white shadow-md"
+                ? "bg-custom-pri dark:bg-color-orange text-white shadow-md"
                 : ""
             }`}
           >

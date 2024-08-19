@@ -90,6 +90,7 @@ body {
 
 .form-input {
   @apply min-w-60 md:min-w-96 text-base font-light border rounded-md 
+  text-custom-sec dark:text-color-white
   bg-custom-pri bg-opacity-30 
   dark:bg-color-orange/10
   border-custom-pri  py-1.5 px-2 leading-tight focus:outline-none
@@ -126,4 +127,45 @@ body {
   bg-white text-custom-pri dark:bg-color-orange dark:text-color-white dark:border-0   
 hover:bg-custom-pri dark:hover:bg-color-white hover:text-white dark:hover:text-color-orange 
 hover:shadow-2xl transition duration-300;
+}
+
+.btn-dark-light-update {
+  @apply cursor-pointer rounded-md shadow-md 
+  text-color-white bg-color-blue hover:bg-white hover:text-color-blue;
+}
+
+.btn-dark-light-cancel {
+  @apply cursor-pointer  rounded-md shadow-md
+  text-color-white bg-color-gray dark:bg-gray-500 hover:bg-white hover:text-color-gray;
+}
+.input-form-update {
+  @apply mt-1 block w-full rounded-md 
+  text-custom-sec dark:text-color-white
+  bg-custom-pri bg-opacity-30 
+  dark:bg-color-orange/10
+  border-custom-pri  py-1.5 px-2 leading-tight focus:outline-none
+  dark:border-color-orange
+  focus:bg-white focus:border-custom-pri
+  dark:focus:bg-color-gray dark:focus:border-color-orange;
+}
+
+.form-input-sec {
+  @apply min-w-60 md:min-w-96 text-base font-light border rounded-md 
+  text-custom-sec dark:text-color-white
+  bg-custom-pri bg-opacity-30 
+  dark:bg-color-orange/10
+  border-custom-pri  leading-tight focus:outline-none
+  dark:border-color-orange
+  focus:bg-white focus:border-custom-pri
+  dark:focus:bg-color-gray dark:focus:border-color-orange;
+}
+.form-input-date {
+  @apply text-base font-light border rounded-md 
+  text-custom-sec dark:text-color-white
+  bg-custom-pri bg-opacity-30 
+  dark:bg-color-orange/10
+  border-custom-pri  leading-tight focus:outline-none
+  dark:border-color-orange
+  focus:bg-white focus:border-custom-pri
+  dark:focus:bg-color-gray dark:focus:border-color-orange;
 }

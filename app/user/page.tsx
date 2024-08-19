@@ -21,7 +21,7 @@ const LoginPage = () => {
 
   return (
     <section className="max-w-6xl flex mx-auto justify-center items-center ">
-      <div className="mt-24  md:mx-6 lg:mx-36 bg-custom-pri/5 rounded-md shadow-md">
+      <div className="mt-24  md:mx-6 lg:mx-36 bg-custom-pri/5 dark:bg-color-orange/[0.035]  rounded-md shadow-md">
         <UserForm />
         <WhatsAppButtonContact />
       </div>

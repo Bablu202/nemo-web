@@ -168,12 +168,12 @@ const TripForm: React.FC<TripFormProps> = ({
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-2 sm:p-4 overflow-y-auto"
     >
       <div
-        className="bg-white mt-24 p-4 sm:p-6 rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-2xl flex flex-col border border-gray-300"
+        className="bg-white dark:bg-color-gray dark:text-color-white mt-24 p-4 sm:p-6 rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-2xl flex flex-col border border-gray-300"
         style={{ maxHeight: "80vh" }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-2 sm:mb-4">
-          <h2 className="text-base sm:text-lg md:text-xl font-bold text-custom-pri">
+          <h2 className="text-base sm:text-lg md:text-xl font-bold text-custom-pri dark:text-color-orange">
             {initialData ? "Edit Trip" : "Add New Trip"}
           </h2>
           <button
@@ -197,7 +197,7 @@ const TripForm: React.FC<TripFormProps> = ({
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                className="flex-grow border-b border-gray-300 p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none"
+                className="p-1 sm:p-2 text-sm sm:text-base md:text-lg  form-input-sec"
                 required
                 disabled={!isTitleEditable} // Disable input if title is not editable
               />
@@ -213,7 +213,7 @@ const TripForm: React.FC<TripFormProps> = ({
               </span>
             )}
             <div className="relative">
-              <label className="flex flex-row items-center justify-between text-sm sm:text-base md:text-lg font-semibold">
+              <label className="flex flex-row  items-center justify-between text-sm sm:text-base md:text-lg font-semibold">
                 <span className="w-1/2">Upload Images (up to 6):</span>
                 <input
                   id="image-upload-input"
@@ -226,7 +226,7 @@ const TripForm: React.FC<TripFormProps> = ({
                 <button
                   type="button"
                   onClick={handleAddMoreImages}
-                  className="border-b border-gray-300 bg-custom-pri text-white p-1 sm:p-2 rounded-lg cursor-pointer flex items-center justify-center mt-2 transition-colors duration-200 hover:bg-custom-pri/30"
+                  className="mt-2 p-1 sm:p-2 flex items-center align-middle btn-dark-light"
                 >
                   <FaUpload className="mr-2" />
                   <span className="text-sm sm:text-base md:text-lg">
@@ -280,25 +280,25 @@ const TripForm: React.FC<TripFormProps> = ({
               </div>
             </div>
             <div className="flex gap-2 sm:gap-3">
-              <label className="flex-1 text-sm sm:text-base md:text-lg font-semibold">
+              <label className="flex flex-col text-sm sm:text-base md:text-lg font-semibold">
                 Start Date:
                 <input
                   type="date"
                   name="start_date"
                   value={formData.start_date}
                   onChange={handleChange}
-                  className="w-full border-b border-gray-300 p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none"
+                  className=" p-1 sm:p-2 text-sm sm:text-base md:text-lg form-input-date"
                   required
                 />
               </label>
-              <label className="flex-1 text-sm sm:text-base md:text-lg font-semibold">
+              <label className="flex flex-col text-sm sm:text-base md:text-lg font-semibold">
                 Return Date:
                 <input
                   type="date"
                   name="return_date"
                   value={formData.return_date}
                   onChange={handleChange}
-                  className="w-full border-b border-gray-300 p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none"
+                  className="p-1 sm:p-2 text-sm sm:text-base md:text-lg form-input-date"
                   required
                 />
               </label>
@@ -311,7 +311,7 @@ const TripForm: React.FC<TripFormProps> = ({
                 <textarea
                   value={planItem}
                   onChange={(e) => handleArrayChange(e, index, "plan")}
-                  className="flex-grow border border-gray-300 rounded-lg p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none resize-none"
+                  className="form-input"
                   rows={4} // Adjust the rows as needed
                 />
                 <button
@@ -326,7 +326,9 @@ const TripForm: React.FC<TripFormProps> = ({
             <button
               type="button"
               onClick={() => addArrayField("plan")}
-              className="bg-white text-custom-sec border border-custom-sec hover:bg-custom-pri hover:text-white px-2 py-1 sm:px-3 sm:py-2 lg:px-4 lg:py-2 rounded-lg text-sm sm:text-base md:text-lg mt-2 transition-all duration-300"
+              className="btn-dark-light 
+               px-2 py-1 sm:px-3 sm:py-2 lg:px-4 lg:py-2 
+              "
             >
               Add Each Day Summary
             </button>
@@ -337,7 +339,7 @@ const TripForm: React.FC<TripFormProps> = ({
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="flex-grow border-b border-gray-300 p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none"
+                className="p-1 md:px-4 md:py-2 form-input"
                 required
               />
             </label>
@@ -348,7 +350,7 @@ const TripForm: React.FC<TripFormProps> = ({
                 name="price"
                 value={formData.price}
                 onChange={handleChange}
-                className="flex-grow border-b border-gray-300 p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none"
+                className="p-1 md:px-4 md:py-2 form-input"
                 required
               />
             </label>
@@ -359,7 +361,7 @@ const TripForm: React.FC<TripFormProps> = ({
                 name="seats"
                 value={formData.seats}
                 onChange={handleChange}
-                className="flex-grow border-b border-gray-300 p-1 sm:p-2 text-sm sm:text-base md:text-lg outline-none"
+                className="p-1 md:px-4 md:py-2 form-input"
                 required
               />
             </label>
