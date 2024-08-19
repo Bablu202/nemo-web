@@ -127,7 +127,10 @@ const RatingReview = () => {
         </h2>
         <p className="mb-4">
           You need to{" "}
-          <a href="/user" className="text-custom-pri p-0.5 underline">
+          <a
+            href="/user"
+            className="text-custom-pri dark:text-color-orange p-0.5 underline"
+          >
             login
           </a>{" "}
           to submit or manage your review.
@@ -146,7 +149,7 @@ const RatingReview = () => {
       </h2>
       <form
         onSubmit={handleSubmit}
-        className="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6"
+        className="max-w-lg mx-auto bg-white dark:bg-color-gray shadow-md rounded-lg p-6"
       >
         <div className="flex items-center mb-4">
           <span className="text-lg mr-4">Rating:</span>
@@ -164,7 +167,7 @@ const RatingReview = () => {
           ))}
         </div>
         {error && (
-          <div className="mb-4 p-2 bg-red-100 text-red-600 border border-red-300 rounded-md">
+          <div className="mb-4 p-2 bg-red-100 text-color-red border border-red-300 rounded-md">
             {error}
           </div>
         )}
@@ -178,14 +181,11 @@ const RatingReview = () => {
             value={review}
             onChange={handleReviewChange}
             rows={4}
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-3 py-2   form-input"
             required
           ></textarea>
         </div>
-        <button
-          type="submit"
-          className=" text-lg bg-white border border-custom-pri text-custom-pri  py-2 px-4 rounded-md hover:bg-custom-pri hover:text-white"
-        >
+        <button type="submit" className="btn-dark-light py-2 px-4 ">
           {editingReviewId ? "Update" : "Submit"}
         </button>
         {/* {editingReviewId && (
@@ -253,14 +253,14 @@ const RatingReview = () => {
           {visibleReviews < reviews.length && showMore ? (
             <button
               onClick={handleShowMore}
-              className="bg-white border border-custom-pri text-custom-pri  py-2 px-4 rounded-md hover:bg-custom-pri hover:text-white"
+              className="btn-dark-light py-2 px-4 "
             >
               Show More
             </button>
           ) : visibleReviews > 2 ? (
             <button
               onClick={handleShowLess}
-              className="bg-white border border-custom-pri text-custom-pri  py-2 px-4 rounded-md hover:bg-custom-pri hover:text-white"
+              className="btn-dark-light py-2 px-4 "
             >
               Show Less
             </button>

@@ -23,7 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={`${inter.className} bg-color-white dark:bg-color-gray text-custom-sec dark:text-white`}
+      >
         <UserSessionProvider>
           <DashboardProvider>
             <ReviewsProvider>

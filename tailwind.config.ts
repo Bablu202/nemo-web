@@ -6,6 +6,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class", // Add this line to enable dark mode
   theme: {
     extend: {
       backgroundImage: {
@@ -31,9 +32,12 @@ const config: Config = {
         color: {
           purple: "#AC6AFF",
           yellow: "#FFC43D",
+          orange: "#DB4105",
           red: "#FE5E41",
           green: "#3BB273",
           blue: "#4D9DE0",
+          gray: "#33332D",
+          white: "#F7FAFA",
         },
 
         stroke: {

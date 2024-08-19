@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { GiClownfish } from "react-icons/gi";
-
+import DarkModeToggle from "./actionComponents/DarkModeToggle";
 const Header: React.FC = () => {
   const [openNavigation, setOpenNavigation] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
@@ -61,18 +61,25 @@ const Header: React.FC = () => {
         zIndex: "1000",
       }}
     >
-      <div className="sticky top-0 z-10 shadow-xl mb-4   m-auto justify-between items-center">
-        <div className="bg-white/95 backdrop-blur-sm  border-b border-b-custom-sec border-opacity-20">
+      <div className="sticky top-0 z-10 shadow-xl mb-4 m-auto justify-between items-center">
+        <div
+          className="bg-white/95 dark:bg-color-gray text-custom-sec dark:text-white backdrop-blur-sm
+          border-b border-b-custom-sec border-opacity-20"
+        >
           <div className="max-w-6xl py-1.5 m-auto flex items-center justify-between">
             <div className="px-5 py-1 lg:px-4 ">
               <a href="/home" className="text-xl font-normal xl:text-2xl">
                 <p className="flex items-center gap-3">
-                  <GiClownfish className="text-custom-sec" />
+                  <GiClownfish className="dark:text-color-orange" />
                   Travelling
-                  <span className="text-custom-pri font-bold"> NEMO</span>
+                  <span className="text-custom-pri font-bold dark:text-color-orange">
+                    {" "}
+                    NEMO
+                  </span>
                 </p>
               </a>
             </div>
+
             <nav
               className={`${
                 openNavigation ? "flex w-full my-10" : "hidden"
@@ -89,29 +96,36 @@ const Header: React.FC = () => {
                 <div
                   className={` transition-transform duration-300 ease-in-out ${
                     openNavigation
-                      ? "mt-8 w-1/2 flex flex-col backdrop-blur-3xl bg-white/90 mb-auto ml-auto shadow-xl "
+                      ? "mt-8 w-1/2 flex flex-col backdrop-blur-3xl bg-white/90 dark:bg-color-gray  mb-auto ml-auto shadow-xl "
                       : ""
                   } `}
                 >
                   {navigationData.map((item: NavigationItem) => (
-                    <Link
-                      key={item.id}
-                      className={`uppercase my-4 text-right mx-6 rounded-md font-bold  text-2xl leading-10 lg:text-base 
-                      lg:font-semibold tracking-wide px-2 py-2 transition-colors
-                       hover:text-white hover:bg-custom-pri hover:shadow-lg lg:pt-0 lg:mx-4 lg:p-1.5 
+                    <>
+                      <Link
+                        key={item.id}
+                        className={`uppercase my-4 text-right mx-6 rounded-md font-bold  text-2xl 
+                          leading-10 lg:text-base  lg:font-semibold tracking-wide px-2 py-2 
+                          transition-colors hover:text-white  text-custom-sec dark:text-white 
+                          hover:bg-custom-pri dark:hover:bg-color-orange hover:shadow-lg lg:pt-0 
+                          lg:mx-4 lg:p-1.5 
                        ${
                          false
                            ? "text-custom-pri underline underline-offset-4"
                            : ""
                        } ${item?.onlyMobile && "lg:hidden"}`}
-                      href={item.url}
-                    >
-                      {item.title}
-                    </Link>
-                  ))}{" "}
+                        href={item.url}
+                      >
+                        {item.title}
+                      </Link>
+                    </>
+                  ))}
                 </div>
               </div>
             </nav>
+            <div className="flex mr-16  lg:mr-0 text-custom-pri dark:text-color-orange">
+              <DarkModeToggle />
+            </div>
             <SmallDevicesMenu
               onClick={toggleNavigation}
               openNavigation={openNavigation}
@@ -146,13 +160,13 @@ const SmallDevicesMenu: React.FC<SmallDevicesMenuProps> = ({
         }`}
       >
         <div
-          className={`fixed border border-custom-pri w-8 transition-all mt-3 ${
+          className={`fixed border border-custom-pri dark:border-color-orange w-8 transition-all mt-3 ${
             openNavigation ? "  rotate-45 mt-9 border-white" : ""
           }`}
         />
 
         <div
-          className={`fixed border border-custom-pri w-8 mt-6 transition-all ${
+          className={`fixed border border-custom-pri dark:border-color-orange w-8 mt-6 transition-all ${
             openNavigation ? " -rotate-45 mt-9 border-white" : ""
           }`}
         />

@@ -57,7 +57,7 @@ const ProfilePic: FC<ProfilePicProps> = ({
             {src && !isScrolled && (
               <button
                 onClick={onDelete}
-                className="absolute bottom-2 right-2 bg-custom-pri/80 text-white px-3 py-1 rounded-md shadow-md hover:bg-custom-pri focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-pri"
+                className="absolute bottom-2 right-2 px-3 py-1 btn-dark-light"
               >
                 clear
               </button>
@@ -65,7 +65,7 @@ const ProfilePic: FC<ProfilePicProps> = ({
             {!isScrolled && (
               <button
                 onClick={onUpload}
-                className="absolute bottom-2 left-2 bg-custom-pri/80 text-white px-3 py-1 rounded-md shadow-md hover:bg-custom-pri focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-pri"
+                className="absolute bottom-2 left-2 px-3 py-1 btn-dark-light"
               >
                 {src ? "Change" : "Upload"}
               </button>

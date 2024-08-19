@@ -100,11 +100,20 @@ const ProfilePage: React.FC = () => {
   }
   return (
     <section className="flex flex-col items-center mt-12 p-4">
-      <div className="max-w-md w-full bg-white shadow-xl rounded-lg overflow-hidden border border-gray-300">
-        <div className="flex items-center justify-between p-4 bg-gray-50 border-b border-gray-200">
+      <div
+        className="max-w-md w-full bg-white dark:bg-color-gray shadow-xl rounded-lg overflow-hidden 
+      border border-gray-300 dark:border-color-orange"
+      >
+        <div
+          className="flex items-center justify-between p-4 bg-gray-50 dark:bg-color-gray  border-b
+         border-gray-200 dark:border-color-orange"
+        >
           <button
             onClick={handleEditClick}
-            className="flex items-center text-lg lg:text-xl font-medium text-custom-pri hover:bg-custom-pri hover:text-white px-4 py-2 rounded-lg transition-colors"
+            className="flex items-center text-lg lg:text-xl font-medium
+             text-custom-pri dark:text-color-white  hover:bg-custom-pri dark:hover:bg-color-orange
+              hover:text-white dark:hover:text-white 
+             px-4 py-2 rounded-lg transition-colors"
           >
             <FaEdit className="mr-2" /> Edit
           </button>
@@ -134,35 +143,35 @@ const ProfilePage: React.FC = () => {
           <hr className="my-4 border-gray-300 w-full" /> {/* Horizontal line */}
           <div className="text-left w-full px-4">
             {user.name && (
-              <p className="text-2xl font-semibold text-custom-pri">
+              <p className="text-2xl font-semibold text-custom-pri dark:text-color-orange">
                 {user.name}
               </p>
             )}
             {user.profession && (
-              <p className="mt-2 text-lg font-medium text-gray-800">
+              <p className="mt-2 text-lg font-medium text-gray-800 dark:text-color-white">
                 <span className="font-semibold">Profession:</span>{" "}
                 {user.profession}
               </p>
             )}
             {user.mobile_number && (
-              <p className="mt-2 text-lg font-medium text-gray-800">
+              <p className="mt-2 text-lg font-medium text-gray-800 dark:text-color-white">
                 <span className="font-semibold">Mobile Number:</span>{" "}
                 {user.mobile_number}
               </p>
             )}
             {user.date_of_birth && (
-              <p className="mt-2 text-lg font-medium text-gray-800">
+              <p className="mt-2 text-lg font-medium text-gray-800 dark:text-color-white">
                 <span className="font-semibold">Age:</span>{" "}
                 {calculateAge(user.date_of_birth)}
               </p>
             )}
-            <p className="mt-2 text-lg font-medium text-gray-800">
+            <p className="mt-2 text-lg font-medium text-gray-800 dark:text-color-white">
               <span className="font-semibold">Email:</span> {user.email}
             </p>
-            <p className="mt-2 text-lg font-medium text-gray-800">
+            <p className="mt-2 text-lg font-medium text-gray-800 dark:text-color-white">
               <span className="font-semibold">Provider:</span> {user.provider}
             </p>
-            <p className="mt-2 text-lg font-medium text-gray-800">
+            <p className="mt-2 text-lg font-medium text-gray-800 dark:text-color-white">
               <span className="font-semibold">Created At:</span>{" "}
               {format(new Date(user.created_at), "dd MMM yyyy")}
             </p>
@@ -176,7 +185,7 @@ const ProfilePage: React.FC = () => {
           onClick={() => setIsEditing(false)}
         >
           <div
-            className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg"
+            className="bg-white  p-6 rounded-lg shadow-xl w-full max-w-lg"
             onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
           >
             <div className="flex items-center justify-between mb-4">
@@ -186,7 +195,7 @@ const ProfilePage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsEditing(false)}
-                className="text-gray-600 hover:text-gray-800 p-2 rounded-full transition-colors"
+                className="text-gray-600 hover:text-gray-800 dark:text-color-white p-2 rounded-full transition-colors"
               >
                 <FaTimes size={20} />
               </button>

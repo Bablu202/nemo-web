@@ -9,6 +9,13 @@
   scroll-behavior: smooth;
 }
 
+body {
+  @apply bg-custom-white text-custom-pri;
+}
+
+body.dark {
+  @apply bg-gray-900 text-white;
+}
 .li/* Hide scrollbar for Firefox */
 /* Source: https://stackoverflow.com/a/59202685/11603696 */
 * {
@@ -84,8 +91,11 @@ body {
 .form-input {
   @apply min-w-60 md:min-w-96 text-base font-light border rounded-md 
   bg-custom-pri bg-opacity-30 
+  dark:bg-color-orange/10
   border-custom-pri  py-1.5 px-2 leading-tight focus:outline-none
-  focus:bg-white focus:border-custom-pri;
+  dark:border-color-orange
+  focus:bg-white focus:border-custom-pri
+  dark:focus:bg-color-gray dark:focus:border-color-orange;
 }
 .form-btn {
   @apply px-2 py-1 bg-custom-pri text-base font-bold text-white rounded-md 
@@ -107,4 +117,13 @@ body {
   .common-padding {
     @apply sm:py-8 py-8 sm:px-4 px-2;
   }
+}
+
+/* here customs */
+
+.btn-dark-light {
+  @apply cursor-pointer border font-semibold  shadow-sm  rounded-lg
+  bg-white text-custom-pri dark:bg-color-orange dark:text-color-white dark:border-0   
+hover:bg-custom-pri dark:hover:bg-color-white hover:text-white dark:hover:text-color-orange 
+hover:shadow-2xl transition duration-300;
 }

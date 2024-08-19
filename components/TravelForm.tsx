@@ -115,7 +115,7 @@ const TravelForm = () => {
                 className="form-input"
               />
             </div>
-            <button type="submit" className="form-btn ">
+            <button type="submit" className="btn-dark-light px-2 py-1 ">
               Submit
             </button>
           </form>
@@ -132,7 +132,7 @@ const TravelForm = () => {
             {faqs.map((faq) => (
               <div
                 key={faq.id}
-                className="border border-custom-pri rounded-lg shadow-lg p-6 mb-4 bg-custom-pri/5"
+                className="border border-custom-pri dark:border-color-orange rounded-lg shadow-lg p-6 mb-4 bg-custom-pri/5"
               >
                 <h3 className="text-lg font-semibold mb-2 ">{faq.question}</h3>
                 <p className="">{faq.answer}</p>

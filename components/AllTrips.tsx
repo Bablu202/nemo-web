@@ -46,8 +46,11 @@ function PostCard(post: Trip) {
     }
   }, [post]);
   return (
-    <div className="flex-none w-full sm:w-1/2 lg:w-1/3 p-4 sm:p-2 ">
-      <div className="p-4 lg:p-5 bg-custom-pri/5 shadow-lg rounded-lg">
+    <div
+      className="flex-none w-full sm:w-1/2 lg:w-1/3 p-4 sm:p-2 
+    bg-color-white dark:bg-color-gray text-custom-sec dark:text-white"
+    >
+      <div className="p-4 lg:p-5 bg-custom-pri/5 dark:bg-color-orange/[0.025] shadow-lg rounded-lg">
         <div
           className="relative border border-custom-pri border-opacity-30
          rounded-lg shadow-sm snap-always snap-center overflow-hidden"
@@ -75,7 +78,7 @@ function PostCard(post: Trip) {
           </div>
         </div>
         <div className="flex flex-col">
-          <h3 className="font-light text-2xl  my-1 p-1 text-custom-pri">
+          <h3 className="font-light text-2xl  my-1 p-1 text-custom-pri dark:text-color-orange">
             {post.title}
           </h3>
           <p className="flex items-center mb-1 text-sm">
@@ -112,20 +115,14 @@ function PostCard(post: Trip) {
             >
               {liked ? <FcLike /> : <FcLikePlaceholder />}
             </div>
-            {/* <PiChatCircleThin className="hover:text-custom-pri" /> */}
+            {/* <PiChatCircleThin className="hover:text-custom-pri dark:text-color-orange" /> */}
             <CiShare2
               onClick={handleShare}
-              className="hover:text-custom-pri cursor-pointer"
+              className="hover:text-custom-pri dark:text-color-orange cursor-pointer"
             />
           </div>
           <Link href={post.url} legacyBehavior>
-            <div
-              className="cursor-pointer border font-semibold px-2 py-1 shadow-sm
-               bg-white text-custom-pri  rounded-lg
-            hover:bg-custom-pri hover:text-white hover:shadow-2xl transition duration-300"
-            >
-              trip details..
-            </div>
+            <div className="btn-dark-light px-2 py-1">trip details..</div>
           </Link>
         </div>
       </div>
@@ -193,11 +190,12 @@ function AllTrips() {
         </h1>
 
         <div className="flex items-center justify-center p-2">
-          <div className="ml-auto mr-2 flex items-center justify-center w-full max-w-xs relative text-custom-pri">
+          <div className="ml-auto mr-2 flex items-center justify-center w-full max-w-xs relative text-custom-pri dark:text-color-orange">
             <CiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 " />
             <input
               type="text"
-              className="w-full pl-10 pr-4 py-2 border rounded-xl focus:outline-none focus:border-custom-pri"
+              className="w-full pl-10 pr-4 py-2 border rounded-xl focus:outline-none
+               dark:bg-color-gray dark:text-color-white focus:border-custom-pri dark:focus:border-color-orange"
               placeholder="Search trips..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -205,7 +203,13 @@ function AllTrips() {
           </div>
           <button
             className="ml-auto border rounded-full font-semibold text-lg px-2 py-2
-        bg-white hover:border-custom-pri hover:text-custom-pri hover:shadow-xl 
+        bg-white dark:bg-color-gray 
+         hover:border-custom-pri
+         dark:border-color-orange
+          dark:hover:text-color-orange dark:hover:border-color-white
+         hover:text-custom-pri dark:text-color-white 
+
+         hover:shadow-xl 
         transition duration-300"
             onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
           >
@@ -227,8 +231,7 @@ function AllTrips() {
         <div className="flex ml-4 mt-4 space-x-4">
           {visiblePostsCount < posts.length && (
             <button
-              className="border font-semibold text-lg px-4 py-1 text-white bg-custom-pri rounded-lg
-            hover:text-custom-pri hover:bg-white hover:shadow-xl transition duration-300"
+              className="btn-dark-light  px-4 py-2 lg:px-6 lg:py-3"
               onClick={showMorePosts}
             >
               Show More
@@ -236,8 +239,7 @@ function AllTrips() {
           )}
           {visiblePostsCount > 6 && (
             <button
-              className="border font-semibold text-lg px-4 py-1 text-white bg-custom-pri rounded-lg
-            hover:text-custom-pri hover:bg-white hover:shadow-xl transition duration-300"
+              className="btn-dark-light  px-4 py-2 lg:px-6 lg:py-3"
               onClick={showLessPosts}
             >
               Show Less
