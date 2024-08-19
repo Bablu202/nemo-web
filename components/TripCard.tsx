@@ -31,7 +31,14 @@ const TripCard: React.FC<TripCardProps> = ({ trip, onEdit, onDelete }) => {
     onSwipedRight: handlePrevImage,
     trackMouse: true,
   });
-
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount);
+  };
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow duration-300">
       <div className="relative w-full h-60 md:h-80" {...handlers}>
@@ -83,7 +90,8 @@ const TripCard: React.FC<TripCardProps> = ({ trip, onEdit, onDelete }) => {
             </span>
           </p>
           <p>
-            Price: <span className="font-medium">₹ {trip.price}</span>
+            Price:{" "}
+            <span className="font-medium"> {formatCurrency(trip.price)}</span>
           </p>
         </div>
         <div className="text-sm md:text-base text-gray-600">

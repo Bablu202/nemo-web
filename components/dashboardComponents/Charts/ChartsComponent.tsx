@@ -14,6 +14,14 @@ const ChartsComponent: React.FC<ChartsComponentProps> = ({ trips }) => {
   // Validate data
   if (!trips || trips.length === 0) return <p>No data available.</p>;
 
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount);
+  };
   // Prepare data for PolarArea Chart (Total Price for Each Trip)
   const polarAreaSeries = trips.map((trip) => {
     const totalPrice = trip.users.reduce(

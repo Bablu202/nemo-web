@@ -22,7 +22,7 @@ const TripManage: React.FC = () => {
     handleBackgroundClick,
   } = useDashboardContext();
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <SkeletonLoader />;
 
   return (
     <div className="container mt-12 mx-auto p-4 overflow-y-auto">
@@ -84,3 +84,37 @@ const TripManage: React.FC = () => {
 };
 
 export default TripManage;
+
+const SkeletonLoader: React.FC = () => {
+  return (
+    <div className="container mt-12 mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4 bg-gray-200 h-8 w-1/3 rounded animate-pulse"></h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <div
+            key={index}
+            className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col animate-pulse"
+          >
+            <div className="relative w-full h-60 md:h-80 bg-gray-200"></div>
+            <div className="p-4 flex flex-col space-y-2">
+              <div className="bg-gray-200 h-6 w-1/2 rounded"></div>
+              <div className="flex justify-between text-sm md:text-base text-gray-600">
+                <div className="bg-gray-200 h-4 w-1/3 rounded"></div>
+                <div className="bg-gray-200 h-4 w-1/3 rounded"></div>
+              </div>
+              <div className="text-sm md:text-base text-gray-600 space-y-2">
+                <div className="bg-gray-200 h-4 w-full rounded"></div>
+                <div className="bg-gray-200 h-4 w-full rounded"></div>
+                <div className="bg-gray-200 h-4 w-2/3 rounded"></div>
+              </div>
+              <div className="flex space-x-2 mt-auto">
+                <div className="bg-gray-200 h-10 w-24 rounded"></div>
+                <div className="bg-gray-200 h-10 w-24 rounded"></div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};

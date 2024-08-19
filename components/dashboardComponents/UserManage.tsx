@@ -91,7 +91,14 @@ const UserManage: React.FC = () => {
       setError("Failed to delete user");
     }
   };
-
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount);
+  };
   return (
     <div className="container mt-12 mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">User Management</h1>
@@ -148,7 +155,7 @@ const UserManage: React.FC = () => {
                                     <strong className="text-custom-pri">
                                       Price :
                                     </strong>
-                                    <span>₹ {user.price.toFixed(2)}</span>
+                                    <span>{formatCurrency(user.price)}</span>
                                   </div>
                                   <div className="flex flex-1 justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
                                     <strong className="text-custom-pri">
@@ -160,19 +167,24 @@ const UserManage: React.FC = () => {
                                     <strong className="text-custom-pri">
                                       Total Price :
                                     </strong>
-                                    <span>₹ {totalPrice.toFixed(2)}</span>
+                                    <span>{formatCurrency(totalPrice)}</span>
                                   </div>
                                   <div className="flex justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
                                     <strong className="text-custom-pri">
                                       Paid Amount:
                                     </strong>
-                                    <span>₹ {user.paid_amount.toFixed(2)}</span>
+                                    <span>
+                                      {formatCurrency(user.paid_amount)}
+                                    </span>
                                   </div>
                                   <div className="flex justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
                                     <strong className="text-custom-pri">
                                       Pending :
                                     </strong>
-                                    <span>₹ {remainingAmount.toFixed(2)}</span>
+                                    <span>
+                                      {" "}
+                                      {formatCurrency(remainingAmount)}
+                                    </span>
                                   </div>
                                   <div className="flex justify-between items-start border-b border-custom-pri/40 pb-2 lg:pb-4">
                                     <strong className="text-custom-pri">
@@ -229,13 +241,13 @@ const UserManage: React.FC = () => {
                           <strong className="text-custom-pri">
                             Total Received Amount:
                           </strong>
-                          <span>₹ {totalReceivedAmount.toFixed(2)}</span>
+                          <span> {formatCurrency(totalReceivedAmount)}</span>
                         </div>
                         <div className="flex justify-between items-center border-b border-custom-pri/40 pb-2">
                           <strong className="text-custom-pri">
                             Total Pending Amount:
                           </strong>
-                          <span>₹ {totalPendingAmount.toFixed(2)}</span>
+                          <span>₹ {formatCurrency(totalPendingAmount)}</span>
                         </div>
                       </div>
                     </div>
