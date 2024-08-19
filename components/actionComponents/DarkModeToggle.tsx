@@ -28,8 +28,37 @@ export default function DarkModeToggle() {
   };
 
   return (
-    <button onClick={toggleDarkMode} className={`p-2 rounded-full `}>
-      {isDarkMode ? <CiLight size={24} /> : <CiDark size={24} />}
+    <button
+      onClick={toggleDarkMode}
+      className={`relative w-16 h-8 flex items-center bg-gray-300 dark:bg-gray-700 rounded-full p-1 transition-colors duration-300`}
+    >
+      {/* Light Icon */}
+      <CiLight
+        size={20}
+        className={`absolute left-2 transition-opacity duration-300 ${
+          isDarkMode ? "opacity-0" : "opacity-100"
+        }`}
+      />
+      {/* Dark Icon */}
+      <CiDark
+        size={20}
+        className={`absolute right-2 transition-opacity duration-300 ${
+          isDarkMode ? "opacity-100" : "opacity-0"
+        }`}
+      />
+      {/* Knob */}
+      <div
+        className={`bg-white dark:bg-gray-800 w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ease-in-out ${
+          isDarkMode ? "translate-x-8" : "translate-x-0"
+        } flex items-center justify-center`}
+      >
+        {/* Icon inside the knob */}
+        {isDarkMode ? (
+          <CiDark size={20} className="text-gray-700 dark:text-white" />
+        ) : (
+          <CiLight size={20} className="text-yellow-500 dark:text-gray-300" />
+        )}
+      </div>
     </button>
   );
 }

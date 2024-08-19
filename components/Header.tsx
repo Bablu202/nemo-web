@@ -123,7 +123,7 @@ const Header: React.FC = () => {
                 </div>
               </div>
             </nav>
-            <div className="flex mr-16  lg:mr-0 text-custom-pri dark:text-color-orange">
+            <div className="flex mr-16 items-center  lg:mr-0 text-custom-pri dark:text-color-orange">
               <DarkModeToggle />
             </div>
             <SmallDevicesMenu
