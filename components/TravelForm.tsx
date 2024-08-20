@@ -119,7 +119,7 @@ const TravelForm = () => {
                 value={formData.dob}
                 onChange={handleChange}
                 required
-                className="form-input w-full"
+                className="form-input "
               />
             </div>
             <button type="submit" className="btn-dark-light px-2 py-1 ">
