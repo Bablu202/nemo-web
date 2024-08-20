@@ -58,7 +58,7 @@ const TripManage: React.FC = () => {
           onClick={handleDeleteBackgroundClick}
           className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
         >
-          <div className="bg-white p-4 lg:px-8 lg:py-6 rounded-lg shadow-lg">
+          <div className="bg-white dark:bg-color-gray p-4 lg:px-8 lg:py-6 rounded-lg shadow-lg">
             <h2 className="text-lg font-semibold mb-4 lg:mb-8">
               Are you sure you want to delete this trip?
             </h2>
@@ -70,7 +70,7 @@ const TripManage: React.FC = () => {
                 Yes
               </button>
               <button
-                className="bg-blue-500 text-white px-4 py-2 rounded"
+                className=" px-4 py-2 btn-dark-light-cancel"
                 onClick={cancelDelete}
               >
                 Cancel

@@ -179,7 +179,7 @@ const TripForm: React.FC<TripFormProps> = ({
           <button
             type="button"
             onClick={handleCancel}
-            className="text-custom-pri hover:text-red-500 p-1 sm:p-2 rounded-full transition-colors duration-200"
+            className="text-custom-pri dark:text-color-orange hover:text-color-red p-1 sm:p-2 rounded-full transition-colors duration-200"
           >
             <FaTimes />
           </button>

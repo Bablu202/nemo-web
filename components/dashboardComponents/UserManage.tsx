@@ -208,14 +208,14 @@ const UserManage: React.FC = () => {
 
                               <div className="flex justify-end space-x-4">
                                 <button
-                                  className="mt-6 flex items-center bg-custom-pri dark:bg-color-green  text-white lg:px-6 lg:py-1 lg:text-base rounded"
+                                  className="mt-6 px-2 py-1 flex items-center bg-custom-pri dark:bg-color-orange  text-white lg:px-6 lg:py-1 lg:text-base rounded"
                                   onClick={() => setEditingUser(user)}
                                 >
-                                  <FaEdit className="mr-2 lg:mr-4" />
+                                  <FaEdit className="mr-2  lg:mr-4" />
                                   Edit
                                 </button>
                                 <button
-                                  className="mt-6 flex items-center bg-color-red dark:bg-gray-500 text-white px-4 py-1 lg:px-6 lg:py-1 lg:text-base rounded"
+                                  className="mt-6 flex items-center bg-color-red dark:bg-custom-sec text-white px-4 py-1 lg:px-6 lg:py-1 lg:text-base rounded"
                                   onClick={() => {
                                     setUserIdToDelete(user.id);
                                     setShowConfirmationModal(true);
