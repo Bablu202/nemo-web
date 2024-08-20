@@ -167,7 +167,9 @@ function AllTrips() {
 
   const filteredPosts = posts.filter((post) =>
     Object.values(post).some((value) =>
-      value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+      value !== null && value !== undefined
+        ? value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+        : false
     )
   );
 

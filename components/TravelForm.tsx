@@ -16,6 +16,11 @@ const TravelForm = () => {
     name: "",
     dob: "",
   });
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const handleClick = (index: number) => {
+    setOpenIndex(openIndex === index ? 0 : index);
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -57,10 +62,12 @@ const TravelForm = () => {
     <section className="max-w-6xl flex m-auto " id="travel-form">
       <div className="px-2 py-3 flex flex-col lg:flex-row" id="contact">
         <div className="container p-4 sm:p-2 m-atuo  lg:mr-auto mb-8">
-          <h2 className="text-2xl font-bold text-center mb-4">Travel Form</h2>
+          <h2 className="text-2xl mx-auto w-full font-bold text-center mb-4 text-custom-pri dark:text-color-orange">
+            Travel Form
+          </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="email" className="block mb-2">
+              <label htmlFor="email" className="block mb-2 ml-2 md:ml-6">
                 Email Address:
               </label>
               <input
@@ -70,11 +77,11 @@ const TravelForm = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="form-input"
+                className="form-input w-full"
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="mobileNumber" className="block mb-2">
+              <label htmlFor="mobileNumber" className="block mb-2 ml-2 md:ml-6">
                 Mobile Number:
               </label>
               <input
@@ -84,11 +91,11 @@ const TravelForm = () => {
                 value={formData.mobileNumber}
                 onChange={handleChange}
                 required
-                className="form-input"
+                className="form-input w-full"
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="name" className="block mb-2">
+              <label htmlFor="name" className="block mb-2 ml-2 md:ml-6">
                 Name:
               </label>
               <input
@@ -98,11 +105,11 @@ const TravelForm = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="form-input"
+                className="form-input w-full"
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="dob" className="block mb-2">
+              <label htmlFor="dob" className="block mb-2 ml-2 md:ml-6">
                 Date of Birth:
               </label>
               <input
@@ -112,7 +119,7 @@ const TravelForm = () => {
                 value={formData.dob}
                 onChange={handleChange}
                 required
-                className="form-input"
+                className="form-input w-full"
               />
             </div>
             <button type="submit" className="btn-dark-light px-2 py-1 ">
@@ -121,21 +128,42 @@ const TravelForm = () => {
           </form>
         </div>
         {/* faqs */}
-        <div className="flex flex-col w-full" id="faqs">
-          <h3 className="text-xl font-semibold mb-4">
-            Frequently asked questions..
+        <div className="flex flex-col w-full mx-auto" id="faqs">
+          <h3 className="text-xl mx-auto font-semibold mb-4 text-custom-pri dark:text-color-orange">
+            Frequently Asked Questions
           </h3>
           <div
-            className="lg:mx-auto  py-2 overflow-y-auto scrollbar-hide"
+            className=" lg:mx-auto py-2 overflow-y-auto scrollbar-hide "
             style={{ maxHeight: "65vh" }}
           >
-            {faqs.map((faq) => (
+            {faqs.map((faq, index) => (
               <div
                 key={faq.id}
-                className="border border-custom-pri dark:border-color-orange rounded-lg shadow-lg p-6 mb-4 bg-custom-pri/5"
+                className={` lg:mx-auto border rounded-lg shadow-lg p-6 mb-4 transition-all duration-300 
+                  ease-in-out cursor-pointer ${
+                    openIndex === index
+                      ? "bg-custom-pri/20 dark:bg-custom-sec/20 border-custom-pri dark:border-color-orange"
+                      : "bg-custom-pri/10 dark:bg-custom-sec/10 border-custom-pri dark:border-color-orange"
+                  }`}
+                onClick={() => handleClick(index)}
               >
-                <h3 className="text-lg font-semibold mb-2 ">{faq.question}</h3>
-                <p className="">{faq.answer}</p>
+                <h3
+                  className={`text-lg font-semibold mb-2  ${
+                    openIndex === index
+                      ? "text-custom-pri dark:text-color-orange"
+                      : "text-gray-800 dark:text-color-white"
+                  }`}
+                >
+                  {faq.question}
+                </h3>
+                {openIndex === index && (
+                  <p
+                    className="text-custom-sec dark:text-color-white transition-opacity 
+                  duration-300 ease-in-out"
+                  >
+                    {faq.answer}
+                  </p>
+                )}
               </div>
             ))}
           </div>

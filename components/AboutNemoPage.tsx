@@ -5,7 +5,10 @@ const AboutNemoPage = () => {
     <section className="max-w-6xl mt-8 flex m-auto">
       <div className="py-8 " id="magazine">
         <div className="mx-auto px-4 ">
-          <h2 className="text-2xl font-bold mb-8  text-center lg:text-left items-center">
+          <h2
+            className="text-2xl font-bold mb-8  text-center lg:text-left items-center
+           text-custom-pri dark:text-color-orange"
+          >
             Travel Quality
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 ">
