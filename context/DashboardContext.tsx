@@ -51,7 +51,7 @@ const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     fetchTrips();
-  }, [trips]);
+  }, [isModalOpen, currentTrip, tripToDelete]);
 
   useEffect(() => {
     const handleEscKey = (event: KeyboardEvent) => {
