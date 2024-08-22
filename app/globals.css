@@ -67,7 +67,7 @@ body {
 }
 
 .h1 {
-  @apply p-3 text-left font-bold text-[2.5rem] leading-[2.8rem] 
+  @apply p-3 text-left font-bold text-[2.2rem] leading-[2.8rem] 
   md:text-[2.8rem] md:leading-[2.8rem] 
   lg:text-[3.2rem] lg:leading-[3.2rem] 
   xl:text-[3.5rem] xl:leading-[5.8rem];
