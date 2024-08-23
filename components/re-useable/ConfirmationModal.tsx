@@ -14,7 +14,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg">
+      <div className="bg-white dark:bg-custom-sec/50 backdrop-blur-lg text-color-white p-6 rounded-lg shadow-lg">
         <p className="text-lg mb-4">{message}</p>
         <div className="flex justify-end">
           <button
@@ -24,7 +24,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             Confirm
           </button>
           <button
-            className="bg-white shadow-sm hover:shadow-xl  px-4 py-2 rounded-lg"
+            className="btn-dark-light-cancel px-2 py-1 lg:px-4 lg:py-2"
             onClick={onCancel}
           >
             Cancel
